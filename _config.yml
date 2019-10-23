@@ -5,7 +5,7 @@ url: "https://smothly.github.io"
 # THEME-SPECIFIC CONFIGURATION
 theme_settings:
   # Meta
-  title: smothly-blog
+  title: smothly_blog
   avatar: assets/img/avatar_2.png
   favicon: assets/coding.ico
   gravatar: # Email MD5 hash
