@@ -14,6 +14,7 @@ layout: default
   <section class="post-content">{{ content }}</section>
   {% include tags_list.html tags=page.tags tag_count=page.tags.size %}
 </article>
+
 <!-- Disqus -->
 <!-- {% if page.comments %} {% endif %} -->
 {% if page.comments %}<a href="https://smothly.github.io{{ page.url }}#disqus_thread"></a>{% endif %}
