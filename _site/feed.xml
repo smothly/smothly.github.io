@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>smothly_blog</title>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <link>http://localhost:4000/</link>
+    <description>seungho`s development blog</description>
+    <pubDate>Thu, 24 Oct 2019 13:31:56 +0900</pubDate>
+    
+      <item>
+        <title>Docker_Example-1</title>
+        <link>/development%20environment/docker/2019/10/24/Docker_Example-1.html</link>
+        <guid isPermaLink="true">/development%20environment/docker/2019/10/24/Docker_Example-1.html</guid>
+        <description>&lt;h1 id=&quot;댓글-test중입니다&quot;&gt;댓글 test중입니다.&lt;/h1&gt;
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 24 Oct 2019 00:00:00 +0900</pubDate>
+      </item>
+    
+      <item>
+        <title>자연어 처리의 기본 TOKENIZE</title>
+        <link>/nlp/preprocessing/2019/10/23/NLP-1.html</link>
+        <guid isPermaLink="true">/nlp/preprocessing/2019/10/23/NLP-1.html</guid>
+        <description>&lt;h1 id=&quot;test중입니다&quot;&gt;test중입니다.&lt;/h1&gt;
+
+&lt;p&gt;image가 제대로 올라갈까요??
+&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67400546-c2260480-f5e8-11e9-9602-6806d5482bc6.png&quot; alt=&quot;WikiAttachment_W408_tokenization_overview&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;subtitle&gt;reference&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/smothly
+&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 23 Oct 2019 00:00:00 +0900</pubDate>
+      </item>
+    
+  </channel>
+</rss>

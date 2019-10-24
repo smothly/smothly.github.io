@@ -13,14 +13,30 @@ layout: default
   </header>
   <section class="post-content">{{ content }}</section>
   {% include tags_list.html tags=page.tags tag_count=page.tags.size %}
+
+  <!-- Disqus -->
+  <!-- {% if page.comments %}<a href="https://smothly.github.io{{ page.url }}#disqus_thread"></a>{% endif %} -->
+
+  {% if site.theme_settings.disqus_shortname %}
+  <div>
+    {% include disqus_comments.html %}
+  </div>
+  {% endif %}
+
 </article>
 
 <!-- Disqus -->
-{% if page.comments %}
-  <div id="post-disqus" class="container">
-  {% include disqus.html %}
-  </div>
-{% endif %}
+<!-- <div id="post-disqus" class="container">
+  {% if page.comments %}
+    <div id="disqus" class="container">
+    {% include disqus_comments.html %}
+    </div>
+  {% endif %}
+</div>
+ -->
+
+
+
 
 <!-- Post navigation -->
 {% if site.theme_settings.post_navigation %}
