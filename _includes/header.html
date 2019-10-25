@@ -28,7 +28,7 @@
 					</ul>
 				</div>
 					{% for page in site.pages %}
-						{% if (page.title == 'About' or page.title =='tags') and page.hide != true %}
+						{% if (page.title == 'About Me' or page.title =='All Tags') and page.hide != true %}
 						<div class="row">
 							<li>
 								<a class="page-link" href="{{ page.url | relative_url }}">

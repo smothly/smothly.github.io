@@ -1,8 +1,8 @@
 ---
 layout: page
-title: About
+title: About Me
 permalink: /about/
-feature-img: "assets/img/sample_feature_img_2.png"
+feature-img: "assets/img/tree.jpg"
 ---
 
 <style>
