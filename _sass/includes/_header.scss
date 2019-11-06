@@ -154,14 +154,15 @@
     padding:0px;
     margin:0px;
     border:0px;
-    position:absolute;
-    width:200px;
+    position:relative;
+    width:100%;
     z-index:200;
     /*top:1em;*/
     //left:0;
     }
 
     .site-category li:hover ul{
+
     display:block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
     }
 
@@ -170,8 +171,7 @@
     display:block;
     float:none;
     margin:0px;
-    padding:0px;
-    width:200px;
+    width:100%;
     }
 
     .site-category li:hover li a{

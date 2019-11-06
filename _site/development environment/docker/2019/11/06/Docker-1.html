@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+	<meta charset="utf-8">
+	<title>Docker로 딥러닝 개발환경 구성하기 | Seungho's Blog</title>
+	<meta name="description" content="Docker를 통한 딥러닝 개발환경 구성하기">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+
+	<!--Favicon-->
+	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
+
+	<!-- Canonical -->
+	<link rel="canonical" href="/development%20environment/docker/2019/11/06/Docker-1.html">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
+
+	<!-- Font Awesome -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700" rel="stylesheet">
+	
+
+	<!-- KaTeX -->
+	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script>
+	
+
+	<!-- Google Analytics -->
+	
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-150391331-1', 'auto');
+	ga('send', 'pageview');
+	</script>
+	
+</head>
+
+  <header class="site-header">
+	<div class="branding">
+		
+		<a href="/">
+			<img class="avatar" src="/assets/img/avatar_2.png" alt=""/>
+		</a>
+		
+		<h1 class="site-title">
+			<a href="/">Seungho's Blog</a>
+		</h1>
+		<nav class="site-nav">
+				<div class="row">
+					<ul>
+						<!-- Search bar -->
+						
+						<li>
+						<form action="/search.html" method="get">
+							<input type="text" id="search-box" name="query" placeholder="Search" class="">
+							<button type="submit" class="">
+								<i class="fa fa-fw fa-search"></i>
+							</button>
+						</form>
+						</li>
+					</ul>
+				</div>
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+						<div class="row">
+							<li>
+								<a class="page-link" href="/about/">
+									About Me<br>
+								</a>
+							</li>
+						</div>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+						<div class="row">
+							<li>
+								<a class="page-link" href="/tags.html">
+									All Tags<br>
+								</a>
+							</li>
+						</div>
+						
+					
+						
+					
+						
+					
+					
+		</nav>
+	</div>
+
+	<div class="site-category">
+			<ul class='cat1'>
+				<li><a href="/">Home</a></li>
+				<li><a href="/">Python</a>
+					<ul>
+							<li><a href="/Python/Crawler">Crawler</a></li>
+							<li><a href="/Python/Django">Django</a></li>
+					</ul>
+				</li>
+
+				<li><a href="/">Data Science</a>
+					<ul>
+						<li><a href="/DS/Statistics">Statistics</a></li>
+						<li><a href="/DS/ML">Machine Learning</a></li>
+					</ul>
+				</li>
+
+				<li><a href="/">NLP</a>
+					<ul>
+						<li><a href="/NLP/Preprocessing">Preprocessing</a></li>
+					</ul>
+				</li>
+
+				<li><a href="/">Development Enviroment</a>
+					<ul>
+						  <li><a href="/DE/Git">Git</a></li>
+						  <li><a href="/DE/Docker">Docker</a></li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+
+</header>
+
+  <body>
+    <div class="content">
+      <article >
+  <header style="background-image: url('/')">
+    <h1 class="title">Docker로 딥러닝 개발환경 구성하기</h1>
+    
+    <p class="meta">
+      November 6, 2019
+      
+    </p>
+  </header>
+  <section class="post-content"><h1 id="docker를-통한-딥러닝-개발환경-구성하기">Docker를 통한 딥러닝 개발환경 구성하기</h1>
+
+<hr />
+
+<blockquote>
+  <h2 id="docker-image-tensorflow-다운">Docker Image (Tensorflow) 다운</h2>
+</blockquote>
+
+<p>cpu 버전은 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest</a><br />
+gpu 버전은 Nvidia 그래픽 카드를 가정할 때 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest-gpu</a></p>
+
+<p>PyTorch는, TF 컨테이너 위에 pip으로 PyTorch를 설치하신 뒤 이미지에 변경사항을 커밋시키면 gpu도 잘 작동합니다.</p>
+
+<p>Nvidia-docker 프로젝트는 아직 윈도우를 지원하지 않습니다.<br />
+윈도우에서는 도커 컨테이너에 tensorflow-gpu는 설치할 수 없습니다ㅠㅠ</p>
+
+<p>호스트 OS(Ubuntu 혹은 다른 Linux)에는<br />
+gpu의 경우: 그래픽카드와 맞는 버전의 Nvidia-driver, docker, nvidia-docker2가 필요<br />
+cpu만 사용하실 경우: Docker 만 설치하시면 됩니다.
+<br /><br /></p>
+
+<hr />
+<blockquote>
+  <h2 id="jupyter-notebook-gpu버전-설치">Jupyter Notebook gpu버전 설치</h2>
+</blockquote>
+
+<p><a href="https://swalloow.github.io/docker-install">Docker 설치</a>는 되어있다고 가정하고!<br />
+환경설정이 필요할 경우 <a href="https://docs.docker.com/install/linux/linux-postinstall/">공식 사이트</a>를 참고하여 <code class="highlighter-rouge">docker version</code>이 제대로 수행되는지 확인합니다</p>
+
+<p><code class="highlighter-rouge">jupyter notebook 설치</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --rm -p 8888:8888 tensorflow/tensorflow:tensorflow:nightly-gpu-py3-jupyter
+</code></pre></div></div>
+<p>이미지가 없을경우 자동으로 docker hub에서 찾아와서 받아옵니다.<br />
+attach 상태에서 호스트 쉘로 서버를 중지하지 않고 돌아가려면 <code class="highlighter-rouge">Ctrl + p</code> <code class="highlighter-rouge">Ctrl + q</code>(Escape sequence)를 차례대로 입력하면 됩니다.<br />
+port 변경을 원하면 ????:8888로 설정하셔서 실행하시면 됩니다. 여러개 설정도 가능합니다!</p>
+
+<h2 id="성공">성공!!</h2>
+<p><img src="https://user-images.githubusercontent.com/37397737/67648616-8d63d580-f979-11e9-9618-85f9d92e8b81.png" alt="스크린샷 2019-10-28 오전 11 53 16" />
+localhost:8888 들어가셔서 token 입력해주시면 됩니다!</p>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/67648562-5f7e9100-f979-11e9-97a4-70625f8e741f.png" alt="스크린샷 2019-10-28 오전 11 51 55" />
+하지만 컨테이너는 휘발성이라 여기서 아무리 작업해도 컨테이너가 멈추면 데이터는 전부 사라집니다!
+<br /><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="host-os---컨테이너간의-공유폴더-생성">Host Os &lt;-&gt; 컨테이너간의 공유폴더 생성!</h2>
+</blockquote>
+
+<p><img src="https://docs.docker.com/storage/images/types-of-mounts-bind.png" alt="image" /></p>
+
+<p>https://docs.docker.com/storage/images/types-of-mounts-bind.png</p>
+
+<p><code class="highlighter-rouge">docker volume</code>은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.<br />
+run할 떄 <code class="highlighter-rouge">-v</code>옵션이나 <code class="highlighter-rouge">volume</code>을 따로 생성한 후 <code class="highlighter-rouge">run</code>할 때 붙여 사용 가능합니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
+</code></pre></div></div>
+
+<p>-v 옵션으로 volume을 추가해 준 것이다. <code class="highlighter-rouge">${HOME}/code</code>가 host path <code class="highlighter-rouge">/tf</code>가 container path</p>
+
+<p>기본적으로 /Users, /Volume등 폴더들이 file sharing path에 들어가 있어<br />
+본인이 원하는 폴더를 host path 부분에 적어주면 된다.(마운트 하는 것이다.)<br />
+ex) `docker run -it -p ????:8888 -v /Users/내꺼/폴더:/tf c652(image id)</p>
+
+<h2 id="성공-1">성공!!</h2>
+<p><img src="https://user-images.githubusercontent.com/37397737/67652435-39acb880-f988-11e9-99db-c6dd765c72d2.png" alt="스크린샷 2019-10-28 오후 1 38 05" />
+컨테이너를 키고 파일 저장 후 컨테이너를 종료후 다시 실행해도 정상적으로 파일이 남아 있음을 확인하였다.
+<br /><br /></p>
+
+<blockquote>
+  <p>추가사항!
+컨테이너 안에서 패키지를 깔거나 바인딩 된 볼륨(/tf)이외에 파일이 추가되면</p>
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit &lt;container_id&gt; &lt;image_id&gt;:&lt;tag&gt;
+</code></pre></div>  </div>
+  <p><code class="highlighter-rouge">commit</code> 을 통해 이미지를 업데이트 해줘야 합니다.</p>
+</blockquote>
+
+<h3 id="여기까지-jupyter-notebook-gpu-버젼을-받아-volume-공유까지-성공한-것이다">여기까지 jupyter notebook gpu 버젼을 받아 volume 공유까지 성공한 것이다.</h3>
+<p><br /><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="gpu-개발환경-구축">GPU 개발환경 구축</h2>
+</blockquote>
+
+<h3 id="nvidia-gpu-그리고-ubuntu-os를-가정">Nvidia GPU, 그리고 Ubuntu OS를 가정</h3>
+
+<h4 id="1-gpu-설치">1. gpu 설치</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu-drivers devices
+</code></pre></div></div>
+<p><img src="https://user-images.githubusercontent.com/37397737/67653887-c8243880-f98e-11e9-95a2-e2064dd477a8.png" alt="스크린샷 2019-10-28 오후 2 25 10" /></p>
+
+<p>recommended하는 드라이버가 나온다!</p>
+
+<ul>
+  <li>recommended 드라이버 설치
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo ubuntu-drivers autoinstall
+</code></pre></div>    </div>
+  </li>
+  <li>직접 설치
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
+sudo apt update
+sudo apt install nvidia-440(버전)
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>재부팅한 후 <code class="highlighter-rouge">nvidia-smi</code>를 통하여 확인<br />
+<img src="https://user-images.githubusercontent.com/37397737/67654118-d32b9880-f98f-11e9-8648-4019e2708ae8.png" alt="스크린샷 2019-10-28 오후 2 32 42" /></p>
+
+<h4 id="2-nvidia-docker2-설치">2. Nvidia-Docker2 설치</h4>
+<p><a href="https://github.com/NVIDIA/nvidia-docker">Nvidia Docker</a>에서 Quick Start 부분을 참고하여 진행하면 된다.</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/3028125/12213714/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="image" /></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+sudo apt-get install -y nvidia-docker2
+sudo pkill -SIGHUP dockerd
+</code></pre></div></div>
+<p>이대로 실행하면 된다. bash명령어를 잘 몰라…. 공부해야 할 것 같다 ㅠ</p>
+
+<p>만약에 안된다면 이전에 nvidia-docker를 삭제해보도록 한다.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 삭제 방법
+# Ubuntu
+docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+sudo apt-get purge nvidia-docker
+
+# CentOS
+docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
+sudo yum remove nvidia-docker
+</code></pre></div></div>
+
+<p>잘 설치되었는지 ‘nvidia-smi’ 명령어를 컨테이너 안에서 실행시키고, 결과를 확인</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
+</code></pre></div></div>
+<p><img src="https://user-images.githubusercontent.com/37397737/67660988-63bfa400-f9a3-11e9-95d3-fdd3d2e54da0.png" alt="스크린샷 2019-10-28 오후 4 52 48" /></p>
+
+<p>런타임을 nvidia 환경에서 진행하는 것이다. 이런식으로 나오면 성공한 것이다!<br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="tensorflow-gpu-확인">Tensorflow GPU 확인</h2>
+</blockquote>
+
+<p><a href="https://hub.docker.com/r/tensorflow/tensorflow/tags">Docker 이미지 주소</a>에서 찾아보고 설치하면 된다.<br />
+위에서 설치했으니 패스하면 된다!</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
+</code></pre></div></div>
+
+<ul>
+  <li>최종실행!
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
+</code></pre></div>    </div>
+  </li>
+  <li>volume 설정을 원하면 -v옵션을 추가하여 실행해주면 된다.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
+</code></pre></div>    </div>
+  </li>
+  <li>주피터 노트북 접속해서 GPU 확인<br />
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">tensorflow.python.client</span> <span class="kn">import</span> <span class="n">device_lib</span>
+<span class="k">print</span><span class="p">(</span><span class="n">device_lib</span><span class="o">.</span><span class="n">list_local_devices</span><span class="p">())</span>
+</code></pre></div>    </div>
+  </li>
+  <li>pytorch도 설치 후 확인
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">torchvision</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="성공-2">성공!!</h2>
+<p><img src="https://user-images.githubusercontent.com/37397737/67666006-388e8200-f9ae-11e9-8df5-35b812b80b9f.png" alt="스크린샷 2019-10-28 오후 6 09 22" /></p>
+
+<h2 id="성공했다-이제-이-이미지를-docker-hub에-이미지로-올려서-필요할때-받아쓰면-된다">성공했다!! 이제 이 이미지를 docker-hub에 이미지로 올려서 필요할때 받아쓰면 된다.</h2>
+<h2 id="참고로-용량은-엄청-크다-38gb">참고로 용량은 엄청 크다…. 3.8GB!</h2>
+
+<blockquote>
+  <h3 id="출처">출처</h3>
+  <p>http://haanjack.github.io/docker/2017/12/01/nvidia-docker-ngc.html<br />
+http://moducon.kr/2018/wp-content/uploads/sites/2/2018/12/leesangsoo_slide.pdf
+https://github.com/NVIDIA/nvidia-docker<br />
+https://github.com/voyagerwoo/docker-hands-on<br />
+https://futurecreator.github.io/2018/11/16/docker-container-basics/</p>
+</blockquote>
+</section>
+  
+<footer>
+  <div class="tags">
+    
+    <a class="tag" href="/tags#Docker">#Docker</a>
+    
+    <a class="tag" href="/tags#Deep Learning">#Deep Learning</a>
+    
+    <a class="tag" href="/tags#Development Environment">#Development Environment</a>
+    
+  </div>
+</footer>
+
+
+
+  <!-- Disqus -->
+  <!-- <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-1.html#disqus_thread"></a> -->
+
+  
+  <div>
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://smothly-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+  
+
+</article>
+
+<!-- Disqus -->
+<!-- <div id="post-disqus" class="container">
+  
+    <div id="disqus" class="container">
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://smothly-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  
+</div>
+ -->
+
+
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+  
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/nlp/preprocessing/2019/10/23/NLP-1.html">
+        자연어 처리의 기본 TOKENIZE
+      </a>
+  </div>
+  
+  
+</div>
+
+
+
+    </div>
+    
+<script src="/assets/js/katex_init.js"></script>
+
+
+
+<footer class="site-footer">
+	<p class="text">Powered by <a href="https://jekyllrb.com/">Jekyll</a> with <a href="https://github.com/rohanchandra/type-theme">Type Theme</a>
+</p>
+</footer>
+
+
+    <script id="dsq-count-scr" src="//.disqus.com/count.js" async></script>
+
+    <!-- Google Analytics Tracking code -->
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+  </body>
+</html>
