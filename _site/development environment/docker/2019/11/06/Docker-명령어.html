@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>자연어 처리의 기본 TOKENIZE | Seungho's Blog</title>
-	<meta name="description" content="test중입니다.">
+	<title>Docker 명령어 | Seungho's Blog</title>
+	<meta name="description" content="Docker 명령어">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/nlp/preprocessing/2019/10/23/NLP-1.html">
+	<link rel="canonical" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -165,35 +165,114 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">자연어 처리의 기본 TOKENIZE</h1>
+    <h1 class="title">Docker 명령어</h1>
     
     <p class="meta">
-      October 23, 2019
+      November 6, 2019
       
     </p>
   </header>
-  <section class="post-content"><h1 id="test중입니다">test중입니다.</h1>
+  <section class="post-content"><h1 id="docker-명령어">Docker 명령어</h1>
 
-<p>image가 제대로 올라갈까요??
-<img src="https://user-images.githubusercontent.com/37397737/67400546-c2260480-f5e8-11e9-9602-6806d5482bc6.png" alt="WikiAttachment_W408_tokenization_overview" /></p>
+<hr />
 
-<p><br /><br /><br /></p>
+<h2 id="docker에서-자주-쓰이고-유용한-명령어들-모음">Docker에서 자주 쓰이고 유용한 명령어들 모음</h2>
 
+<ul>
+  <li>Docker 이미지 다운로드
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull 이미지명
+</code></pre></div>    </div>
+  </li>
+  <li>Docker 이미지 확인
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker images
+docker image ls
+</code></pre></div>    </div>
+  </li>
+  <li>Docker 이미지 삭제
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rmi 이미지명
+</code></pre></div>    </div>
+  </li>
+  <li>Docker 이미지 이름 변경
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+</code></pre></div>    </div>
+  </li>
+  <li>Docker 이미지 실행
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it hello-world
+</code></pre></div>    </div>
+  </li>
+  <li>-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고<br /></li>
+  <li>-t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.<br />
+마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.</li>
+</ul>
+
+<p><code class="highlighter-rouge">docker run</code> = <code class="highlighter-rouge">docker pull</code>, <code class="highlighter-rouge">docker create</code>, <code class="highlighter-rouge">docker start</code>, <code class="highlighter-rouge">docker attach</code>(-it 옵션을 사용했다면)이 포함</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -d -p 8080:8080 --name my-cat tomcat
+</code></pre></div></div>
+<p>-d 옵션은 Background로 실행하겠다는 의미입니다.<br />
+-p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.<br />
+호스트의 8080 포트와 컨테이너의 8080 포트와 연결<br /></p>
+
+<p>이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; <br />
+tag_name은 default값은 latest입니다.</p>
+
+<ul>
+  <li>컨테이너 이름 변경
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rename
+</code></pre></div>    </div>
+  </li>
+  <li>로그확인: 컨테이너의 ID 일부만 적어도 식별 함
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker logs -f 89c
+docker logs -f my-cat
+</code></pre></div>    </div>
+  </li>
+  <li>컨테이너 종료
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stop 89c
+docker stop my-cat
+</code></pre></div>    </div>
+  </li>
+  <li>컨테이너 확인
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -a
+docker container ls -a
+</code></pre></div>    </div>
+  </li>
+  <li>컨테이너 실행
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker exec -it  [container id] /bin/bash
+</code></pre></div>    </div>
+  </li>
+  <li>컨테이너 제거
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker rm 89c(id)
+docker rm my-cat
+</code></pre></div>    </div>
+  </li>
+  <li>컨테이너 전체 제거
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -q -a | xargs docker rm
+</code></pre></div>    </div>
+  </li>
+  <li>Docker 컨테이너를 이미지로 커밋
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit &lt;container-name&gt; &lt;image-id&gt;
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
+<br /><br /></p>
 <blockquote>
-  <subtitle>reference</subtitle>
+  <subtitle>출처</subtitle>
 </blockquote>
 
-<p><br /></p>
 <ul>
-  <li>https://github.com/smothly
-<br /><br /><br /><br /><br /></li>
+  <li>https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container<br /></li>
+  <li>https://docs.docker.com/engine/reference/commandline/tag/</li>
 </ul>
 </section>
   
 <footer>
   <div class="tags">
     
-    <a class="tag" href="/tags#NLP">#NLP</a>
+    <a class="tag" href="/tags#Docker">#Docker</a>
+    
+    <a class="tag" href="/tags#Development Environment">#Development Environment</a>
     
   </div>
 </footer>
@@ -201,7 +280,7 @@
 
 
   <!-- Disqus -->
-  <!-- <a href="https://smothly.github.io/nlp/preprocessing/2019/10/23/NLP-1.html#disqus_thread"></a> -->
+  <!-- <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%85%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%A5.html#disqus_thread"></a> -->
 
   
   <div>
@@ -266,11 +345,18 @@ s.setAttribute('data-timestamp', +new Date());
 
   <div id="post-nav">
   
+  <div id="previous-post" class="post-nav-post">
+      <p>Previous post</p>
+      <a href="/nlp/preprocessing/2019/10/23/NLP-1.html">
+        자연어 처리의 기본 TOKENIZE
+      </a>
+  </div>
+  
   
   <div id="next-post" class="post-nav-post">
       <p>Next post</p>
-      <a href="/development%20environment/docker/2019/11/06/Docker-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%85%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%A5.html">
-        Docker 명령어
+      <a href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
+        Docker로 딥러닝 개발환경 구성하기
       </a>
   </div>
   
