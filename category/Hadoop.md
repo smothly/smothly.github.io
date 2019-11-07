@@ -1,7 +1,7 @@
 ---
 layout: category
-title:  Data Science/NLP
-permalink: 'DS/NLP'
+title: Data Platform/Hadoop
+permalink: '/DP/Hadoop'
 ---
 
 Another sample category page.
