@@ -89,6 +89,8 @@
 						
 					
 						
+					
+						
 						<div class="row">
 							<li>
 								<a class="page-link" href="/about/">
@@ -181,7 +183,8 @@
 </blockquote>
 
 <p>cpu 버전은 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest</a><br />
-gpu 버전은 Nvidia 그래픽 카드를 가정할 때 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest-gpu</a></p>
+gpu 버전은 Nvidia 그래픽 카드를 가정할 때 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest-gpu</a>
+자세한 이미지 정보는 <a href="https://www.tensorflow.org/install/docker">이곳</a>을 참고하셔서 본인에게 맞는 버전을 다운받으시기 바랍니다!</p>
 
 <p>PyTorch는, TF 컨테이너 위에 pip으로 PyTorch를 설치하신 뒤 이미지에 변경사항을 커밋시키면 gpu도 잘 작동합니다.</p>
 
@@ -202,7 +205,7 @@ cpu만 사용하실 경우: Docker 만 설치하시면 됩니다.
 환경설정이 필요할 경우 <a href="https://docs.docker.com/install/linux/linux-postinstall/">공식 사이트</a>를 참고하여 <code class="highlighter-rouge">docker version</code>이 제대로 수행되는지 확인합니다</p>
 
 <p><code class="highlighter-rouge">jupyter notebook 설치</code></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --rm -p 8888:8888 tensorflow/tensorflow:tensorflow:nightly-gpu-py3-jupyter
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
 </code></pre></div></div>
 <p>이미지가 없을경우 자동으로 docker hub에서 찾아와서 받아옵니다.<br />
 attach 상태에서 호스트 쉘로 서버를 중지하지 않고 돌아가려면 <code class="highlighter-rouge">Ctrl + p</code> <code class="highlighter-rouge">Ctrl + q</code>(Escape sequence)를 차례대로 입력하면 됩니다.<br />
@@ -451,11 +454,18 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/development%20environment/docker/2019/11/06/Docker-%E1%84%86%E1%85%A7%E1%86%BC%E1%84%85%E1%85%A7%E1%86%BC%E1%84%8B%E1%85%A5.html">
-        Docker 명령어
+      <a href="/nlp/preprocessing/2019/10/23/NLP-1.html">
+        자연어 처리의 기본 TOKENIZE
       </a>
   </div>
   
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+        Docker 명령어
+      </a>
+  </div>
   
 </div>
 
