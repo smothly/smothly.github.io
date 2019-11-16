@@ -196,6 +196,14 @@ pre,
 samp {
   font-size: 1em; }
 
+pre code {
+  padding: 6px;
+  font-weight: normal;
+  overflow: auto;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  font-size: 1em; }
+
 /* Forms
    ========================================================================== */
 /**
