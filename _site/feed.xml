@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Fri, 15 Nov 2019 20:00:33 +0900</pubDate>
+    <pubDate>Sat, 16 Nov 2019 22:16:44 +0900</pubDate>
     
       <item>
         <title>Fasttext</title>
@@ -129,6 +129,12 @@ docker rm my-cat
   &lt;h2 id=&quot;docker-image-tensorflow-다운&quot;&gt;Docker Image (Tensorflow) 다운&lt;/h2&gt;
 &lt;/blockquote&gt;
 
+&lt;pre&gt;&lt;code&gt;
+  print(&quot;f&quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host port]:[container port] &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/code:/tf &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;image-id]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
 &lt;p&gt;cpu 버전은 &lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow&quot;&gt;tensorflow/tensorflow:latest&lt;/a&gt;&lt;br /&gt;
 gpu 버전은 Nvidia 그래픽 카드를 가정할 때 &lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow&quot;&gt;tensorflow/tensorflow:latest-gpu&lt;/a&gt;
 자세한 이미지 정보는 &lt;a href=&quot;https://www.tensorflow.org/install/docker&quot;&gt;이곳&lt;/a&gt;을 참고하셔서 본인에게 맞는 버전을 다운받으시기 바랍니다!&lt;/p&gt;
@@ -179,8 +185,7 @@ localhost:8888 들어가셔서 token 입력해주시면 됩니다!&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker volume&lt;/code&gt;은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.&lt;br /&gt;
 run할 떄 &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt;옵션이나 &lt;code class=&quot;highlighter-rouge&quot;&gt;volume&lt;/code&gt;을 따로 생성한 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt;할 때 붙여 사용 가능합니다.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host port]:[container port] &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/code:/tf &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;image-id]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;-v 옵션으로 volume을 추가해 준 것이다. &lt;code class=&quot;highlighter-rouge&quot;&gt;${HOME}/code&lt;/code&gt;가 host path &lt;code class=&quot;highlighter-rouge&quot;&gt;/tf&lt;/code&gt;가 container path&lt;/p&gt;
 
@@ -319,30 +324,6 @@ sudo yum remove nvidia-docker
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 06 Nov 2019 00:00:00 +0900</pubDate>
-      </item>
-    
-      <item>
-        <title>자연어 처리의 기본 TOKENIZE</title>
-        <link>/nlp/preprocessing/2019/10/23/NLP-1.html</link>
-        <guid isPermaLink="true">/nlp/preprocessing/2019/10/23/NLP-1.html</guid>
-        <description>&lt;h1 id=&quot;test중입니다&quot;&gt;test중입니다.&lt;/h1&gt;
-
-&lt;p&gt;image가 제대로 올라갈까요??
-&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67400546-c2260480-f5e8-11e9-9602-6806d5482bc6.png&quot; alt=&quot;WikiAttachment_W408_tokenization_overview&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;subtitle&gt;reference&lt;/subtitle&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;https://github.com/smothly
-&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 23 Oct 2019 00:00:00 +0900</pubDate>
       </item>
     
   </channel>

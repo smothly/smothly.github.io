@@ -44,6 +44,12 @@
 	ga('send', 'pageview');
 	</script>
 	
+
+	<!-- js highlighter -->
+	<link rel="stylesheet"
+	href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/tomorrow-night-bright.min.css">
+	<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+
 </head>
 
   <header class="site-header">
@@ -71,6 +77,20 @@
 						</li>
 					</ul>
 				</div>
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
 					
 						
 					
@@ -122,8 +142,6 @@
 					
 						
 					
-						
-					
 					
 		</nav>
 	</div>
@@ -131,30 +149,40 @@
 	<div class="site-category">
 			<ul class='cat1'>
 				<li><a href="/">Home</a></li>
-				<li><a href="/">Python</a>
+				<li><a href="/">Programming Language</a>
 					<ul>
-							<li><a href="/Python/Crawler">Crawler</a></li>
-							<li><a href="/Python/Django">Django</a></li>
+						<li><a href="/PL/Python">Python</a></li>
+						<li><a href="/PL/Java">Java</a></li>
+						<li><a href="/PL/JavaScript">JavaScript</a></li>
+						<li><a href="/PL/Algorithm">Algorithm</a></li>						
+
+					</ul>
+				</li>
+
+				<li><a href="/">Data Engineering</a>
+					<ul>
+						<li><a href="/DataE/DB">Database</a></li>
+						<li><a href="/DataE/Hadoop">Hadoop</a></li>
+						<li><a href="/DataE/Cloud">Cloud</a></li>
+						<li><a href="/DataE/Server">Server Programming</a></li>
+						<li><a href="/DataE/Web">Web Programming</a></li>
 					</ul>
 				</li>
 
 				<li><a href="/">Data Science</a>
 					<ul>
-						<li><a href="/DS/Statistics">Statistics</a></li>
+						<li><a href="/DS/NLP">Natural Language Processing</a></li>
 						<li><a href="/DS/ML">Machine Learning</a></li>
+						<li><a href="/DS/Statistics">Statistics</a></li>
 					</ul>
 				</li>
 
-				<li><a href="/">NLP</a>
-					<ul>
-						<li><a href="/NLP/Preprocessing">Preprocessing</a></li>
-					</ul>
-				</li>
 
 				<li><a href="/">Development Enviroment</a>
 					<ul>
-						  <li><a href="/DE/Git">Git</a></li>
-						  <li><a href="/DE/Docker">Docker</a></li>
+						<li><a href="/DE/Linux">Linux</a></li>
+						<li><a href="/DE/Git">Git</a></li>
+						<li><a href="/DE/Docker">Docker</a></li>
 					</ul>
 				</li>
 
@@ -162,6 +190,7 @@
 		</div>
 
 </header>
+
 
   <body>
     <div class="content">
@@ -181,6 +210,12 @@
 <blockquote>
   <h2 id="docker-image-tensorflow-다운">Docker Image (Tensorflow) 다운</h2>
 </blockquote>
+
+<pre><code>
+  print("f")
+</code></pre>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">-it</span> <span class="nt">-p</span> <span class="o">[</span>host port]:[container port] <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/code:/tf <span class="o">[</span>image-id]</code></pre></figure>
 
 <p>cpu 버전은 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest</a><br />
 gpu 버전은 Nvidia 그래픽 카드를 가정할 때 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest-gpu</a>
@@ -232,8 +267,7 @@ localhost:8888 들어가셔서 token 입력해주시면 됩니다!</p>
 <p><code class="highlighter-rouge">docker volume</code>은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.<br />
 run할 떄 <code class="highlighter-rouge">-v</code>옵션이나 <code class="highlighter-rouge">volume</code>을 따로 생성한 후 <code class="highlighter-rouge">run</code>할 때 붙여 사용 가능합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
-</code></pre></div></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">-it</span> <span class="nt">-p</span> <span class="o">[</span>host port]:[container port] <span class="nt">-v</span> <span class="k">${</span><span class="nv">HOME</span><span class="k">}</span>/code:/tf <span class="o">[</span>image-id]</code></pre></figure>
 
 <p>-v 옵션으로 volume을 추가해 준 것이다. <code class="highlighter-rouge">${HOME}/code</code>가 host path <code class="highlighter-rouge">/tf</code>가 container path</p>
 
@@ -386,9 +420,9 @@ sudo yum remove nvidia-docker
 
 
 
-  <!-- Disqus -->
-  <!-- <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html#disqus_thread"></a> -->
 
+  <!-- Disqus -->
+  <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -413,14 +447,11 @@ s.setAttribute('data-timestamp', +new Date());
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
   
-
-</article>
-
-<!-- Disqus -->
-<!-- <div id="post-disqus" class="container">
-  
-    <div id="disqus" class="container">
-    <div id="disqus_thread"></div>
+  <!-- Disqus -->
+  <!-- <div id="post-disqus" class="container">
+    
+      <div id="disqus" class="container">
+      <div id="disqus_thread"></div>
 <script>
 
 /**
@@ -440,10 +471,16 @@ s.setAttribute('data-timestamp', +new Date());
 })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-  
-</div>
- -->
+      </div>
+    
+  </div> -->
+
+</article>
+
+
+
+
+
 
 
 
@@ -451,13 +488,6 @@ s.setAttribute('data-timestamp', +new Date());
 <!-- Post navigation -->
 
   <div id="post-nav">
-  
-  <div id="previous-post" class="post-nav-post">
-      <p>Previous post</p>
-      <a href="/nlp/preprocessing/2019/10/23/NLP-1.html">
-        자연어 처리의 기본 TOKENIZE
-      </a>
-  </div>
   
   
   <div id="next-post" class="post-nav-post">

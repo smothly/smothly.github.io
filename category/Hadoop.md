@@ -1,7 +1,7 @@
 ---
 layout: category
-title: Data Platform/Hadoop
-permalink: '/DP/Hadoop'
+title: Data Engineering/Hadoop
+permalink: '/DataE/Hadoop'
 ---
 
 Another sample category page.

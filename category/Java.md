@@ -1,7 +1,7 @@
 ---
 layout: category
-title: Python/Crawler
-permalink: '/Python/Crawler'
+title: Programming Language/Java
+permalink: '/PL/Java'
 ---
 
 Another sample category page.
