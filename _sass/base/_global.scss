@@ -52,8 +52,19 @@ h4 {
 }
 
 code{
-  background-color: #f9f2f4;
-  font-size:1em;
+  background-color: #fff6cf;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 0.2em;
+}
+
+pre code{
+  padding: 6px ;
+  font-weight: normal;
+  overflow: auto;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  font-size: 1em;
 }
 
 blockquote {
@@ -96,7 +107,7 @@ dd {
 }
 p, ol, ul, dl, .math-display {
   line-height: 1.5;
-  margin-bottom: 1em;
+  margin-bottom: 0.3em;
 }
 // KaTeX math display
 .math-display {

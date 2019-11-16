@@ -68,6 +68,7 @@ theme_settings:
   # Post navigation
   post_navigation: true
 
+
 encoding: 'utf-8'
 # Configure the plugin here
 category_path: "category" # <- default value
@@ -81,7 +82,7 @@ animation: true
 
 # BUILD SETTINGS
 markdown: kramdown
-highlighter: rouge
+# highlighter: rouge
 sacssss:
   sass_dir: _sass
   style: :compressed

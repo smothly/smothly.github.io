@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Sat, 16 Nov 2019 22:16:44 +0900</pubDate>
+    <pubDate>Sun, 17 Nov 2019 00:42:28 +0900</pubDate>
     
       <item>
         <title>Fasttext</title>
@@ -129,12 +129,6 @@ docker rm my-cat
   &lt;h2 id=&quot;docker-image-tensorflow-다운&quot;&gt;Docker Image (Tensorflow) 다운&lt;/h2&gt;
 &lt;/blockquote&gt;
 
-&lt;pre&gt;&lt;code&gt;
-  print(&quot;f&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host port]:[container port] &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/code:/tf &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;image-id]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
 &lt;p&gt;cpu 버전은 &lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow&quot;&gt;tensorflow/tensorflow:latest&lt;/a&gt;&lt;br /&gt;
 gpu 버전은 Nvidia 그래픽 카드를 가정할 때 &lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow&quot;&gt;tensorflow/tensorflow:latest-gpu&lt;/a&gt;
 자세한 이미지 정보는 &lt;a href=&quot;https://www.tensorflow.org/install/docker&quot;&gt;이곳&lt;/a&gt;을 참고하셔서 본인에게 맞는 버전을 다운받으시기 바랍니다!&lt;/p&gt;
@@ -157,9 +151,9 @@ cpu만 사용하실 경우: Docker 만 설치하시면 됩니다.
 &lt;p&gt;&lt;a href=&quot;https://swalloow.github.io/docker-install&quot;&gt;Docker 설치&lt;/a&gt;는 되어있다고 가정하고!&lt;br /&gt;
 환경설정이 필요할 경우 &lt;a href=&quot;https://docs.docker.com/install/linux/linux-postinstall/&quot;&gt;공식 사이트&lt;/a&gt;를 참고하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;docker version&lt;/code&gt;이 제대로 수행되는지 확인합니다&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jupyter notebook 설치&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;jupyter-notebook-설치&quot;&gt;jupyter notebook 설치&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;이미지가 없을경우 자동으로 docker hub에서 찾아와서 받아옵니다.&lt;br /&gt;
 attach 상태에서 호스트 쉘로 서버를 중지하지 않고 돌아가려면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + p&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + q&lt;/code&gt;(Escape sequence)를 차례대로 입력하면 됩니다.&lt;br /&gt;
 port 변경을 원하면 ????:8888로 설정하셔서 실행하시면 됩니다. 여러개 설정도 가능합니다!&lt;/p&gt;
@@ -185,7 +179,8 @@ localhost:8888 들어가셔서 token 입력해주시면 됩니다!&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker volume&lt;/code&gt;은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.&lt;br /&gt;
 run할 떄 &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt;옵션이나 &lt;code class=&quot;highlighter-rouge&quot;&gt;volume&lt;/code&gt;을 따로 생성한 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt;할 때 붙여 사용 가능합니다.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;docker run &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;host port]:[container port] &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/code:/tf &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;image-id]&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;-v 옵션으로 volume을 추가해 준 것이다. &lt;code class=&quot;highlighter-rouge&quot;&gt;${HOME}/code&lt;/code&gt;가 host path &lt;code class=&quot;highlighter-rouge&quot;&gt;/tf&lt;/code&gt;가 container path&lt;/p&gt;
 
@@ -218,24 +213,25 @@ ex) `docker run -it -p ????:8888 -v /Users/내꺼/폴더:/tf c652(image id)&lt;/
 &lt;h3 id=&quot;nvidia-gpu-그리고-ubuntu-os를-가정&quot;&gt;Nvidia GPU, 그리고 Ubuntu OS를 가정&lt;/h3&gt;
 
 &lt;h4 id=&quot;1-gpu-설치&quot;&gt;1. gpu 설치&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ubuntu-drivers devices
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;ubuntu-drivers devices
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67653887-c8243880-f98e-11e9-95a2-e2064dd477a8.png&quot; alt=&quot;스크린샷 2019-10-28 오후 2 25 10&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;recommended하는 드라이버가 나온다!&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;recommended 드라이버 설치
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo ubuntu-drivers autoinstall
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;직접 설치
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
+  &lt;li&gt;recommended 드라이버 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;sudo ubuntu-drivers autoinstall
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;직접 설치&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
 sudo apt update
 sudo apt install nvidia-440(버전)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;재부팅한 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;nvidia-smi&lt;/code&gt;를 통하여 확인&lt;br /&gt;
 &lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67654118-d32b9880-f98f-11e9-8648-4019e2708ae8.png&quot; alt=&quot;스크린샷 2019-10-28 오후 2 32 42&quot; /&gt;&lt;/p&gt;
@@ -244,18 +240,18 @@ sudo apt install nvidia-440(버전)
 &lt;p&gt;&lt;a href=&quot;https://github.com/NVIDIA/nvidia-docker&quot;&gt;Nvidia Docker&lt;/a&gt;에서 Quick Start 부분을 참고하여 진행하면 된다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/3028125/12213714/5b208976-b632-11e5-8406-38d379ec46aa.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+&lt;pre&gt;&lt;code&gt;curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
   sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 sudo apt-get update
 sudo apt-get install -y nvidia-docker2
 sudo pkill -SIGHUP dockerd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;이대로 실행하면 된다. bash명령어를 잘 몰라…. 공부해야 할 것 같다 ㅠ&lt;/p&gt;
 
 &lt;p&gt;만약에 안된다면 이전에 nvidia-docker를 삭제해보도록 한다.&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 삭제 방법
+&lt;pre&gt;&lt;code&gt;# 삭제 방법
 # Ubuntu
 docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
 sudo apt-get purge nvidia-docker
@@ -263,11 +259,11 @@ sudo apt-get purge nvidia-docker
 # CentOS
 docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
 sudo yum remove nvidia-docker
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;잘 설치되었는지 ‘nvidia-smi’ 명령어를 컨테이너 안에서 실행시키고, 결과를 확인&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67660988-63bfa400-f9a3-11e9-95d3-fdd3d2e54da0.png&quot; alt=&quot;스크린샷 2019-10-28 오후 4 52 48&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;런타임을 nvidia 환경에서 진행하는 것이다. 이런식으로 나오면 성공한 것이다!&lt;br /&gt;&lt;/p&gt;
@@ -280,30 +276,35 @@ sudo yum remove nvidia-docker
 
 &lt;p&gt;&lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow/tags&quot;&gt;Docker 이미지 주소&lt;/a&gt;에서 찾아보고 설치하면 된다.&lt;br /&gt;
 위에서 설치했으니 패스하면 된다!&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;최종실행!
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;volume 설정을 원하면 -v옵션을 추가하여 실행해주면 된다.
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;주피터 노트북 접속해서 GPU 확인&lt;br /&gt;
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.python.client&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;device_lib&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;device_lib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list_local_devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;pytorch도 설치 후 확인
-    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torchvision&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cuda&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_device_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
+  &lt;li&gt;최종실행!&lt;/li&gt;
 &lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;volume 설정을 원하면 -v옵션을 추가하여 실행해주면 된다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;주피터 노트북 접속해서 GPU 확인&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;from tensorflow.python.client import device_lib
+print(device_lib.list_local_devices())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;pytorch도 설치 후 확인&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;!pip install torchvision
+import torch
+torch.cuda.get_device_name(0)
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&quot;성공-2&quot;&gt;성공!!&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67666006-388e8200-f9ae-11e9-8df5-35b812b80b9f.png&quot; alt=&quot;스크린샷 2019-10-28 오후 6 09 22&quot; /&gt;&lt;/p&gt;
@@ -320,8 +321,10 @@ sudo yum remove nvidia-docker
   &lt;li&gt;http://moducon.kr/2018/wp-content/uploads/sites/2/2018/12/leesangsoo_slide.pdf&lt;/li&gt;
   &lt;li&gt;https://github.com/NVIDIA/nvidia-docker&lt;br /&gt;&lt;/li&gt;
   &lt;li&gt;https://github.com/voyagerwoo/docker-hands-on&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;https://futurecreator.github.io/2018/11/16/docker-container-basics/&lt;/li&gt;
+  &lt;li&gt;https://futurecreator.github.io/2018/11/16/docker-container-basics/
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 </description>
         <pubDate>Wed, 06 Nov 2019 00:00:00 +0900</pubDate>
       </item>
