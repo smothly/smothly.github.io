@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Sun, 17 Nov 2019 00:45:31 +0900</pubDate>
+    <pubDate>Sun, 17 Nov 2019 15:11:38 +0900</pubDate>
     
       <item>
         <title>Fasttext</title>
@@ -27,27 +27,36 @@
 &lt;h2 id=&quot;docker에서-자주-쓰이고-유용한-명령어들-모음&quot;&gt;Docker에서 자주 쓰이고 유용한 명령어들 모음&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Docker 이미지 다운로드
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull 이미지명
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Docker 이미지 확인
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker images
+  &lt;li&gt;Docker 이미지 다운로드&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker pull 이미지명
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docker 이미지 확인&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker images
 docker image ls
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Docker 이미지 삭제
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker rmi 이미지명
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Docker 이미지 이름 변경
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Docker 이미지 실행
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -it hello-world
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docker 이미지 삭제&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker rmi 이미지명
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docker 이미지 이름 변경&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docker 이미지 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker run -it hello-world
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
   &lt;li&gt;-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고&lt;br /&gt;&lt;/li&gt;
   &lt;li&gt;-t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.&lt;br /&gt;
 마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.&lt;/li&gt;
@@ -55,8 +64,8 @@ docker image ls
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt; = &lt;code class=&quot;highlighter-rouge&quot;&gt;docker pull&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker create&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker start&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker attach&lt;/code&gt;(-it 옵션을 사용했다면)이 포함&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -d -p 8080:8080 --name my-cat tomcat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;docker run -d -p 8080:8080 --name my-cat tomcat
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;-d 옵션은 Background로 실행하겠다는 의미입니다.&lt;br /&gt;
 -p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.&lt;br /&gt;
 호스트의 8080 포트와 컨테이너의 8080 포트와 연결&lt;br /&gt;&lt;/p&gt;
@@ -65,43 +74,56 @@ docker image ls
 tag_name은 default값은 latest입니다.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;컨테이너 이름 변경
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker rename
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;로그확인: 컨테이너의 ID 일부만 적어도 식별 함
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker logs -f 89c
-docker logs -f my-cat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;컨테이너 종료
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker stop 89c
-docker stop my-cat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;컨테이너 확인
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker ps -a
-docker container ls -a
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;컨테이너 실행
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker exec -it  [container id] /bin/bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;컨테이너 제거
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker rm 89c(id)
-docker rm my-cat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;컨테이너 전체 제거
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker ps -q -a | xargs docker rm
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Docker 컨테이너를 이미지로 커밋
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker commit &amp;lt;container-name&amp;gt; &amp;lt;image-id&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
+  &lt;li&gt;컨테이너 이름 변경&lt;/li&gt;
 &lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker rename
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;로그확인: 컨테이너의 ID 일부만 적어도 식별 함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker logs -f 89c
+docker logs -f my-cat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;컨테이너 종료&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker stop 89c
+docker stop my-cat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;컨테이너 확인&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker ps -a
+docker container ls -a
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;컨테이너 실행&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker exec -it  [container id] /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;컨테이너 제거&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker rm 89c(id)
+docker rm my-cat
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;컨테이너 전체 제거&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker ps -q -a | xargs docker rm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Docker 컨테이너를 이미지로 커밋&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker commit [container-name] [image-id]
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
 &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
