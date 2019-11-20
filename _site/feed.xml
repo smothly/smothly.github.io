@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Sun, 17 Nov 2019 22:22:51 +0900</pubDate>
+    <pubDate>Wed, 20 Nov 2019 23:58:07 +0900</pubDate>
     
       <item>
         <title>Fasttext</title>
@@ -29,32 +29,32 @@
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 다운로드&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker pull 이미지명
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker pull 이미지명
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 확인&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker images
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker images
 docker image ls
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 삭제&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker rmi 이미지명
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker rmi 이미지명
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 이름 변경&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 실행&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker run -it hello-world
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run -it hello-world
 &lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
   &lt;li&gt;-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고&lt;br /&gt;&lt;/li&gt;
@@ -64,7 +64,7 @@ docker image ls
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker run&lt;/code&gt; = &lt;code class=&quot;highlighter-rouge&quot;&gt;docker pull&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker create&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker start&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;docker attach&lt;/code&gt;(-it 옵션을 사용했다면)이 포함&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;docker run -d -p 8080:8080 --name my-cat tomcat
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run -d -p 8080:8080 --name my-cat tomcat
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;-d 옵션은 Background로 실행하겠다는 의미입니다.&lt;br /&gt;
 -p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.&lt;br /&gt;
@@ -76,53 +76,53 @@ tag_name은 default값은 latest입니다.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;컨테이너 이름 변경&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker rename
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker rename
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;로그확인: 컨테이너의 ID 일부만 적어도 식별 함&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker logs -f 89c
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker logs -f 89c
 docker logs -f my-cat
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;컨테이너 종료&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker stop 89c
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker stop 89c
 docker stop my-cat
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;컨테이너 확인&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker ps -a
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker ps -a
 docker container ls -a
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;컨테이너 실행&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker exec -it  [container id] /bin/bash
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker exec -it  [container id] /bin/bash
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;컨테이너 제거&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker rm 89c(id)
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker rm 89c(id)
 docker rm my-cat
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;컨테이너 전체 제거&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker ps -q -a | xargs docker rm
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker ps -q -a | xargs docker rm
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 컨테이너를 이미지로 커밋&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker commit [container-name] [image-id]
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker commit [container-name] [image-id]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
@@ -174,7 +174,7 @@ cpu만 사용하실 경우: Docker 만 설치하시면 됩니다.
 환경설정이 필요할 경우 &lt;a href=&quot;https://docs.docker.com/install/linux/linux-postinstall/&quot;&gt;공식 사이트&lt;/a&gt;를 참고하여 &lt;code class=&quot;highlighter-rouge&quot;&gt;docker version&lt;/code&gt;이 제대로 수행되는지 확인합니다&lt;/p&gt;
 
 &lt;h4 id=&quot;jupyter-notebook-설치&quot;&gt;jupyter notebook 설치&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;이미지가 없을경우 자동으로 docker hub에서 찾아와서 받아옵니다.&lt;br /&gt;
 attach 상태에서 호스트 쉘로 서버를 중지하지 않고 돌아가려면 &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + p&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Ctrl + q&lt;/code&gt;(Escape sequence)를 차례대로 입력하면 됩니다.&lt;br /&gt;
@@ -201,7 +201,7 @@ localhost:8888 들어가셔서 token 입력해주시면 됩니다!&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;docker volume&lt;/code&gt;은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.&lt;br /&gt;
 run할 떄 &lt;code class=&quot;highlighter-rouge&quot;&gt;-v&lt;/code&gt;옵션이나 &lt;code class=&quot;highlighter-rouge&quot;&gt;volume&lt;/code&gt;을 따로 생성한 후 &lt;code class=&quot;highlighter-rouge&quot;&gt;run&lt;/code&gt;할 때 붙여 사용 가능합니다.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;-v 옵션으로 volume을 추가해 준 것이다. &lt;code class=&quot;highlighter-rouge&quot;&gt;${HOME}/code&lt;/code&gt;가 host path &lt;code class=&quot;highlighter-rouge&quot;&gt;/tf&lt;/code&gt;가 container path&lt;/p&gt;
@@ -235,7 +235,7 @@ ex) `docker run -it -p ????:8888 -v /Users/내꺼/폴더:/tf c652(image id)&lt;/
 &lt;h3 id=&quot;nvidia-gpu-그리고-ubuntu-os를-가정&quot;&gt;Nvidia GPU, 그리고 Ubuntu OS를 가정&lt;/h3&gt;
 
 &lt;h4 id=&quot;1-gpu-설치&quot;&gt;1. gpu 설치&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;ubuntu-drivers devices
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;ubuntu-drivers devices
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67653887-c8243880-f98e-11e9-95a2-e2064dd477a8.png&quot; alt=&quot;스크린샷 2019-10-28 오후 2 25 10&quot; /&gt;&lt;/p&gt;
 
@@ -244,13 +244,13 @@ ex) `docker run -it -p ????:8888 -v /Users/내꺼/폴더:/tf c652(image id)&lt;/
 &lt;ul&gt;
   &lt;li&gt;recommended 드라이버 설치&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;sudo ubuntu-drivers autoinstall
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo ubuntu-drivers autoinstall
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;직접 설치&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
 sudo apt update
 sudo apt install nvidia-440(버전)
 &lt;/code&gt;&lt;/pre&gt;
@@ -262,7 +262,7 @@ sudo apt install nvidia-440(버전)
 &lt;p&gt;&lt;a href=&quot;https://github.com/NVIDIA/nvidia-docker&quot;&gt;Nvidia Docker&lt;/a&gt;에서 Quick Start 부분을 참고하여 진행하면 된다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/3028125/12213714/5b208976-b632-11e5-8406-38d379ec46aa.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
   sudo tee /etc/apt/sources.list.d/nvidia-docker.list
@@ -273,7 +273,7 @@ sudo pkill -SIGHUP dockerd
 &lt;p&gt;이대로 실행하면 된다. bash명령어를 잘 몰라…. 공부해야 할 것 같다 ㅠ&lt;/p&gt;
 
 &lt;p&gt;만약에 안된다면 이전에 nvidia-docker를 삭제해보도록 한다.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# 삭제 방법
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;# 삭제 방법
 # Ubuntu
 docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
 sudo apt-get purge nvidia-docker
@@ -284,7 +284,7 @@ sudo yum remove nvidia-docker
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;잘 설치되었는지 ‘nvidia-smi’ 명령어를 컨테이너 안에서 실행시키고, 결과를 확인&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/67660988-63bfa400-f9a3-11e9-95d3-fdd3d2e54da0.png&quot; alt=&quot;스크린샷 2019-10-28 오후 4 52 48&quot; /&gt;&lt;/p&gt;
 
@@ -298,32 +298,32 @@ sudo yum remove nvidia-docker
 
 &lt;p&gt;&lt;a href=&quot;https://hub.docker.com/r/tensorflow/tensorflow/tags&quot;&gt;Docker 이미지 주소&lt;/a&gt;에서 찾아보고 설치하면 된다.&lt;br /&gt;
 위에서 설치했으니 패스하면 된다!&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;최종실행!&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;volume 설정을 원하면 -v옵션을 추가하여 실행해주면 된다.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;주피터 노트북 접속해서 GPU 확인&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;from tensorflow.python.client import device_lib
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
   &lt;li&gt;pytorch도 설치 후 확인&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;!pip install torchvision
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;!pip install torchvision
 import torch
 torch.cuda.get_device_name(0)
 &lt;/code&gt;&lt;/pre&gt;

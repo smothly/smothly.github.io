@@ -24,6 +24,7 @@
 	<!-- Google Fonts -->
 	
 	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700" rel="stylesheet">
+	<link href="http://cdn.jsdelivr.net/gh/joungkyun/font-d2coding/d2coding.css" rel="stylesheet" type="text/css">
 	
 
 	<!-- KaTeX -->
@@ -214,32 +215,32 @@
 <ul>
   <li>Docker 이미지 다운로드</li>
 </ul>
-<pre><code>docker pull 이미지명
+<pre><code class="bash">docker pull 이미지명
 </code></pre>
 
 <ul>
   <li>Docker 이미지 확인</li>
 </ul>
-<pre><code>docker images
+<pre><code class="bash">docker images
 docker image ls
 </code></pre>
 
 <ul>
   <li>Docker 이미지 삭제</li>
 </ul>
-<pre><code>docker rmi 이미지명
+<pre><code class="bash">docker rmi 이미지명
 </code></pre>
 
 <ul>
   <li>Docker 이미지 이름 변경</li>
 </ul>
-<pre><code>docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+<pre><code class="bash">docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 </code></pre>
 
 <ul>
   <li>Docker 이미지 실행</li>
 </ul>
-<pre><code>docker run -it hello-world
+<pre><code class="bash">docker run -it hello-world
 </code></pre>
 <ul>
   <li>-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고<br /></li>
@@ -249,7 +250,7 @@ docker image ls
 
 <p><code class="highlighter-rouge">docker run</code> = <code class="highlighter-rouge">docker pull</code>, <code class="highlighter-rouge">docker create</code>, <code class="highlighter-rouge">docker start</code>, <code class="highlighter-rouge">docker attach</code>(-it 옵션을 사용했다면)이 포함</p>
 
-<pre><code>docker run -d -p 8080:8080 --name my-cat tomcat
+<pre><code class="bash">docker run -d -p 8080:8080 --name my-cat tomcat
 </code></pre>
 <p>-d 옵션은 Background로 실행하겠다는 의미입니다.<br />
 -p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.<br />
@@ -261,53 +262,53 @@ tag_name은 default값은 latest입니다.</p>
 <ul>
   <li>컨테이너 이름 변경</li>
 </ul>
-<pre><code>docker rename
+<pre><code class="bash">docker rename
 </code></pre>
 
 <ul>
   <li>로그확인: 컨테이너의 ID 일부만 적어도 식별 함</li>
 </ul>
-<pre><code>docker logs -f 89c
+<pre><code class="bash">docker logs -f 89c
 docker logs -f my-cat
 </code></pre>
 
 <ul>
   <li>컨테이너 종료</li>
 </ul>
-<pre><code>docker stop 89c
+<pre><code class="bash">docker stop 89c
 docker stop my-cat
 </code></pre>
 
 <ul>
   <li>컨테이너 확인</li>
 </ul>
-<pre><code>docker ps -a
+<pre><code class="bash">docker ps -a
 docker container ls -a
 </code></pre>
 
 <ul>
   <li>컨테이너 실행</li>
 </ul>
-<pre><code>docker exec -it  [container id] /bin/bash
+<pre><code class="bash">docker exec -it  [container id] /bin/bash
 </code></pre>
 
 <ul>
   <li>컨테이너 제거</li>
 </ul>
-<pre><code>docker rm 89c(id)
+<pre><code class="bash">docker rm 89c(id)
 docker rm my-cat
 </code></pre>
 
 <ul>
   <li>컨테이너 전체 제거</li>
 </ul>
-<pre><code>docker ps -q -a | xargs docker rm
+<pre><code class="bash">docker ps -q -a | xargs docker rm
 </code></pre>
 
 <ul>
   <li>Docker 컨테이너를 이미지로 커밋</li>
 </ul>
-<pre><code>docker commit [container-name] [image-id]
+<pre><code class="bash">docker commit [container-name] [image-id]
 </code></pre>
 
 <p>새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.

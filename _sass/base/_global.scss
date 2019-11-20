@@ -59,12 +59,13 @@ code{
 }
 
 pre code{
-  padding: 6px ;
+  font-family:  'D2 coding', "Consolas", monospace !important;
+  padding: 0.7em 1em !important; 
   font-weight: normal;
   overflow: auto;
   border: 1px solid #cccccc;
   border-radius: 3px;
-  font-size: 1em;
+  font-size: 1.0em;
 }
 
 blockquote {
@@ -105,7 +106,7 @@ dt {
 dd {
     margin-left: 2em;
 }
-p, ol, ul, dl, .math-display {
+p, ol, dl, .math-display {
   line-height: 1.5;
   margin-bottom: 0.5em;
 }
@@ -115,6 +116,9 @@ p, ol, ul, dl, .math-display {
   width: 100%;
 }
 // Lists within lists
+ul{
+  margin: 0.3em 0;
+}
 li > ul, li > ol {
     margin-bottom: 0;
     margin-left: 1em;
