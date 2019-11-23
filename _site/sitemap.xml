@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
-        <loc>http://localhost:4000/2019/11/08/FastText.html</loc>
+        <loc>http://localhost:4000/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://localhost:4000/machine%20learning/nlp/2019/11/23/FastText.html</loc>
     </url>
     
     <url>
@@ -185,6 +189,14 @@
     
     <url>
         <loc>http://localhost:4000/category/Development+Environment%252FDocker/</loc>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>http://localhost:4000/category/Machine+Learning%252FNLP/</loc>
     </url>
     
     

@@ -5,15 +5,122 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Wed, 20 Nov 2019 23:58:07 +0900</pubDate>
+    <pubDate>Sat, 23 Nov 2019 12:49:14 +0900</pubDate>
     
       <item>
-        <title>Fasttext</title>
-        <link>/2019/11/08/FastText.html</link>
-        <guid isPermaLink="true">/2019/11/08/FastText.html</guid>
-        <description>
+        <title>한글자모분리 By Python</title>
+        <link>/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html</link>
+        <guid isPermaLink="true">/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html</guid>
+        <description>&lt;blockquote&gt;
+  &lt;h2 id=&quot;한글-자모-분리-코드&quot;&gt;한글 자모 분리 코드&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.&lt;br /&gt;
+그래서 여러가지 라이브러리를 찾아봤는데&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x&lt;/li&gt;
+  &lt;li&gt;종성 없을 경우 무시하는 문제&lt;/li&gt;
+  &lt;li&gt;결합도 제대로 분리된 경우에만 해주는 문제
+등의 문제들이 있었습니다.&lt;br /&gt;
+채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.&lt;br /&gt;
+그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.&lt;br /&gt;
+제 &lt;a href=&quot;https://github.com/smothly/Jamo_Split_and_Combine&quot;&gt;github&lt;/a&gt;에서 얼마든지 유용하게 사용하셔도 됩니다!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/bluedisk/hangul-toolkit&quot;&gt;hangul-toolkit&lt;/a&gt;과 &lt;a href=&quot;https://github.com/rhobot/Hangulpy&quot;&gt;hangulpy&lt;/a&gt;를 참조하여 만들었습니다.&lt;/p&gt;
+
+&lt;p&gt;주요 수정부분&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리&lt;/li&gt;
+  &lt;li&gt;완전한 글자가 아니여도 자모분리&lt;/li&gt;
+  &lt;li&gt;자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
+JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
+JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
+TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS
+
+# 자모분리
+def jamo_split(word, end_char=&quot;_&quot;):
+    
+    result = []
+    
+    for char in word:
+        
+        character_code = ord(char)
+        
+        if 0xD7A3 &amp;lt; character_code or character_code &amp;lt; 0xAC00:
+            result.append(char)
+            continue
+
+        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)
+        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)
+        jongsung_index = int((character_code - 0xAC00) % 28)
+        
+        chosung = CHOSUNGS[chosung_index]
+        joongsung = JOONGSUNGS[joongsung_index]
+        jongsung = JONGSUNGS[jongsung_index]
+        
+        # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.
+        if jongsung_index == 0:
+            jongsung = end_char
+        
+        result.append(chosung)
+        result.append(joongsung)
+        result.append(jongsung)
+
+    return &quot;&quot;.join(result)
+
+
+# 자모결합
+def jamo_combine(word):
+
+    result = &quot;&quot;
+    index = 0
+    
+    while index &amp;lt; len(word):
+    
+        # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.
+        try:
+            cho = CHOSUNGS.index(word[index]) * 21 * 28
+            joong = JOONGSUNGS.index(word[index+1]) * 28
+            jong = JONGSUNGS.index(word[index+2])
+
+            result += chr(cho + joong + jong + 0xAC00) 
+            index += 3
+
+        except:
+            result += word[index]
+            index += 1
+        
+    return result
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;subtitle&gt;출처&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/smothly/Jamo_Split_and_Combine&lt;/li&gt;
+  &lt;li&gt;https://github.com/bluedisk/hangul-toolkit&lt;/li&gt;
+  &lt;li&gt;https://github.com/rhobot/Hangulpy
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
-        <pubDate>Fri, 08 Nov 2019 00:00:00 +0900</pubDate>
+        <pubDate>Sat, 23 Nov 2019 00:00:00 +0900</pubDate>
+      </item>
+    
+      <item>
+        <title>자모단위 Embedding By FastText</title>
+        <link>/machine%20learning/nlp/2019/11/23/FastText.html</link>
+        <guid isPermaLink="true">/machine%20learning/nlp/2019/11/23/FastText.html</guid>
+        <description>&lt;h1 id=&quot;이전-포스트에-올린-한글자모분리-코드를-참조하여-자모단위로-임베딩하고-그-결과를-확인해보는-시간&quot;&gt;이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간&lt;/h1&gt;
+</description>
+        <pubDate>Sat, 23 Nov 2019 00:00:00 +0900</pubDate>
       </item>
     
       <item>
@@ -24,12 +131,14 @@
 
 &lt;hr /&gt;
 
-&lt;h2 id=&quot;docker에서-자주-쓰이고-유용한-명령어들-모음&quot;&gt;Docker에서 자주 쓰이고 유용한 명령어들 모음&lt;/h2&gt;
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;docker에서-자주-쓰이고-유용한-명령어들-모음&quot;&gt;Docker에서 자주 쓰이고 유용한 명령어들 모음&lt;/h2&gt;
+&lt;/blockquote&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Docker 이미지 다운로드&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker pull 이미지명
+&lt;pre&gt;&lt;code class=&quot;bash&quot;&gt;docker pull [image]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;

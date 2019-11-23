@@ -145,6 +145,8 @@
 					
 						
 					
+						
+					
 					
 		</nav>
 	</div>
@@ -213,14 +215,25 @@
 <script>
   window.store = {
     
-      "2019-11-08-fasttext-html": {
-        "title": "Fasttext",
-        "tags": "",
-        "date": "November 8, 2019",
+      "machine-20learning-nlp-2019-11-23-ed-95-9c-ea-b8-80-ec-9e-90-eb-aa-a8-eb-b6-84-eb-a6-ac-html": {
+        "title": "한글자모분리 By Python",
+        "tags": "Preprocessing, NLP, Python",
+        "date": "November 23, 2019",
         "author": "",
         "category": "",
-        "content": "",
-        "url": "/2019/11/08/FastText.html"
+        "content": "  한글 자모 분리 코드제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.그래서 여러가지 라이브러리를 찾아봤는데  정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x  종성 없을 경우 무시하는 문제  결합도 제대로 분리된 경우에만 해주는 문제등의 문제들이 있었습니다.채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.제 github에서 얼마든지 유용하게 사용하셔도 됩니다!  코드hangul-toolkit과 hangulpy를 참조하여 만들었습니다.주요 수정부분  end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리  완전한 글자가 아니여도 자모분리  자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS# 자모분리def jamo_split(word, end_char=\"_\"):        result = []        for char in word:                character_code = ord(char)                if 0xD7A3 &lt; character_code or character_code &lt; 0xAC00:            result.append(char)            continue        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)        jongsung_index = int((character_code - 0xAC00) % 28)                chosung = CHOSUNGS[chosung_index]        joongsung = JOONGSUNGS[joongsung_index]        jongsung = JONGSUNGS[jongsung_index]                # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.        if jongsung_index == 0:            jongsung = end_char                result.append(chosung)        result.append(joongsung)        result.append(jongsung)    return \"\".join(result)# 자모결합def jamo_combine(word):    result = \"\"    index = 0        while index &lt; len(word):            # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.        try:            cho = CHOSUNGS.index(word[index]) * 21 * 28            joong = JOONGSUNGS.index(word[index+1]) * 28            jong = JONGSUNGS.index(word[index+2])            result += chr(cho + joong + jong + 0xAC00)             index += 3        except:            result += word[index]            index += 1            return result  출처  https://github.com/smothly/Jamo_Split_and_Combine  https://github.com/bluedisk/hangul-toolkit  https://github.com/rhobot/Hangulpy",
+        "url": "/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html"
+      }
+      ,
+    
+      "machine-20learning-nlp-2019-11-23-fasttext-html": {
+        "title": "자모단위 Embedding By FastText",
+        "tags": "Preprocessing, NLP, Python",
+        "date": "November 23, 2019",
+        "author": "",
+        "category": "",
+        "content": "이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간",
+        "url": "/machine%20learning/nlp/2019/11/23/FastText.html"
       }
       ,
     
@@ -230,7 +243,7 @@
         "date": "November 6, 2019",
         "author": "",
         "category": "",
-        "content": "Docker 명령어Docker에서 자주 쓰이고 유용한 명령어들 모음  Docker 이미지 다운로드docker pull 이미지명  Docker 이미지 확인docker imagesdocker image ls  Docker 이미지 삭제docker rmi 이미지명  Docker 이미지 이름 변경docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]  Docker 이미지 실행docker run -it hello-world  -i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고  -t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.docker run = docker pull, docker create, docker start, docker attach(-it 옵션을 사용했다면)이 포함docker run -d -p 8080:8080 --name my-cat tomcat-d 옵션은 Background로 실행하겠다는 의미입니다.-p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.호스트의 8080 포트와 컨테이너의 8080 포트와 연결이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; tag_name은 default값은 latest입니다.  컨테이너 이름 변경docker rename  로그확인: 컨테이너의 ID 일부만 적어도 식별 함docker logs -f 89cdocker logs -f my-cat  컨테이너 종료docker stop 89cdocker stop my-cat  컨테이너 확인docker ps -adocker container ls -a  컨테이너 실행docker exec -it  [container id] /bin/bash  컨테이너 제거docker rm 89c(id)docker rm my-cat  컨테이너 전체 제거docker ps -q -a | xargs docker rm  Docker 컨테이너를 이미지로 커밋docker commit [container-name] [image-id]새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.  출처  https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container  https://docs.docker.com/engine/reference/commandline/tag/",
+        "content": "Docker 명령어  Docker에서 자주 쓰이고 유용한 명령어들 모음  Docker 이미지 다운로드docker pull [image]  Docker 이미지 확인docker imagesdocker image ls  Docker 이미지 삭제docker rmi 이미지명  Docker 이미지 이름 변경docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]  Docker 이미지 실행docker run -it hello-world  -i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고  -t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.docker run = docker pull, docker create, docker start, docker attach(-it 옵션을 사용했다면)이 포함docker run -d -p 8080:8080 --name my-cat tomcat-d 옵션은 Background로 실행하겠다는 의미입니다.-p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.호스트의 8080 포트와 컨테이너의 8080 포트와 연결이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; tag_name은 default값은 latest입니다.  컨테이너 이름 변경docker rename  로그확인: 컨테이너의 ID 일부만 적어도 식별 함docker logs -f 89cdocker logs -f my-cat  컨테이너 종료docker stop 89cdocker stop my-cat  컨테이너 확인docker ps -adocker container ls -a  컨테이너 실행docker exec -it  [container id] /bin/bash  컨테이너 제거docker rm 89c(id)docker rm my-cat  컨테이너 전체 제거docker ps -q -a | xargs docker rm  Docker 컨테이너를 이미지로 커밋docker commit [container-name] [image-id]새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.  출처  https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container  https://docs.docker.com/engine/reference/commandline/tag/",
         "url": "/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html"
       }
       ,
