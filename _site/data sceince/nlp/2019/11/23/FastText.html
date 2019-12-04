@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>한글자모분리 By Python | Seungho's Blog</title>
-	<meta name="description" content="  한글 자모 분리 코드">
+	<title>자모단위 Embedding By FastText | Seungho's Blog</title>
+	<meta name="description" content="이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
+	<link rel="canonical" href="/data%20sceince/nlp/2019/11/23/FastText.html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -147,6 +147,12 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
 					
 		</nav>
 	</div>
@@ -201,112 +207,14 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">한글자모분리 By Python</h1>
+    <h1 class="title">자모단위 Embedding By FastText</h1>
     
     <p class="meta">
       November 23, 2019
       
     </p>
   </header>
-  <section class="post-content"><blockquote>
-  <h2 id="한글-자모-분리-코드">한글 자모 분리 코드</h2>
-</blockquote>
-
-<p>제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.<br />
-그래서 여러가지 라이브러리를 찾아봤는데</p>
-<ul>
-  <li>정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x</li>
-  <li>종성 없을 경우 무시하는 문제</li>
-  <li>결합도 제대로 분리된 경우에만 해주는 문제
-등의 문제들이 있었습니다.<br />
-채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.<br />
-그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.<br />
-제 <a href="https://github.com/smothly/Jamo_Split_and_Combine">github</a>에서 얼마든지 유용하게 사용하셔도 됩니다!</li>
-</ul>
-
-<blockquote>
-  <h2 id="코드">코드</h2>
-</blockquote>
-
-<p><a href="https://github.com/bluedisk/hangul-toolkit">hangul-toolkit</a>과 <a href="https://github.com/rhobot/Hangulpy">hangulpy</a>를 참조하여 만들었습니다.</p>
-
-<p>주요 수정부분</p>
-<ul>
-  <li>end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리</li>
-  <li>완전한 글자가 아니여도 자모분리</li>
-  <li>자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합</li>
-</ul>
-<pre><code class="python">CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
-JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS
-
-# 자모분리
-def jamo_split(word, end_char="_"):
-    
-    result = []
-    
-    for char in word:
-        
-        character_code = ord(char)
-        
-        if 0xD7A3 &lt; character_code or character_code &lt; 0xAC00:
-            result.append(char)
-            continue
-
-        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)
-        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)
-        jongsung_index = int((character_code - 0xAC00) % 28)
-        
-        chosung = CHOSUNGS[chosung_index]
-        joongsung = JOONGSUNGS[joongsung_index]
-        jongsung = JONGSUNGS[jongsung_index]
-        
-        # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.
-        if jongsung_index == 0:
-            jongsung = end_char
-        
-        result.append(chosung)
-        result.append(joongsung)
-        result.append(jongsung)
-
-    return "".join(result)
-
-
-# 자모결합
-def jamo_combine(word):
-
-    result = ""
-    index = 0
-    
-    while index &lt; len(word):
-    
-        # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.
-        try:
-            cho = CHOSUNGS.index(word[index]) * 21 * 28
-            joong = JOONGSUNGS.index(word[index+1]) * 28
-            jong = JONGSUNGS.index(word[index+2])
-
-            result += chr(cho + joong + jong + 0xAC00) 
-            index += 3
-
-        except:
-            result += word[index]
-            index += 1
-        
-    return result
-</code></pre>
-
-<blockquote>
-  <subtitle>출처</subtitle>
-</blockquote>
-
-<ul>
-  <li>https://github.com/smothly/Jamo_Split_and_Combine</li>
-  <li>https://github.com/bluedisk/hangul-toolkit</li>
-  <li>https://github.com/rhobot/Hangulpy
-<br /><br /></li>
-</ul>
+  <section class="post-content"><h1 id="이전-포스트에-올린-한글자모분리-코드를-참조하여-자모단위로-임베딩하고-그-결과를-확인해보는-시간">이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간</h1>
 </section>
   
 <footer>
@@ -325,7 +233,7 @@ def jamo_combine(word):
 
 
   <!-- Disqus -->
-  <a href="https://smothly.github.io/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html#disqus_thread"></a>
+  <a href="https://smothly.github.io/data%20sceince/nlp/2019/11/23/FastText.html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -394,11 +302,18 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/machine%20learning/nlp/2019/11/23/FastText.html">
-        자모단위 Embedding By FastText
+      <a href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+        Docker 명령어
       </a>
   </div>
   
+  
+  <div id="next-post" class="post-nav-post">
+      <p>Next post</p>
+      <a href="/data%20sceince/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
+        한글자모분리 By Python
+      </a>
+  </div>
   
 </div>
 

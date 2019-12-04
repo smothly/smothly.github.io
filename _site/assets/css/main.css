@@ -692,10 +692,11 @@ h4 {
 code {
   background-color: #fff6cf;
   font-size: 1.1em;
-  padding: 0.2em; }
+  padding: 0.2em;
+  font-family: 'D2 coding'; }
 
 pre code {
-  font-family: 'D2 coding', "Consolas", monospace !important;
+  font-family: 'D2 coding' !important;
   padding: 0.7em 1em !important;
   font-weight: normal;
   overflow: auto;

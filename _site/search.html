@@ -147,6 +147,12 @@
 					
 						
 					
+						
+					
+						
+					
+						
+					
 					
 		</nav>
 	</div>
@@ -215,25 +221,47 @@
 <script>
   window.store = {
     
-      "machine-20learning-nlp-2019-11-23-ed-95-9c-ea-b8-80-ec-9e-90-eb-aa-a8-eb-b6-84-eb-a6-ac-html": {
+      "data-20engineering-database-2019-12-03-mongodb-ea-b0-9c-eb-85-90-eb-b0-8f-eb-aa-85-eb-a0-b9-ec-96-b4-html": {
+        "title": "MongoDB 개념 및 명령어",
+        "tags": "MongoDB, NoSQL, Database",
+        "date": "December 3, 2019",
+        "author": "",
+        "category": "",
+        "content": "MongoDB 개념 및 명령어  MongoDB(몽고디비)개념  MongoDB: C++로 작성된 오픈소스 문서지향(Document-Oriented)적 Cross-platform 데이터베이스  뛰어난 확장성과 성능, 현존하는 NoSQL 데이터베이스 중 인지도 1위를 유지NoSQL &amp; Schemaless  NoSQL = Not Only SQL 쿼리를 안쓴다는 것이 아닙니다. 기존 RDBMS(관계형 데이터 베이스 매니지먼트)가 갖고 있는 특성뿐만 아니라, 다른 특성들을 부가적으로 지원한다는 것을 의미합니다. 그중에서도 MongoDB는 Key Value DB를 사용하고 있습니다.  Schemaless: Schema를 따로 정의할 필요가 없다. 같은 컬렉션안에서 데이터 타입, 필드가 서로 달라도 저장됩니다.          Schema: RDBMS에서 주로 쓰이는 개체, 속성, 관계를 미리 정의 (비정형 데이터를 다루기 힘듬)        MongoDB 구성요소Collections  MongoDB Document의 그룹  RDBMS의 Table과 비슷한 개념  따로 schema를 가지고 있지 않음Document  문서라기 보다는 RDBMS의 record와 비슷한 개념  _id 자동적으로 부여함 -&gt; unique한 document를 가지기 위함.          12bytes의 hexadecimal      4bytes:timestamp / 3bytes:machine id / 2bytes:MongoDB 서버의 프로세스id,  / 3bytes:순차번호        예시{    \"_id\": ObjectId(\"631203df3f4948bd2f98312\"),    \"nickname\": \"smothly\",    \"name\": { first: \"Seung Ho\", last: \"Choi\" }}  key:value쌍으로 이루어짐, key=”nickname” value=”smothly”  동적 Schema를 가짐 = Document끼리 다른 구조를 가질 수 있음Fields  RDBMS의 속성과 비슷한 개념  위에서 key에 해당하는 값들로 주로 조회할 때 많이 사용합니다.RDMS와의 비교  table &lt;-&gt; collection  tuple/row &lt;-&gt; document  column &lt;-&gt; key/field  table join &lt;-&gt; embedded document  primary key &lt;-&gt; primary key(_id)  MongoDB 명령어 &amp; 실습설치OS에 맞게 공식사이트에서 community edition 설치해주세요!공식문서 보기 힘드시면 velopert 블로그나 구글검색을 보시고 설치해주시기 바랍니다.터미널에 mongo입력하셔서 접근 되시면 성공하신겁니다.Database  생성use [DATABASE_NAME]use tutorial  조회db현재 사용중인 db(tutorial)가 나오는 것을 확인show dbs다른 db들도 조회 가능합니다.  삭제db.dropDatabase();현재 사용중인(use) database 삭제Collection  생성db.createCollection(name, [options]) db.createCollection('users') 각 명령어의 옵션들은 몽고디비 매뉴얼에서 확인하고 사용하시길 바랍니다.db.adminUsers.insert({\"name\": \"seungho\"})이렇게 Document를 생성해도 자동으로 Collection이 생성이 됩니다.여기서 확인할 수 있는거는 본인이 원하는 형식으로 insert할 수 있습니다. = schemaless  조회show collections  삭제db.COLLECTION_NAME.drop()db.adminUsers.drop()Document일단 위에서 use명령어로 본인이 사용할 db를 먼저 선택해 줍니다.  생성db.COLLECTION_NAME.insert(document)db.users.insert({\"name\": \"seungho\", \"nickname\": \"smothly\"})  여러개 넣기db.users.insert([    {\"name\": \"seungho\", \"nickname\": \"smothly\"},    {\"name\": \"철수\", \"nickname\": \"영희친구\"}])배열을 사용하여 넣으면 됩니다!  조회db.COLLECTION_NAME.find()db.users.find()find 함수는 조건을 사용하여 조회할 수도 있으므로 다음 포스트에 다뤄보겠습니다.지금은 전체를 조회하는 구문입니다.  삭제db.COLLECTION_NAME.remove(criteria, justOne)db.users.remove({\"name\": \"철수\"})criteria 조건 부분에 name이 ‘철수’인 documnet만 삭제하라고 조건을 주었습니다.평소에 사용하실 때는 미리 find 메소드를 사용하여 조회하고 삭제하는 것을 추천합니다.  출처  https://velopert.com/436  https://nicewoong.github.io/development/2018/02/10/mongodb-feature/  https://www.mongodb.com/  https://docs.mongodb.com/manual/reference/method",
+        "url": "/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html"
+      }
+      ,
+    
+      "develop-20environment-git-2019-12-03-github-blog-ec-97-90-ec-9d-b4-eb-af-b8-ec-a7-80-ec-98-ac-eb-a6-ac-ea-b8-b0-ea-bf-80-ed-8c-81-html": {
+        "title": "Github Blog에 이미지 올리기 꿀팁!",
+        "tags": "Github, Blog, Jekyll, Upload",
+        "date": "December 3, 2019",
+        "author": "",
+        "category": "",
+        "content": "Github Blog에 이미지 올리기 꿀팁!jekyll 깃헙 블로그를 운영하면서 posting할 때 이미지를 첨부해야 할 일이 많이 생깁니다.하지만 모든 파일을 github repository에 올리기엔 저장용량이 부족할 겁니다!그래서 많은분들이 이용하고 있는 꿀팁을 공유하겠습니다!  이미지 업로드1. 본인 Github Repository 아무거나 접속2. Issues 클릭3. New Issue 클릭4. Write 부분에 사진 drag &amp; drop 또는 이미지 주소 복사5. 변환된 마크다운 코드 가져다 쓰기markdown 문법으로 그대로 복사해서 쓰면 됩니다!  출처  https://hanee24.github.io/2017/12/21/how-to-upload-image-with-github-readme/",
+        "url": "/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html"
+      }
+      ,
+    
+      "data-20sceince-nlp-2019-11-23-ed-95-9c-ea-b8-80-ec-9e-90-eb-aa-a8-eb-b6-84-eb-a6-ac-html": {
         "title": "한글자모분리 By Python",
         "tags": "Preprocessing, NLP, Python",
         "date": "November 23, 2019",
         "author": "",
         "category": "",
         "content": "  한글 자모 분리 코드제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.그래서 여러가지 라이브러리를 찾아봤는데  정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x  종성 없을 경우 무시하는 문제  결합도 제대로 분리된 경우에만 해주는 문제등의 문제들이 있었습니다.채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.제 github에서 얼마든지 유용하게 사용하셔도 됩니다!  코드hangul-toolkit과 hangulpy를 참조하여 만들었습니다.주요 수정부분  end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리  완전한 글자가 아니여도 자모분리  자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS# 자모분리def jamo_split(word, end_char=\"_\"):        result = []        for char in word:                character_code = ord(char)                if 0xD7A3 &lt; character_code or character_code &lt; 0xAC00:            result.append(char)            continue        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)        jongsung_index = int((character_code - 0xAC00) % 28)                chosung = CHOSUNGS[chosung_index]        joongsung = JOONGSUNGS[joongsung_index]        jongsung = JONGSUNGS[jongsung_index]                # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.        if jongsung_index == 0:            jongsung = end_char                result.append(chosung)        result.append(joongsung)        result.append(jongsung)    return \"\".join(result)# 자모결합def jamo_combine(word):    result = \"\"    index = 0        while index &lt; len(word):            # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.        try:            cho = CHOSUNGS.index(word[index]) * 21 * 28            joong = JOONGSUNGS.index(word[index+1]) * 28            jong = JONGSUNGS.index(word[index+2])            result += chr(cho + joong + jong + 0xAC00)             index += 3        except:            result += word[index]            index += 1            return result  출처  https://github.com/smothly/Jamo_Split_and_Combine  https://github.com/bluedisk/hangul-toolkit  https://github.com/rhobot/Hangulpy",
-        "url": "/machine%20learning/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html"
+        "url": "/data%20sceince/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html"
       }
       ,
     
-      "machine-20learning-nlp-2019-11-23-fasttext-html": {
+      "data-20sceince-nlp-2019-11-23-fasttext-html": {
         "title": "자모단위 Embedding By FastText",
         "tags": "Preprocessing, NLP, Python",
         "date": "November 23, 2019",
         "author": "",
         "category": "",
         "content": "이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간",
-        "url": "/machine%20learning/nlp/2019/11/23/FastText.html"
+        "url": "/data%20sceince/nlp/2019/11/23/FastText.html"
       }
       ,
     
