@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>Github Blog에 이미지 올리기 꿀팁! | Seungho's Blog</title>
-	<meta name="description" content="Github Blog에 이미지 올리기 꿀팁!">
+	<title>conda와 pip 분리 | Seungho's Blog</title>
+	<meta name="description" content="Conda 가상환경 사용시 라이브러리 패키지 문제">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
+	<link rel="canonical" href="/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -209,61 +209,63 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">Github Blog에 이미지 올리기 꿀팁!</h1>
+    <h1 class="title">conda와 pip 분리</h1>
     
     <p class="meta">
       December 3, 2019
       
     </p>
   </header>
-  <section class="post-content"><h1 id="github-blog에-이미지-올리기-꿀팁">Github Blog에 이미지 올리기 꿀팁!</h1>
+  <section class="post-content"><h1 id="conda-가상환경-사용시-라이브러리-패키지-문제">Conda 가상환경 사용시 라이브러리 패키지 문제</h1>
+
+<p>conda 가상환경을 쓸 시 <code class="highlighter-rouge">conda install</code> 명령어로 설치가 안되는 라이브러리들이 있습니다. <br /><br />
+이럴 경우 <code class="highlighter-rouge">pip install</code>을 사용하게 되는데 이렇게 설치하면 local에 전역적으로 설치되어 <br /><br />
+가상환경을 쓸 이유가 없는 문제가 생김을 발견하였습니다.</p>
 
 <hr />
-
-<p>jekyll 깃헙 블로그를 운영하면서 posting할 때 이미지를 첨부해야 할 일이 많이 생깁니다.<br /><br />
-하지만 모든 파일을 github repository에 올리기엔 저장용량이 부족할 겁니다!<br /><br />
-그래서 많은분들이 이용하고 있는 꿀팁을 공유하겠습니다!</p>
 
 <blockquote>
-  <h2 id="이미지-업로드">이미지 업로드</h2>
+  <h2 id="conda-가상환경-키고-pip과-library설치">Conda 가상환경 키고 pip과 library설치</h2>
 </blockquote>
-
-<h3 id="1-본인-github-repository-아무거나-접속"><strong>1. 본인 Github Repository 아무거나 접속</strong></h3>
-<p><img src="https://user-images.githubusercontent.com/37397737/70147460-9ae24d00-16e7-11ea-8cc7-8f673679ebc2.png" alt="image" /></p>
-
-<hr />
-<p><br /></p>
-
-<h3 id="2-issues-클릭"><strong>2. Issues 클릭</strong></h3>
-<p><img src="https://user-images.githubusercontent.com/37397737/70147040-d29cc500-16e6-11ea-8f2d-a519ae0eea53.png" alt="image" /></p>
+<pre><code>conda create -n test python=3.7 # 가상환경 설치
+conda activate test # 가상환경 접속
+conda install pip # conda가상환경에 pip 패키지를 설치
+pip install hgtk # 아무 라이브러리 설치
+</code></pre>
+<p><br />
+conda 가상환경 내에 <code class="highlighter-rouge">pip</code>을 설치하여 위의 문제를 해결하였습니다.</p>
 
 <hr />
 <p><br /></p>
 
-<h3 id="3-new-issue-클릭"><strong>3. New Issue 클릭</strong></h3>
-<p><img src="https://user-images.githubusercontent.com/37397737/70147615-fad8f380-16e7-11ea-8a05-0dc951ed7253.png" alt="image" /></p>
+<blockquote>
+  <h2 id="library-분리-확인">library 분리 확인</h2>
+</blockquote>
+<pre><code>conda list | grep hgtk 
+conda deactivate # 가상환경 종료
+pip list | grep hgtk
+</code></pre>
+<p><code class="highlighter-rouge">conda list</code> 명령어에서는 나오고 <code class="highlighter-rouge">pip list</code> 에서는 안나온 것을 확인할 수 있습니다.</p>
 
 <hr />
 <p><br /></p>
 
-<h3 id="4-write-부분에-사진-drag--drop-또는-이미지-주소-복사"><strong>4. Write 부분에 사진 drag &amp; drop 또는 이미지 주소 복사</strong></h3>
-<p><img src="https://user-images.githubusercontent.com/37397737/70147819-6622c580-16e8-11ea-928d-324942fbc1f1.png" alt="image" /></p>
-
-<hr />
+<blockquote>
+  <h2 id="conda-가상환경-삭제">conda 가상환경 삭제</h2>
+</blockquote>
+<pre><code>conda info --envs # 본인의 conda 가상환경 확인
+conda remove --name test --all 
+</code></pre>
 <p><br /></p>
-
-<h3 id="5-변환된-마크다운-코드-가져다-쓰기"><strong>5. 변환된 마크다운 코드 가져다 쓰기</strong></h3>
-<p><img src="https://user-images.githubusercontent.com/37397737/70147670-193eef00-16e8-11ea-9573-7a25190622de.png" alt="image" />
-markdown 문법으로 그대로 복사해서 쓰면 됩니다!</p>
-
-<p><br /><br /></p>
-
+<h2 id="이로써-anaconda를-통한-완전한-가상환경을-사용할-수-있습니다">이로써 anaconda를 통한 완전한 가상환경을 사용할 수 있습니다!</h2>
+<p><br /></p>
 <blockquote>
   <subtitle>출처</subtitle>
 </blockquote>
 
 <ul>
-  <li>https://hanee24.github.io/2017/12/21/how-to-upload-image-with-github-readme/
+  <li>https://dailyheumsi.tistory.com/33</li>
+  <li>https://leebaro.tistory.com/entry/anaconda%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
 <br /><br /></li>
 </ul>
 </section>
@@ -271,13 +273,11 @@ markdown 문법으로 그대로 복사해서 쓰면 됩니다!</p>
 <footer>
   <div class="tags">
     
-    <a class="tag" href="/tags#Github">#Github</a>
+    <a class="tag" href="/tags#Anaconda">#Anaconda</a>
     
-    <a class="tag" href="/tags#Blog">#Blog</a>
+    <a class="tag" href="/tags#Pip">#Pip</a>
     
-    <a class="tag" href="/tags#Jekyll">#Jekyll</a>
-    
-    <a class="tag" href="/tags#Upload">#Upload</a>
+    <a class="tag" href="/tags#Virtual Environment">#Virtual Environment</a>
     
   </div>
 </footer>
@@ -286,7 +286,7 @@ markdown 문법으로 그대로 복사해서 쓰면 됩니다!</p>
 
 
   <!-- Disqus -->
-  <a href="https://smothly.github.io/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html#disqus_thread"></a>
+  <a href="https://smothly.github.io/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -355,16 +355,16 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/data%20sceince/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
-        한글자모분리 By Python
+      <a href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
+        Github Blog에 이미지 올리기 꿀팁!
       </a>
   </div>
   
   
   <div id="next-post" class="post-nav-post">
       <p>Next post</p>
-      <a href="/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html">
-        conda와 pip 분리
+      <a href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+        MongoDB 개념 및 명령어
       </a>
   </div>
   

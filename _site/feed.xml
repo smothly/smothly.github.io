@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Wed, 04 Dec 2019 22:55:27 +0900</pubDate>
+    <pubDate>Wed, 04 Dec 2019 23:49:02 +0900</pubDate>
     
       <item>
         <title>MongoDB 개념 및 명령어</title>
@@ -206,7 +206,68 @@ db.users.remove({&quot;name&quot;: &quot;철수&quot;})
   &lt;li&gt;https://velopert.com/436&lt;/li&gt;
   &lt;li&gt;https://nicewoong.github.io/development/2018/02/10/mongodb-feature/&lt;/li&gt;
   &lt;li&gt;https://www.mongodb.com/&lt;/li&gt;
-  &lt;li&gt;https://docs.mongodb.com/manual/reference/method&lt;/li&gt;
+  &lt;li&gt;https://docs.mongodb.com/manual/reference/method
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 03 Dec 2019 00:00:00 +0900</pubDate>
+      </item>
+    
+      <item>
+        <title>conda와 pip 분리</title>
+        <link>/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html</link>
+        <guid isPermaLink="true">/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html</guid>
+        <description>&lt;h1 id=&quot;conda-가상환경-사용시-라이브러리-패키지-문제&quot;&gt;Conda 가상환경 사용시 라이브러리 패키지 문제&lt;/h1&gt;
+
+&lt;p&gt;conda 가상환경을 쓸 시 &lt;code class=&quot;highlighter-rouge&quot;&gt;conda install&lt;/code&gt; 명령어로 설치가 안되는 라이브러리들이 있습니다. &lt;br /&gt;&lt;br /&gt;
+이럴 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;pip install&lt;/code&gt;을 사용하게 되는데 이렇게 설치하면 local에 전역적으로 설치되어 &lt;br /&gt;&lt;br /&gt;
+가상환경을 쓸 이유가 없는 문제가 생김을 발견하였습니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;conda-가상환경-키고-pip과-library설치&quot;&gt;Conda 가상환경 키고 pip과 library설치&lt;/h2&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;conda create -n test python=3.7 # 가상환경 설치
+conda activate test # 가상환경 접속
+conda install pip # conda가상환경에 pip 패키지를 설치
+pip install hgtk # 아무 라이브러리 설치
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;
+conda 가상환경 내에 &lt;code class=&quot;highlighter-rouge&quot;&gt;pip&lt;/code&gt;을 설치하여 위의 문제를 해결하였습니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;library-분리-확인&quot;&gt;library 분리 확인&lt;/h2&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;conda list | grep hgtk 
+conda deactivate # 가상환경 종료
+pip list | grep hgtk
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;conda list&lt;/code&gt; 명령어에서는 나오고 &lt;code class=&quot;highlighter-rouge&quot;&gt;pip list&lt;/code&gt; 에서는 안나온 것을 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;conda-가상환경-삭제&quot;&gt;conda 가상환경 삭제&lt;/h2&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;conda info --envs # 본인의 conda 가상환경 확인
+conda remove --name test --all 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;이로써-anaconda를-통한-완전한-가상환경을-사용할-수-있습니다&quot;&gt;이로써 anaconda를 통한 완전한 가상환경을 사용할 수 있습니다!&lt;/h2&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;subtitle&gt;출처&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://dailyheumsi.tistory.com/33&lt;/li&gt;
+  &lt;li&gt;https://leebaro.tistory.com/entry/anaconda%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 03 Dec 2019 00:00:00 +0900</pubDate>
@@ -263,7 +324,8 @@ markdown 문법으로 그대로 복사해서 쓰면 됩니다!&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;https://hanee24.github.io/2017/12/21/how-to-upload-image-with-github-readme/&lt;/li&gt;
+  &lt;li&gt;https://hanee24.github.io/2017/12/21/how-to-upload-image-with-github-readme/
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 03 Dec 2019 00:00:00 +0900</pubDate>
@@ -381,6 +443,8 @@ def jamo_combine(word):
         <link>/data%20sceince/nlp/2019/11/23/FastText.html</link>
         <guid isPermaLink="true">/data%20sceince/nlp/2019/11/23/FastText.html</guid>
         <description>&lt;h1 id=&quot;이전-포스트에-올린-한글자모분리-코드를-참조하여-자모단위로-임베딩하고-그-결과를-확인해보는-시간&quot;&gt;이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간&lt;/h1&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Nov 2019 00:00:00 +0900</pubDate>
       </item>
@@ -504,7 +568,8 @@ docker rm my-cat
 
 &lt;ul&gt;
   &lt;li&gt;https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container&lt;br /&gt;&lt;/li&gt;
-  &lt;li&gt;https://docs.docker.com/engine/reference/commandline/tag/&lt;/li&gt;
+  &lt;li&gt;https://docs.docker.com/engine/reference/commandline/tag/
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 06 Nov 2019 00:00:00 +0900</pubDate>

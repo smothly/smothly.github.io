@@ -6,6 +6,10 @@
     </url>
     
     <url>
+        <loc>http://localhost:4000/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html</loc>
+    </url>
+    
+    <url>
         <loc>http://localhost:4000/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html</loc>
     </url>
     
@@ -221,6 +225,14 @@
     
     <url>
         <loc>http://localhost:4000/category/Develop+Environment%252FGit/</loc>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>http://localhost:4000/category/Develop+Environment%252FLinux/</loc>
     </url>
     
     
