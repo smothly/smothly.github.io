@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Wed, 04 Dec 2019 23:49:02 +0900</pubDate>
+    <pubDate>Thu, 05 Dec 2019 21:48:35 +0900</pubDate>
     
       <item>
         <title>MongoDB 개념 및 명령어</title>

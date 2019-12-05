@@ -664,12 +664,12 @@ html {
 
 body {
   color: #383838;
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   font-size: 1em;
   word-wrap: break-word; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Nanum Gothic", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   line-height: 1;
   margin: 0.67em 0; }
   h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1127,3 +1127,6 @@ header h1 {
     border: 0px;
     color: #ffffff;
     text-decoration: none; }
+  @media (max-width: 900px) {
+    .site-header .site-category ul {
+      display: block; } }
