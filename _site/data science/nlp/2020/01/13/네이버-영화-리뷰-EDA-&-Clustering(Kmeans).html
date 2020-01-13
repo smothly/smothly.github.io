@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>MongoDB 개념 및 명령어 | Seungho's Blog</title>
-	<meta name="description" content="MongoDB 개념 및 명령어">
+	<title>네이버 영화 리뷰 EDA & Clustering(Kmeans) | Seungho's Blog</title>
+	<meta name="description" content="  데이터 수집(네이버 영화 리뷰)">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+	<link rel="canonical" href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(Kmeans).html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -209,221 +209,68 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">MongoDB 개념 및 명령어</h1>
+    <h1 class="title">네이버 영화 리뷰 EDA & Clustering(Kmeans)</h1>
     
     <p class="meta">
-      December 3, 2019
+      January 13, 2020
       
     </p>
   </header>
-  <section class="post-content"><h1 id="mongodb-개념-및-명령어">MongoDB 개념 및 명령어</h1>
-
-<hr />
-
-<blockquote>
-  <h2 id="mongodb몽고디비">MongoDB(몽고디비)</h2>
+  <section class="post-content"><blockquote>
+  <h2 id="데이터-수집네이버-영화-리뷰">데이터 수집(네이버 영화 리뷰)</h2>
 </blockquote>
 
-<p><img src="https://user-images.githubusercontent.com/37397737/70114357-942fe780-169f-11ea-8eda-a676b8513cb5.png" alt="image" /></p>
-
-<h3 id="개념"><strong>개념</strong></h3>
-<ul>
-  <li><code class="highlighter-rouge">MongoDB</code>: C++로 작성된 오픈소스 문서지향(Document-Oriented)적 Cross-platform 데이터베이스</li>
-  <li>뛰어난 확장성과 성능, 현존하는 NoSQL 데이터베이스 중 인지도 1위를 유지</li>
-</ul>
-
-<hr />
-
-<h3 id="nosql--schemaless"><strong>NoSQL &amp; Schemaless</strong></h3>
-<ul>
-  <li><code class="highlighter-rouge">NoSQL</code> = Not Only SQL 쿼리를 안쓴다는 것이 아닙니다. 기존 RDBMS(관계형 데이터 베이스 매니지먼트)가 갖고 있는 특성뿐만 아니라, 다른 특성들을 부가적으로 지원한다는 것을 의미합니다.<br /> 그중에서도 MongoDB는 Key Value DB를 사용하고 있습니다.</li>
-  <li><code class="highlighter-rouge">Schemaless</code>: Schema를 따로 정의할 필요가 없다. 같은 컬렉션안에서 데이터 타입, 필드가 서로 달라도 저장됩니다.
-    <ul>
-      <li>Schema: RDBMS에서 주로 쓰이는 개체, 속성, 관계를 미리 정의 (비정형 데이터를 다루기 힘듬)</li>
-    </ul>
-  </li>
-</ul>
-
-<hr />
-<p><br /></p>
+<p><a href="https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">크롤링 포스트</a>를 사용하여 네이버 영화 데이터를 약 2만개 모았습니다.
+<br /><br /></p>
 
 <blockquote>
-  <h2 id="mongodb-구성요소">MongoDB 구성요소</h2>
+  <h2 id="eda--시각화--k-means를-활용한-클러스터링">EDA &amp; 시각화 &amp; K-means를 활용한 클러스터링</h2>
 </blockquote>
 
-<p><img src="https://user-images.githubusercontent.com/37397737/70114448-d9541980-169f-11ea-808f-57daa9e6100d.png" alt="image" /></p>
-
-<h3 id="collections"><strong>Collections</strong></h3>
+<p>해본 것들을 설명드리면</p>
 <ul>
-  <li>MongoDB Document의 그룹</li>
-  <li>RDBMS의 Table과 비슷한 개념</li>
-  <li>따로 schema를 가지고 있지 않음</li>
+  <li>EDA: 평점 분포, 품사 별 긍부정 분포</li>
+  <li>K-means를 활용한 군집화</li>
+  <li>이외에 전처리나 WordCloud
+<br /><br />
+결과와 코드는 <a href="https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb">소스 노트북 파일</a>을 참고하여 봐주시기 바랍니다!
+<br /><br /></li>
 </ul>
 
-<hr />
+<p>사이드 프로젝트 느낌으로 해본거라 많이 부족합니다. NLP기본적인 것들 배운것을 활용하여 진행했습니다.
+<br /><br /></p>
 
-<h3 id="document"><strong>Document</strong></h3>
-<ul>
-  <li>문서라기 보다는 RDBMS의 record와 비슷한 개념</li>
-  <li>_id 자동적으로 부여함 -&gt; unique한 document를 가지기 위함.
-    <ul>
-      <li>12bytes의 hexadecimal</li>
-      <li>4bytes:timestamp / 3bytes:machine id / 2bytes:MongoDB 서버의 프로세스id,  / 3bytes:순차번호</li>
-    </ul>
-  </li>
-  <li>예시</li>
-</ul>
+<p>이외에도 딥러닝을 활용하여 감성분석을 진행할 수도 있고,</p>
 
-<pre><code>{
-    "_id": ObjectId("631203df3f4948bd2f98312"),
-    "nickname": "smothly",
-    "name": { first: "Seung Ho", last: "Choi" }
-}
-</code></pre>
-<ul>
-  <li>key:value쌍으로 이루어짐, key=”nickname” value=”smothly”</li>
-  <li>동적 Schema를 가짐 = Document끼리 다른 구조를 가질 수 있음</li>
-</ul>
-
-<hr />
-
-<h3 id="fields"><strong>Fields</strong></h3>
-<ul>
-  <li>RDBMS의 속성과 비슷한 개념</li>
-  <li>위에서 key에 해당하는 값들로 주로 조회할 때 많이 사용합니다.</li>
-</ul>
-
-<hr />
-
-<h3 id="rdms와의-비교"><strong>RDMS와의 비교</strong></h3>
-<ul>
-  <li>table &lt;-&gt; collection</li>
-  <li>tuple/row &lt;-&gt; document</li>
-  <li>column &lt;-&gt; key/field</li>
-  <li>table join &lt;-&gt; embedded document</li>
-  <li>primary key &lt;-&gt; primary key(_id)</li>
-</ul>
-
-<hr />
-<p><br /></p>
-
-<blockquote>
-  <h2 id="mongodb-명령어--실습">MongoDB 명령어 &amp; 실습</h2>
-</blockquote>
-
-<h3 id="설치"><strong>설치</strong></h3>
-<p>OS에 맞게 <a href="https://docs.mongodb.com/manual/installation/">공식사이트</a>에서 community edition 설치해주세요!<br />
-공식문서 보기 힘드시면 <a href="https://velopert.com/436">velopert 블로그</a>나 <a href="https://www.google.com/search?q=mongodb+%EC%84%A4%EC%B9%98&amp;rlz=1C5CHFA_enKR864KR864&amp;oq=mongodb+%EC%84%A4%EC%B9%98&amp;aqs=chrome.0.0l5j69i61.2630j0j7&amp;sourceid=chrome&amp;ie=UTF-8">구글검색</a>을 보시고 설치해주시기 바랍니다.</p>
-
-<p>터미널에 <code class="highlighter-rouge">mongo</code>입력하셔서 접근 되시면 성공하신겁니다.</p>
-
-<hr />
-
-<h3 id="database"><strong>Database</strong></h3>
-
-<ul>
-  <li>생성</li>
-</ul>
-<pre><code>use [DATABASE_NAME]
-use tutorial
-</code></pre>
-<ul>
-  <li>조회</li>
-</ul>
-<pre><code>db</code></pre>
-<p>현재 사용중인 db(tutorial)가 나오는 것을 확인</p>
-<pre><code>show dbs</code></pre>
-<p>다른 db들도 조회 가능합니다.</p>
-<ul>
-  <li>삭제</li>
-</ul>
-<pre><code>db.dropDatabase();
-</code></pre>
-<p>현재 사용중인(use) database 삭제<br /></p>
-
-<hr />
-
-<h3 id="collection"><strong>Collection</strong></h3>
-<ul>
-  <li>생성</li>
-</ul>
-<pre><code>db.createCollection(name, [options]) 
-db.createCollection('users') 
-</code></pre>
-<p>각 명령어의 옵션들은 <a href="https://docs.mongodb.com/manual/reference/method/]">몽고디비 매뉴얼</a>에서 확인하고 사용하시길 바랍니다.</p>
-<pre><code>db.adminUsers.insert({"name": "seungho"})
-</code></pre>
-<p>이렇게 Document를 생성해도 자동으로 Collection이 생성이 됩니다.<br />
-여기서 확인할 수 있는거는 본인이 원하는 형식으로 insert할 수 있습니다. = schemaless</p>
-<ul>
-  <li>조회</li>
-</ul>
-<pre><code>show collections
-</code></pre>
-<ul>
-  <li>삭제</li>
-</ul>
-<pre><code>db.COLLECTION_NAME.drop()
-db.adminUsers.drop()
-</code></pre>
-
-<hr />
-
-<h3 id="document-1"><strong>Document</strong></h3>
-<p>일단 위에서 <code class="highlighter-rouge">use</code>명령어로 본인이 사용할 db를 먼저 선택해 줍니다.</p>
-<ul>
-  <li>생성</li>
-</ul>
-<pre><code>db.COLLECTION_NAME.insert(document)
-db.users.insert({"name": "seungho", "nickname": "smothly"})
-</code></pre>
-<ul>
-  <li>여러개 넣기</li>
-</ul>
-<pre><code>db.users.insert([
-    {"name": "seungho", "nickname": "smothly"},
-    {"name": "철수", "nickname": "영희친구"}
-])</code></pre>
-<p>배열을 사용하여 넣으면 됩니다!</p>
-<ul>
-  <li>조회</li>
-</ul>
-<pre><code>db.COLLECTION_NAME.find()
-db.users.find()
-</code></pre>
-<p>find 함수는 조건을 사용하여 조회할 수도 있으므로 다음 포스트에 다뤄보겠습니다.<br />
-지금은 전체를 조회하는 구문입니다.</p>
-<ul>
-  <li>삭제</li>
-</ul>
-<pre><code class="bash">db.COLLECTION_NAME.remove(criteria, justOne)
-db.users.remove({"name": "철수"})
-</code></pre>
-<p>criteria 조건 부분에 name이 ‘철수’인 documnet만 삭제하라고 조건을 주었습니다.<br />
-평소에 사용하실 때는 미리 find 메소드를 사용하여 조회하고 삭제하는 것을 추천합니다.</p>
+<p>LDA, LSA등 토픽모델링로 군집화를 진행해볼 수 있었는데 제일 간단한 머신러닝 기법인 K-means로 진행하였습니다.</p>
 
 <p><br /><br /></p>
+
 <blockquote>
   <subtitle>출처</subtitle>
 </blockquote>
 
 <ul>
-  <li>https://velopert.com/436</li>
-  <li>https://nicewoong.github.io/development/2018/02/10/mongodb-feature/</li>
-  <li>https://www.mongodb.com/</li>
-  <li>https://docs.mongodb.com/manual/reference/method
-<br /><br /></li>
+  <li>https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57</li>
+  <li>https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb</li>
+  <li>https://github.com/smothly/ai_innovation_NLP/blob/master/6.21%2C%2026%20Sentiment%20Analysis%20%EC%8B%A4%EC%8A%B5.ipynb</li>
 </ul>
+
+<p><br /><br /></p>
 </section>
   
 <footer>
   <div class="tags">
     
-    <a class="tag" href="/tags#MongoDB">#MongoDB</a>
+    <a class="tag" href="/tags#NLP">#NLP</a>
     
-    <a class="tag" href="/tags#NoSQL">#NoSQL</a>
+    <a class="tag" href="/tags#Python">#Python</a>
     
-    <a class="tag" href="/tags#Database">#Database</a>
+    <a class="tag" href="/tags#Clustering">#Clustering</a>
+    
+    <a class="tag" href="/tags#EDA">#EDA</a>
+    
+    <a class="tag" href="/tags#K-means">#K-means</a>
     
   </div>
 </footer>
@@ -432,7 +279,7 @@ db.users.remove({"name": "철수"})
 
 
   <!-- Disqus -->
-  <a href="https://smothly.github.io/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html#disqus_thread"></a>
+  <a href="https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(Kmeans).html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -501,16 +348,16 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html">
-        conda와 pip 분리
+      <a href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+        MongoDB 개념 및 명령어
       </a>
   </div>
   
   
   <div id="next-post" class="post-nav-post">
       <p>Next post</p>
-      <a href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(Kmeans).html">
-        네이버 영화 리뷰 EDA & Clustering(Kmeans)
+      <a href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">
+        네이버 영화 리뷰 크롤링(Crawling) By Selenium
       </a>
   </div>
   
