@@ -5,7 +5,57 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Mon, 13 Jan 2020 23:14:39 +0900</pubDate>
+    <pubDate>Tue, 14 Jan 2020 21:30:01 +0900</pubDate>
+    
+      <item>
+        <title>네이버 영화 리뷰 EDA &amp; Clustering(Kmeans)</title>
+        <link>/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html</link>
+        <guid isPermaLink="true">/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html</guid>
+        <description>&lt;blockquote&gt;
+  &lt;h2 id=&quot;데이터-수집네이버-영화-리뷰&quot;&gt;데이터 수집(네이버 영화 리뷰)&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html&quot;&gt;크롤링 포스트&lt;/a&gt;를 사용하여 네이버 영화 데이터를 약 2만개 모았습니다.
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;eda--시각화--k-means를-활용한-클러스터링&quot;&gt;EDA &amp;amp; 시각화 &amp;amp; K-means를 활용한 클러스터링&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;해본 것들을 설명드리면&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;EDA: 평점 분포, 품사 별 긍부정 분포&lt;/li&gt;
+  &lt;li&gt;word2vec을 활용한 워드임베딩&lt;/li&gt;
+  &lt;li&gt;K-means를 활용한 군집화&lt;/li&gt;
+  &lt;li&gt;이외에 전처리나 WordCloud
+&lt;br /&gt;&lt;br /&gt;
+결과와 코드는 &lt;a href=&quot;https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb&quot;&gt;소스 노트북 파일&lt;/a&gt;을 참고하여 봐주시기 바랍니다!
+&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;사이드 프로젝트 느낌으로 해본거라 많이 부족합니다. NLP기본적인 것들 배운것을 활용하여 진행했습니다.
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;이외에도 딥러닝을 활용하여 감성분석을 진행할 수도 있고,&lt;/p&gt;
+
+&lt;p&gt;LDA, LSA등 토픽모델링로 군집화를 진행해볼 수 있었는데 제일 간단한 머신러닝 기법인 K-means로 진행하였습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;subtitle&gt;출처&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57&lt;/li&gt;
+  &lt;li&gt;https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb&lt;/li&gt;
+  &lt;li&gt;https://github.com/smothly/ai_innovation_NLP/blob/master/6.21%2C%2026%20Sentiment%20Analysis%20%EC%8B%A4%EC%8A%B5.ipynb&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 14 Jan 2020 00:00:00 +0900</pubDate>
+      </item>
     
       <item>
         <title>네이버 영화 리뷰 크롤링(Crawling) By Selenium</title>
@@ -97,55 +147,6 @@ csvFile.close()
 &lt;ul&gt;
   &lt;li&gt;https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb&lt;/li&gt;
   &lt;li&gt;https://github.com/smothly/ai_innovation_NLP/blob/master/5.28~29%20search%20engine.ipynb&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 13 Jan 2020 00:00:00 +0900</pubDate>
-      </item>
-    
-      <item>
-        <title>네이버 영화 리뷰 EDA &amp; Clustering(Kmeans)</title>
-        <link>/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(Kmeans).html</link>
-        <guid isPermaLink="true">/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(Kmeans).html</guid>
-        <description>&lt;blockquote&gt;
-  &lt;h2 id=&quot;데이터-수집네이버-영화-리뷰&quot;&gt;데이터 수집(네이버 영화 리뷰)&lt;/h2&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html&quot;&gt;크롤링 포스트&lt;/a&gt;를 사용하여 네이버 영화 데이터를 약 2만개 모았습니다.
-&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;h2 id=&quot;eda--시각화--k-means를-활용한-클러스터링&quot;&gt;EDA &amp;amp; 시각화 &amp;amp; K-means를 활용한 클러스터링&lt;/h2&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;해본 것들을 설명드리면&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;EDA: 평점 분포, 품사 별 긍부정 분포&lt;/li&gt;
-  &lt;li&gt;K-means를 활용한 군집화&lt;/li&gt;
-  &lt;li&gt;이외에 전처리나 WordCloud
-&lt;br /&gt;&lt;br /&gt;
-결과와 코드는 &lt;a href=&quot;https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb&quot;&gt;소스 노트북 파일&lt;/a&gt;을 참고하여 봐주시기 바랍니다!
-&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;사이드 프로젝트 느낌으로 해본거라 많이 부족합니다. NLP기본적인 것들 배운것을 활용하여 진행했습니다.
-&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;이외에도 딥러닝을 활용하여 감성분석을 진행할 수도 있고,&lt;/p&gt;
-
-&lt;p&gt;LDA, LSA등 토픽모델링로 군집화를 진행해볼 수 있었는데 제일 간단한 머신러닝 기법인 K-means로 진행하였습니다.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;subtitle&gt;출처&lt;/subtitle&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57&lt;/li&gt;
-  &lt;li&gt;https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb&lt;/li&gt;
-  &lt;li&gt;https://github.com/smothly/ai_innovation_NLP/blob/master/6.21%2C%2026%20Sentiment%20Analysis%20%EC%8B%A4%EC%8A%B5.ipynb&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;

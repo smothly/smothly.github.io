@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 네이버 영화 리뷰 EDA & Clustering(Kmeans)    
+title: 네이버 영화 리뷰 EDA & Clustering(K-means)    
 comments: true
 categories : [Data Science/NLP]
 tags: [NLP, Python, Clustering, EDA, K-means]
@@ -15,6 +15,7 @@ tags: [NLP, Python, Clustering, EDA, K-means]
 
 해본 것들을 설명드리면
 - EDA: 평점 분포, 품사 별 긍부정 분포 
+- word2vec을 활용한 워드임베딩
 - K-means를 활용한 군집화
 - 이외에 전처리나 WordCloud
 <br><br>
