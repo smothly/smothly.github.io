@@ -295,8 +295,205 @@
     <div class="post-teaser">
       <header>
         <h2>
+          <a class="post-link" href="/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html">
+            윈도우에 우분투(wsl) 파이썬 개발환경 구축하기
+          </a>
+        </h2>
+        <p class="meta">
+          March 7, 2020
+        </p>
+        <div class="excerpt">
+          <!--<h1 id="윈도우에-우분투wsl-파이썬-개발환경-구축하기">윈도우에 우분투(wsl) 파이썬 개발환경 구축하기</h1>
+
+<p>최근에 우분투를 지우고 다시 윈도우로 돌아왔습니다.<br /></p>
+
+<p>윈도우에서 개발환경을 맞추려고 하니 환경변수 설정이나 터미널 환경 등이 불편해서<br />
+윈도우 내에서 <code class="highlighter-rouge">우분투(WSL)</code>를 적극 활용할려고 마음을 먹었습니다.<br />
+그리고, 데이터사이언스 관련한 패키지 관리 시스템인 conda를 버리고<br />
+폴더로 환경 만들어서 하는 것도 직접 activate하는 것도 불편해서 <code class="highlighter-rouge">pyenv-virtualenvwrapper</code>를 사용하겠습니다.</p>
+
+<p>지금부터</p>
+<ol>
+  <li>WSL 설치</li>
+  <li>VSCODE 설치 Default Shell 설정</li>
+  <li>WSL에서 python 가상환경 venvwrapper 설정 
+로 진행하겠습니다.</li>
+</ol>
+
+<hr />
+
+<blockquote>
+  <h2 id="우분투wsl-설치">우분투(WSL) 설치</h2>
+</blockquote>
+
+<p>먼저, 윈도우10 내에 우분투를 설치해보도록 하겠습니다.<br /><br /></p>
+
+<p>요구사항</p>
+<ul>
+  <li>windows 10 64bit</li>
+  <li>버전 1607 이상</li>
+  <li>컴퓨터의 계정 이메일 로그인</li>
+</ul>
+
+<p>을 충족하셨으면
+<code class="highlighter-rouge">검색 - Windows 기능 켜기/끄기</code>를 들어가셔서</p>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/76133000-4093b800-6059-11ea-94a9-eed62612e8a2.png" alt="image" /></p>
+
+<p><code class="highlighter-rouge">linux용 windows하위 시스템을 체크 선택</code> 해주시면 됩니다.</p>
+
+<p>다음, microsoft store에서 <code class="highlighter-rouge">ubuntu</code>를 검색하셔서</p>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/76133086-c879c200-6059-11ea-8c2b-f367c2f51d19.png" alt="image" /></p>
+
+<p>다운받아주시면 됩니다. 끝</p>
+
+<p>이제 ubuntu 들어가셔서 username, password등을 설정하시면 정상작동 하실 겁니다.<br /></p>
+
+<p>하지만, 지금 바탕화면에 깔린 파일을 작업 할려면 마운트를 해야합니다.<br />
+windows powershell 들어가셔서 <code class="highlighter-rouge">bash</code>명령어를 치시면 자동으로 현재 디렉토리로 마운트 됩니다.<br /><br /></p>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/76133238-9c127580-605a-11ea-9709-f7148ffe2d49.png" alt="image" /></p>
+
+<p>저는 이 작업이 귀찮아서 다음으로 vscode에서 default shell로 설정하는 것을 하겠습니다.
+<br /><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="vscode-설치-및-default-shell-설정">VSCODE 설치 및 default shell 설정</h2>
+</blockquote>
+
+<p><a href="https://code.visualstudio.com/download">vscode 다운로드 사이트</a> 들어가셔서</p>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/76133324-fc091c00-605a-11ea-9260-0a520d4008f4.png" alt="image" /></p>
+
+<p>를 눌러서 다운받으시면 됩니다.</p>
+
+<p>전부 다 예 누르면서 진행하시면 됩니다.<br />
+(옵션 보시고 필요해보이시는 거는 체크하셔도 됩니다. path추가만 안지우시면 됩니다.)</p>
+
+<p>설치가 다 되었으면 키셔서 <code class="highlighter-rouge">ctrl + ~(1 왼쪽 키)</code> 를 누르시면 밑에 터미널창이 뜨실겁니다.<br />
+<img src="https://user-images.githubusercontent.com/37397737/76133580-21e2f080-605c-11ea-82cd-6dff05fa653e.png" alt="image" /></p>
+
+<p>오른쪽 밑에 wsl(기본은 powershell)이라고 써져있는 부분을 누르면<br />
+<code class="highlighter-rouge">select default shell</code>이라는 메뉴가 나와서 누르면<br />
+중앙 상단에 선택할 수 있는 shell들이 나오는데 <code class="highlighter-rouge">wsl bash</code>로 바꿔주시면 됩니다. <br />
+컴퓨터를 껐다 키셔도 자동으로 마운트돼서 wsl bash가 나올겁니다! 끝
+<br /><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="pyenv-virtualenvwrapper로-python-개발환경-셋팅하기">pyenv-virtualenvwrapper로 python 개발환경 셋팅하기</h2>
+</blockquote>
+
+<p>anaconda랑 폴더로 가상환경 세팅하는 것 말고 <code class="highlighter-rouge">pyenv-virtualenvwrapper</code>를 사용하는 방법이 있어 설정해보겠다.<br /></p>
+<ul>
+  <li>pyenv: Python을 여러 버전을 설치할 수 있도록 도와주고, 현재 사용할 Python 버전을 정할 수 있게 해줍니다.</li>
+  <li>virtualenv: virtualenv 관련 디렉토리를 한 곳에 몰아서 관리해주고, activate 등의 작업을 보다 편하게 할 수 있도록 도와줍니다.</li>
+</ul>
+
+<p>참고로, 원래 window에서는 사용불가능한 세팅이다. 우분투에서 설치하는 것과 같은방법이다.<br /><br /></p>
+
+<h2 id="세팅방법">세팅방법</h2>
+<h4 id="pyenv-설치">pyenv 설치</h4>
+<pre><code>curl https://pyenv.run | bash</code></pre>
+<p><br /></p>
+
+<h4 id="shell-세팅">shell 세팅</h4>
+<p><code class="highlighter-rouge">bashrc파일</code>을 키셔서</p>
+<pre><code>vim ~/.bashrc </code></pre>
+
+<p>파일 맨 밑에 해당 코드를 추가해 줍니다.</p>
+<pre><code>export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1&gt;/dev/null 2&gt;&1; then
+  eval "$(pyenv init -)"
+fi
+</code></pre>
+
+<p>밑에 명령어로 <code class="highlighter-rouge">shell을 재시작</code> 해줍시다.</p>
+<pre><code>exec "$SHELL"</code></pre>
+<p><br /></p>
+
+<h4 id="python-설치">python 설치</h4>
+<pre><code>pyenv install 3.7.2
+pyenv global 3.7.2</code></pre>
+<p>이 부분 설치할 때 에러가 많이 뜰 것입니다.<br />
+밑에 명령어를 실행하시고 다시 설치해주세요!<br />
+내가 설치했던 것들을 적어 놓을텐데 빼먹은 거 있으면 댓글로 남겨주시면 감사하겠습니다.
+<a href="https://devlog.jwgo.kr/2019/06/05/must-installed-lib-when-installing-python-using-pyenv/">참고 블로그</a></p>
+<pre><code>sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev</code></pre>
+<p><br /></p>
+
+<h4 id="pyenv-virtualenvwrapper-설치">pyenv-virtualenvwrapper 설치</h4>
+<pre><code>git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper</code></pre>
+<p><br /></p>
+
+<h4 id="shell-설정">shell 설정</h4>
+<p>아까 열었던 .bashrc에 마지막에 밑에 코드를 추가해준다.</p>
+<pre><code>pyenv virtualenvwrapper_lazy</code></pre>
+<p>다시 shell 재시작</p>
+<pre><code>exec "$SHELL"</code></pre>
+
+<p>끝! 간단한 사용법을 남기고 글을 마무리 짓겠습니다.
+<br /><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="pyenv-명령어">pyenv 명령어</h2>
+</blockquote>
+
+<p>예를 들어 web이라는 가상환경을 만들고 사용하고 싶으면</p>
+<pre><code>mkvirtualenv web
+workon web
+</code></pre>
+<p>처럼 사용하시면 됩니다. 평소에 하시던 것처럼 <code class="highlighter-rouge">pip install</code>명령어를 통해 라이브러리 설치하시면 됩니다.
+<br /></p>
+<pre><code>pyenv install [version] # Python 버전 설치
+pyenv versions # 현재 설치된 Python 버전 목록
+pyenv global [version] # 전역 Python 버전 변경
+mkvirtualenv [project name] # 프로젝트를 위해 virtualenv 생성
+workon [project name] # virtualenv 활성화
+deactivate # virtualenv 비활성화
+setvirtualenvproject # 현재 디렉토리를 프로젝트의 Home 디렉토리로 설정하기
+rmvirtualenv [project name] # virtualenv 삭제
+lsvirtualenv # virtualenv 목록
+</code></pre>
+
+<p><br /></p>
+<h2 id="이제-window안에서도-lunux환경에서-python을-제대로-사용할-수-있다">이제 window안에서도 lunux환경에서 python을 제대로 사용할 수 있다!</h2>
+
+<p><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://beelinekim.tistory.com/2</li>
+  <li>https://webnautes.tistory.com/1197</li>
+  <li>https://devlog.jwgo.kr/2019/06/05/must-installed-lib-when-installing-python-using-pyenv/</li>
+</ul>
+
+<p><br /><br /></p>
+
+          <a class="button" href="/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
           <a class="post-link" href="/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html">
-            네이버 영화 리뷰 EDA & Clustering(Kmeans)
+            네이버 영화 리뷰 EDA & Clustering(K-means)
           </a>
         </h2>
         <p class="meta">
@@ -307,6 +504,44 @@
   <h2 id="데이터-수집네이버-영화-리뷰">데이터 수집(네이버 영화 리뷰)</h2>
 </blockquote>
 
+<p><a href="https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">크롤링 포스트</a>를 사용하여 네이버 영화 데이터를 약 2만개 모았습니다.
+<br /><br /></p>
+
+<blockquote>
+  <h2 id="eda--시각화--k-means를-활용한-클러스터링">EDA &amp; 시각화 &amp; K-means를 활용한 클러스터링</h2>
+</blockquote>
+
+<p>해본 것들을 설명드리면</p>
+<ul>
+  <li>EDA: 평점 분포, 품사 별 긍부정 분포</li>
+  <li>word2vec을 활용한 워드임베딩</li>
+  <li>K-means를 활용한 군집화</li>
+  <li>이외에 전처리나 WordCloud
+<br /><br />
+결과와 코드는 <a href="https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb">소스 노트북 파일</a>을 참고하여 봐주시기 바랍니다!
+<br /><br /></li>
+</ul>
+
+<p>사이드 프로젝트 느낌으로 해본거라 많이 부족합니다. NLP기본적인 것들 배운것을 활용하여 진행했습니다.
+<br /><br /></p>
+
+<p>이외에도 딥러닝을 활용하여 감성분석을 진행할 수도 있고,</p>
+
+<p>LDA, LSA등 토픽모델링로 군집화를 진행해볼 수 있었는데 제일 간단한 머신러닝 기법인 K-means로 진행하였습니다.</p>
+
+<p><br /><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57</li>
+  <li>https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb</li>
+  <li>https://github.com/smothly/ai_innovation_NLP/blob/master/6.21%2C%2026%20Sentiment%20Analysis%20%EC%8B%A4%EC%8A%B5.ipynb</li>
+</ul>
+
+<p><br /><br /></p>
 
           <a class="button" href="/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html">
             Continue reading
@@ -330,6 +565,91 @@
   <h2 id="네이버-영화-한줄평">네이버 영화 한줄평</h2>
 </blockquote>
 
+<p><a href="https://movie.naver.com/movie/point/af/list.nhn">네이버 영화 한줄평 사이트</a>를 크롤링 하는 코드입니다.</p>
+
+<p><a href="https://www.google.com/search?sxsrf=ACYBGNQjY8XryO_PEF8ruiTL__ufq8RtBw%3A1578918458013&amp;ei=OmIcXtc4xdP5Bpits8AK&amp;q=selenium+python&amp;oq=sele+python&amp;gs_l=psy-ab.3.0.0i7i30l7j0i13j0i7i30l2.26275.26737..27927...2.0..0.274.1603.0j7j2......0....1..gws-wiz.......0j0i203.FMjDX5Fhb9E">Selenium</a>에 대한 자세한 설명은 생략하고, 코드를 어떻게 짰는지 간단하게만 설명하겠습니다.</p>
+
+<p>이 데이터를 활용하여 간단히 한 프로젝트도 링크 첨부해 드리며</p>
+
+<p>활용 방안은 다양하니 셀레니움으로 네이버 영화 리뷰를 한 번 크롤링 해봅시다!
+<br /><br /></p>
+
+<blockquote>
+  <h2 id="코드">코드</h2>
+</blockquote>
+
+<pre><code class="python">import requests
+from selenium import webdriver
+import time
+from tqdm import tqdm
+import csv
+</code></pre>
+<p>크롤링을 위한 , <code class="highlighter-rouge">selenium</code>, <code class="highlighter-rouge">request</code> 라이브러리</p>
+
+<p>시간을 재기위한 <code class="highlighter-rouge">time</code>, <code class="highlighter-rouge">tqdm</code> 라이브러리</p>
+
+<p>마지막으로는 csv파일로 저장하기 위하여 <code class="highlighter-rouge">csv</code>를 import 하였다.</p>
+
+<p>다른 라이브러리들은 그냥 설치하시면 되고, selenium만 chrome driver가 필요하니 <a href="https://beomi.github.io/2017/02/27/HowToMakeWebCrawler-With-Selenium/">여기</a>를 참고하여 chrome driver를 현재 디렉토리에 넣어서 실행하시면 됩니다.
+<br /><br /></p>
+
+<pre><code class="python">browser = webdriver.Chrome()
+url = "https://movie.naver.com/movie/point/af/list.nhn"
+browser.get(url)
+</code></pre>
+<p>일단 chrome driver를 활용하여 사이트가 자동으로 열리는지 확인합니다.
+<br /><br /></p>
+
+<pre><code class="python">from tqdm import tqdm
+reviewData = list()
+# links = browser.find_element_by_class_name('paging').find_elements_by_tag_name('a')
+_iter = 1000
+for page in tqdm(range(_iter)):
+    for row in browser.find_elements_by_tag_name('tr')[1:]:
+        content = row.find_element_by_class_name('title').text.split('\n') 
+        title = content[0]
+        point = content[2]
+        text = content[3][:-4]
+#         print(title, point, text)
+        reviewData.append((title, point, text))
+    browser.find_element_by_class_name('pg_next').click()
+</code></pre>
+<p>일단 <code class="highlighter-rouge">2020.01.13</code> 기준으로는 돌아가는 것 확인했습니다.</p>
+
+<p>홈페이지 구조가 조금 바뀌더라도 find하는 부분만 잘 바꿔서 사용하시면 됩니다.</p>
+
+<p>코드 최적화는 하지 않았고, 간단한 프로젝트 하실 때 유용하게 사용하시기 바랍니다!
+<br /><br /></p>
+
+<pre><code class="python">import csv
+
+csvFile = open("./reviewData.csv", "a", newline="\n")
+csvWriter = csv.writer(csvFile)
+
+for row in reviewData:
+    csvWriter.writerow(row)
+
+csvFile.close()
+</code></pre>
+<p>csv 파일 형태로 저장하는 것입니다.</p>
+
+<p>위에서 append안하고 바로바로 write할 수도 있고,</p>
+
+<p>dataframe 형태로 만들어서 저장하여도 되고, 굳이 csv파일로 저장안해도 되지만…</p>
+
+<p>그 당시 했던 코드라 그냥 올리겠습니다! 유용하게 활용하십시오!
+<br /><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb</li>
+  <li>https://github.com/smothly/ai_innovation_NLP/blob/master/5.28~29%20search%20engine.ipynb</li>
+</ul>
+
+<p><br /><br /></p>
 
           <a class="button" href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">
             Continue reading
@@ -351,6 +671,202 @@
         <div class="excerpt">
           <!--<h1 id="mongodb-개념-및-명령어">MongoDB 개념 및 명령어</h1>
 
+<hr />
+
+<blockquote>
+  <h2 id="mongodb몽고디비">MongoDB(몽고디비)</h2>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/70114357-942fe780-169f-11ea-8eda-a676b8513cb5.png" alt="image" /></p>
+
+<h3 id="개념"><strong>개념</strong></h3>
+<ul>
+  <li><code class="highlighter-rouge">MongoDB</code>: C++로 작성된 오픈소스 문서지향(Document-Oriented)적 Cross-platform 데이터베이스</li>
+  <li>뛰어난 확장성과 성능, 현존하는 NoSQL 데이터베이스 중 인지도 1위를 유지</li>
+</ul>
+
+<hr />
+
+<h3 id="nosql--schemaless"><strong>NoSQL &amp; Schemaless</strong></h3>
+<ul>
+  <li><code class="highlighter-rouge">NoSQL</code> = Not Only SQL 쿼리를 안쓴다는 것이 아닙니다. 기존 RDBMS(관계형 데이터 베이스 매니지먼트)가 갖고 있는 특성뿐만 아니라, 다른 특성들을 부가적으로 지원한다는 것을 의미합니다.<br /> 그중에서도 MongoDB는 Key Value DB를 사용하고 있습니다.</li>
+  <li><code class="highlighter-rouge">Schemaless</code>: Schema를 따로 정의할 필요가 없다. 같은 컬렉션안에서 데이터 타입, 필드가 서로 달라도 저장됩니다.
+    <ul>
+      <li>Schema: RDBMS에서 주로 쓰이는 개체, 속성, 관계를 미리 정의 (비정형 데이터를 다루기 힘듬)</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="mongodb-구성요소">MongoDB 구성요소</h2>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/70114448-d9541980-169f-11ea-808f-57daa9e6100d.png" alt="image" /></p>
+
+<h3 id="collections"><strong>Collections</strong></h3>
+<ul>
+  <li>MongoDB Document의 그룹</li>
+  <li>RDBMS의 Table과 비슷한 개념</li>
+  <li>따로 schema를 가지고 있지 않음</li>
+</ul>
+
+<hr />
+
+<h3 id="document"><strong>Document</strong></h3>
+<ul>
+  <li>문서라기 보다는 RDBMS의 record와 비슷한 개념</li>
+  <li>_id 자동적으로 부여함 -&gt; unique한 document를 가지기 위함.
+    <ul>
+      <li>12bytes의 hexadecimal</li>
+      <li>4bytes:timestamp / 3bytes:machine id / 2bytes:MongoDB 서버의 프로세스id,  / 3bytes:순차번호</li>
+    </ul>
+  </li>
+  <li>예시</li>
+</ul>
+
+<pre><code>{
+    "_id": ObjectId("631203df3f4948bd2f98312"),
+    "nickname": "smothly",
+    "name": { first: "Seung Ho", last: "Choi" }
+}
+</code></pre>
+<ul>
+  <li>key:value쌍으로 이루어짐, key=”nickname” value=”smothly”</li>
+  <li>동적 Schema를 가짐 = Document끼리 다른 구조를 가질 수 있음</li>
+</ul>
+
+<hr />
+
+<h3 id="fields"><strong>Fields</strong></h3>
+<ul>
+  <li>RDBMS의 속성과 비슷한 개념</li>
+  <li>위에서 key에 해당하는 값들로 주로 조회할 때 많이 사용합니다.</li>
+</ul>
+
+<hr />
+
+<h3 id="rdms와의-비교"><strong>RDMS와의 비교</strong></h3>
+<ul>
+  <li>table &lt;-&gt; collection</li>
+  <li>tuple/row &lt;-&gt; document</li>
+  <li>column &lt;-&gt; key/field</li>
+  <li>table join &lt;-&gt; embedded document</li>
+  <li>primary key &lt;-&gt; primary key(_id)</li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="mongodb-명령어--실습">MongoDB 명령어 &amp; 실습</h2>
+</blockquote>
+
+<h3 id="설치"><strong>설치</strong></h3>
+<p>OS에 맞게 <a href="https://docs.mongodb.com/manual/installation/">공식사이트</a>에서 community edition 설치해주세요!<br />
+공식문서 보기 힘드시면 <a href="https://velopert.com/436">velopert 블로그</a>나 <a href="https://www.google.com/search?q=mongodb+%EC%84%A4%EC%B9%98&amp;rlz=1C5CHFA_enKR864KR864&amp;oq=mongodb+%EC%84%A4%EC%B9%98&amp;aqs=chrome.0.0l5j69i61.2630j0j7&amp;sourceid=chrome&amp;ie=UTF-8">구글검색</a>을 보시고 설치해주시기 바랍니다.</p>
+
+<p>터미널에 <code class="highlighter-rouge">mongo</code>입력하셔서 접근 되시면 성공하신겁니다.</p>
+
+<hr />
+
+<h3 id="database"><strong>Database</strong></h3>
+
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>use [DATABASE_NAME]
+use tutorial
+</code></pre>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>db</code></pre>
+<p>현재 사용중인 db(tutorial)가 나오는 것을 확인</p>
+<pre><code>show dbs</code></pre>
+<p>다른 db들도 조회 가능합니다.</p>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code>db.dropDatabase();
+</code></pre>
+<p>현재 사용중인(use) database 삭제<br /></p>
+
+<hr />
+
+<h3 id="collection"><strong>Collection</strong></h3>
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>db.createCollection(name, [options]) 
+db.createCollection('users') 
+</code></pre>
+<p>각 명령어의 옵션들은 <a href="https://docs.mongodb.com/manual/reference/method/]">몽고디비 매뉴얼</a>에서 확인하고 사용하시길 바랍니다.</p>
+<pre><code>db.adminUsers.insert({"name": "seungho"})
+</code></pre>
+<p>이렇게 Document를 생성해도 자동으로 Collection이 생성이 됩니다.<br />
+여기서 확인할 수 있는거는 본인이 원하는 형식으로 insert할 수 있습니다. = schemaless</p>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>show collections
+</code></pre>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.drop()
+db.adminUsers.drop()
+</code></pre>
+
+<hr />
+
+<h3 id="document-1"><strong>Document</strong></h3>
+<p>일단 위에서 <code class="highlighter-rouge">use</code>명령어로 본인이 사용할 db를 먼저 선택해 줍니다.</p>
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.insert(document)
+db.users.insert({"name": "seungho", "nickname": "smothly"})
+</code></pre>
+<ul>
+  <li>여러개 넣기</li>
+</ul>
+<pre><code>db.users.insert([
+    {"name": "seungho", "nickname": "smothly"},
+    {"name": "철수", "nickname": "영희친구"}
+])</code></pre>
+<p>배열을 사용하여 넣으면 됩니다!</p>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.find()
+db.users.find()
+</code></pre>
+<p>find 함수는 조건을 사용하여 조회할 수도 있으므로 다음 포스트에 다뤄보겠습니다.<br />
+지금은 전체를 조회하는 구문입니다.</p>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code class="bash">db.COLLECTION_NAME.remove(criteria, justOne)
+db.users.remove({"name": "철수"})
+</code></pre>
+<p>criteria 조건 부분에 name이 ‘철수’인 documnet만 삭제하라고 조건을 주었습니다.<br />
+평소에 사용하실 때는 미리 find 메소드를 사용하여 조회하고 삭제하는 것을 추천합니다.</p>
+
+<p><br /><br /></p>
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://velopert.com/436</li>
+  <li>https://nicewoong.github.io/development/2018/02/10/mongodb-feature/</li>
+  <li>https://www.mongodb.com/</li>
+  <li>https://docs.mongodb.com/manual/reference/method
+<br /><br /></li>
+</ul>
 
           <a class="button" href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
             Continue reading
@@ -372,29 +888,58 @@
         <div class="excerpt">
           <!--<h1 id="conda-가상환경-사용시-라이브러리-패키지-문제">Conda 가상환경 사용시 라이브러리 패키지 문제</h1>
 
+<p>conda 가상환경을 쓸 시 <code class="highlighter-rouge">conda install</code> 명령어로 설치가 안되는 라이브러리들이 있습니다. <br /><br />
+이럴 경우 <code class="highlighter-rouge">pip install</code>을 사용하게 되는데 이렇게 설치하면 local에 전역적으로 설치되어 <br /><br />
+가상환경을 쓸 이유가 없는 문제가 생김을 발견하였습니다.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="conda-가상환경-키고-pip과-library설치">Conda 가상환경 키고 pip과 library설치</h2>
+</blockquote>
+<pre><code>conda create -n test python=3.7 # 가상환경 설치
+conda activate test # 가상환경 접속
+conda install pip # conda가상환경에 pip 패키지를 설치
+pip install hgtk # 아무 라이브러리 설치
+</code></pre>
+<p><br />
+conda 가상환경 내에 <code class="highlighter-rouge">pip</code>을 설치하여 위의 문제를 해결하였습니다.</p>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="library-분리-확인">library 분리 확인</h2>
+</blockquote>
+<pre><code>conda list | grep hgtk 
+conda deactivate # 가상환경 종료
+pip list | grep hgtk
+</code></pre>
+<p><code class="highlighter-rouge">conda list</code> 명령어에서는 나오고 <code class="highlighter-rouge">pip list</code> 에서는 안나온 것을 확인할 수 있습니다.</p>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="conda-가상환경-삭제">conda 가상환경 삭제</h2>
+</blockquote>
+<pre><code>conda info --envs # 본인의 conda 가상환경 확인
+conda remove --name test --all 
+</code></pre>
+<p><br /></p>
+<h2 id="이로써-anaconda를-통한-완전한-가상환경을-사용할-수-있습니다">이로써 anaconda를 통한 완전한 가상환경을 사용할 수 있습니다!</h2>
+<p><br /></p>
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://dailyheumsi.tistory.com/33</li>
+  <li>https://leebaro.tistory.com/entry/anaconda%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
+<br /><br /></li>
+</ul>
 
           <a class="button" href="/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html">
-            Continue reading
-          </a>-->
-        </div>
-      </header>
-    </div>
-    
-    <div class="post-teaser">
-      <header>
-        <h2>
-          <a class="post-link" href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
-            Github Blog에 이미지 올리기 꿀팁!
-          </a>
-        </h2>
-        <p class="meta">
-          December 3, 2019
-        </p>
-        <div class="excerpt">
-          <!--<h1 id="github-blog에-이미지-올리기-꿀팁">Github Blog에 이미지 올리기 꿀팁!</h1>
-
-
-          <a class="button" href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
             Continue reading
           </a>-->
         </div>

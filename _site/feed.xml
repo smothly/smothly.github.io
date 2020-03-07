@@ -5,10 +5,196 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Tue, 14 Jan 2020 21:30:01 +0900</pubDate>
+    <pubDate>Sat, 07 Mar 2020 11:02:52 +0900</pubDate>
     
       <item>
-        <title>네이버 영화 리뷰 EDA &amp; Clustering(Kmeans)</title>
+        <title>윈도우에 우분투(wsl) 파이썬 개발환경 구축하기</title>
+        <link>/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html</link>
+        <guid isPermaLink="true">/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html</guid>
+        <description>&lt;h1 id=&quot;윈도우에-우분투wsl-파이썬-개발환경-구축하기&quot;&gt;윈도우에 우분투(wsl) 파이썬 개발환경 구축하기&lt;/h1&gt;
+
+&lt;p&gt;최근에 우분투를 지우고 다시 윈도우로 돌아왔습니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;윈도우에서 개발환경을 맞추려고 하니 환경변수 설정이나 터미널 환경 등이 불편해서&lt;br /&gt;
+윈도우 내에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;우분투(WSL)&lt;/code&gt;를 적극 활용할려고 마음을 먹었습니다.&lt;br /&gt;
+그리고, 데이터사이언스 관련한 패키지 관리 시스템인 conda를 버리고&lt;br /&gt;
+폴더로 환경 만들어서 하는 것도 직접 activate하는 것도 불편해서 &lt;code class=&quot;highlighter-rouge&quot;&gt;pyenv-virtualenvwrapper&lt;/code&gt;를 사용하겠습니다.&lt;/p&gt;
+
+&lt;p&gt;지금부터&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;WSL 설치&lt;/li&gt;
+  &lt;li&gt;VSCODE 설치 Default Shell 설정&lt;/li&gt;
+  &lt;li&gt;WSL에서 python 가상환경 venvwrapper 설정 
+로 진행하겠습니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;우분투wsl-설치&quot;&gt;우분투(WSL) 설치&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;먼저, 윈도우10 내에 우분투를 설치해보도록 하겠습니다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;요구사항&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;windows 10 64bit&lt;/li&gt;
+  &lt;li&gt;버전 1607 이상&lt;/li&gt;
+  &lt;li&gt;컴퓨터의 계정 이메일 로그인&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;을 충족하셨으면
+&lt;code class=&quot;highlighter-rouge&quot;&gt;검색 - Windows 기능 켜기/끄기&lt;/code&gt;를 들어가셔서&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/76133000-4093b800-6059-11ea-94a9-eed62612e8a2.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;linux용 windows하위 시스템을 체크 선택&lt;/code&gt; 해주시면 됩니다.&lt;/p&gt;
+
+&lt;p&gt;다음, microsoft store에서 &lt;code class=&quot;highlighter-rouge&quot;&gt;ubuntu&lt;/code&gt;를 검색하셔서&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/76133086-c879c200-6059-11ea-8c2b-f367c2f51d19.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다운받아주시면 됩니다. 끝&lt;/p&gt;
+
+&lt;p&gt;이제 ubuntu 들어가셔서 username, password등을 설정하시면 정상작동 하실 겁니다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;하지만, 지금 바탕화면에 깔린 파일을 작업 할려면 마운트를 해야합니다.&lt;br /&gt;
+windows powershell 들어가셔서 &lt;code class=&quot;highlighter-rouge&quot;&gt;bash&lt;/code&gt;명령어를 치시면 자동으로 현재 디렉토리로 마운트 됩니다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/76133238-9c127580-605a-11ea-9709-f7148ffe2d49.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;저는 이 작업이 귀찮아서 다음으로 vscode에서 default shell로 설정하는 것을 하겠습니다.
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;vscode-설치-및-default-shell-설정&quot;&gt;VSCODE 설치 및 default shell 설정&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://code.visualstudio.com/download&quot;&gt;vscode 다운로드 사이트&lt;/a&gt; 들어가셔서&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/76133324-fc091c00-605a-11ea-9260-0a520d4008f4.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;를 눌러서 다운받으시면 됩니다.&lt;/p&gt;
+
+&lt;p&gt;전부 다 예 누르면서 진행하시면 됩니다.&lt;br /&gt;
+(옵션 보시고 필요해보이시는 거는 체크하셔도 됩니다. path추가만 안지우시면 됩니다.)&lt;/p&gt;
+
+&lt;p&gt;설치가 다 되었으면 키셔서 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl + ~(1 왼쪽 키)&lt;/code&gt; 를 누르시면 밑에 터미널창이 뜨실겁니다.&lt;br /&gt;
+&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/76133580-21e2f080-605c-11ea-82cd-6dff05fa653e.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;오른쪽 밑에 wsl(기본은 powershell)이라고 써져있는 부분을 누르면&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;select default shell&lt;/code&gt;이라는 메뉴가 나와서 누르면&lt;br /&gt;
+중앙 상단에 선택할 수 있는 shell들이 나오는데 &lt;code class=&quot;highlighter-rouge&quot;&gt;wsl bash&lt;/code&gt;로 바꿔주시면 됩니다. &lt;br /&gt;
+컴퓨터를 껐다 키셔도 자동으로 마운트돼서 wsl bash가 나올겁니다! 끝
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;pyenv-virtualenvwrapper로-python-개발환경-셋팅하기&quot;&gt;pyenv-virtualenvwrapper로 python 개발환경 셋팅하기&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;anaconda랑 폴더로 가상환경 세팅하는 것 말고 &lt;code class=&quot;highlighter-rouge&quot;&gt;pyenv-virtualenvwrapper&lt;/code&gt;를 사용하는 방법이 있어 설정해보겠다.&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;pyenv: Python을 여러 버전을 설치할 수 있도록 도와주고, 현재 사용할 Python 버전을 정할 수 있게 해줍니다.&lt;/li&gt;
+  &lt;li&gt;virtualenv: virtualenv 관련 디렉토리를 한 곳에 몰아서 관리해주고, activate 등의 작업을 보다 편하게 할 수 있도록 도와줍니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;참고로, 원래 window에서는 사용불가능한 세팅이다. 우분투에서 설치하는 것과 같은방법이다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;세팅방법&quot;&gt;세팅방법&lt;/h2&gt;
+&lt;h4 id=&quot;pyenv-설치&quot;&gt;pyenv 설치&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;curl https://pyenv.run | bash&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;shell-세팅&quot;&gt;shell 세팅&lt;/h4&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bashrc파일&lt;/code&gt;을 키셔서&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vim ~/.bashrc &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;파일 맨 밑에 해당 코드를 추가해 줍니다.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export PYENV_ROOT=&quot;$HOME/.pyenv&quot;
+export PATH=&quot;$PYENV_ROOT/bin:$PATH&quot;
+if command -v pyenv 1&amp;gt;/dev/null 2&amp;gt;&amp;1; then
+  eval &quot;$(pyenv init -)&quot;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;밑에 명령어로 &lt;code class=&quot;highlighter-rouge&quot;&gt;shell을 재시작&lt;/code&gt; 해줍시다.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;exec &quot;$SHELL&quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;python-설치&quot;&gt;python 설치&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;pyenv install 3.7.2
+pyenv global 3.7.2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이 부분 설치할 때 에러가 많이 뜰 것입니다.&lt;br /&gt;
+밑에 명령어를 실행하시고 다시 설치해주세요!&lt;br /&gt;
+내가 설치했던 것들을 적어 놓을텐데 빼먹은 거 있으면 댓글로 남겨주시면 감사하겠습니다.
+&lt;a href=&quot;https://devlog.jwgo.kr/2019/06/05/must-installed-lib-when-installing-python-using-pyenv/&quot;&gt;참고 블로그&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;pyenv-virtualenvwrapper-설치&quot;&gt;pyenv-virtualenvwrapper 설치&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrapper&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;shell-설정&quot;&gt;shell 설정&lt;/h4&gt;
+&lt;p&gt;아까 열었던 .bashrc에 마지막에 밑에 코드를 추가해준다.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pyenv virtualenvwrapper_lazy&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;다시 shell 재시작&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;exec &quot;$SHELL&quot;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;끝! 간단한 사용법을 남기고 글을 마무리 짓겠습니다.
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;pyenv-명령어&quot;&gt;pyenv 명령어&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;예를 들어 web이라는 가상환경을 만들고 사용하고 싶으면&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkvirtualenv web
+workon web
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;처럼 사용하시면 됩니다. 평소에 하시던 것처럼 &lt;code class=&quot;highlighter-rouge&quot;&gt;pip install&lt;/code&gt;명령어를 통해 라이브러리 설치하시면 됩니다.
+&lt;br /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pyenv install [version] # Python 버전 설치
+pyenv versions # 현재 설치된 Python 버전 목록
+pyenv global [version] # 전역 Python 버전 변경
+mkvirtualenv [project name] # 프로젝트를 위해 virtualenv 생성
+workon [project name] # virtualenv 활성화
+deactivate # virtualenv 비활성화
+setvirtualenvproject # 현재 디렉토리를 프로젝트의 Home 디렉토리로 설정하기
+rmvirtualenv [project name] # virtualenv 삭제
+lsvirtualenv # virtualenv 목록
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;h2 id=&quot;이제-window안에서도-lunux환경에서-python을-제대로-사용할-수-있다&quot;&gt;이제 window안에서도 lunux환경에서 python을 제대로 사용할 수 있다!&lt;/h2&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;subtitle&gt;출처&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://beelinekim.tistory.com/2&lt;/li&gt;
+  &lt;li&gt;https://webnautes.tistory.com/1197&lt;/li&gt;
+  &lt;li&gt;https://devlog.jwgo.kr/2019/06/05/must-installed-lib-when-installing-python-using-pyenv/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 07 Mar 2020 00:00:00 +0900</pubDate>
+      </item>
+    
+      <item>
+        <title>네이버 영화 리뷰 EDA &amp; Clustering(K-means)</title>
         <link>/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html</link>
         <guid isPermaLink="true">/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html</guid>
         <description>&lt;blockquote&gt;
@@ -581,17 +767,6 @@ def jamo_combine(word):
   &lt;li&gt;https://github.com/rhobot/Hangulpy
 &lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        <pubDate>Sat, 23 Nov 2019 00:00:00 +0900</pubDate>
-      </item>
-    
-      <item>
-        <title>자모단위 Embedding By FastText</title>
-        <link>/data%20science/nlp/2019/11/23/FastText.html</link>
-        <guid isPermaLink="true">/data%20science/nlp/2019/11/23/FastText.html</guid>
-        <description>&lt;h1 id=&quot;이전-포스트에-올린-한글자모분리-코드를-참조하여-자모단위로-임베딩하고-그-결과를-확인해보는-시간&quot;&gt;이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간&lt;/h1&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 23 Nov 2019 00:00:00 +0900</pubDate>
       </item>

@@ -223,8 +223,19 @@
 <script>
   window.store = {
     
+      "develop-20environment-linux-2020-03-07-ec-9c-88-eb-8f-84-ec-9a-b0-ec-97-90-ec-9a-b0-eb-b6-84-ed-88-ac-wsl-ed-8c-8c-ec-9d-b4-ec-8d-ac-ea-b0-9c-eb-b0-9c-ed-99-98-ea-b2-bd-ea-b5-ac-ec-b6-95-ed-95-98-ea-b8-b0-html": {
+        "title": "윈도우에 우분투(wsl) 파이썬 개발환경 구축하기",
+        "tags": "wsl, Ubuntu, Development Environment, Python",
+        "date": "March 7, 2020",
+        "author": "",
+        "category": "",
+        "content": "윈도우에 우분투(wsl) 파이썬 개발환경 구축하기최근에 우분투를 지우고 다시 윈도우로 돌아왔습니다.윈도우에서 개발환경을 맞추려고 하니 환경변수 설정이나 터미널 환경 등이 불편해서윈도우 내에서 우분투(WSL)를 적극 활용할려고 마음을 먹었습니다.그리고, 데이터사이언스 관련한 패키지 관리 시스템인 conda를 버리고폴더로 환경 만들어서 하는 것도 직접 activate하는 것도 불편해서 pyenv-virtualenvwrapper를 사용하겠습니다.지금부터  WSL 설치  VSCODE 설치 Default Shell 설정  WSL에서 python 가상환경 venvwrapper 설정 로 진행하겠습니다.  우분투(WSL) 설치먼저, 윈도우10 내에 우분투를 설치해보도록 하겠습니다.요구사항  windows 10 64bit  버전 1607 이상  컴퓨터의 계정 이메일 로그인을 충족하셨으면검색 - Windows 기능 켜기/끄기를 들어가셔서linux용 windows하위 시스템을 체크 선택 해주시면 됩니다.다음, microsoft store에서 ubuntu를 검색하셔서다운받아주시면 됩니다. 끝이제 ubuntu 들어가셔서 username, password등을 설정하시면 정상작동 하실 겁니다.하지만, 지금 바탕화면에 깔린 파일을 작업 할려면 마운트를 해야합니다.windows powershell 들어가셔서 bash명령어를 치시면 자동으로 현재 디렉토리로 마운트 됩니다.저는 이 작업이 귀찮아서 다음으로 vscode에서 default shell로 설정하는 것을 하겠습니다.  VSCODE 설치 및 default shell 설정vscode 다운로드 사이트 들어가셔서를 눌러서 다운받으시면 됩니다.전부 다 예 누르면서 진행하시면 됩니다.(옵션 보시고 필요해보이시는 거는 체크하셔도 됩니다. path추가만 안지우시면 됩니다.)설치가 다 되었으면 키셔서 ctrl + ~(1 왼쪽 키) 를 누르시면 밑에 터미널창이 뜨실겁니다.오른쪽 밑에 wsl(기본은 powershell)이라고 써져있는 부분을 누르면select default shell이라는 메뉴가 나와서 누르면중앙 상단에 선택할 수 있는 shell들이 나오는데 wsl bash로 바꿔주시면 됩니다. 컴퓨터를 껐다 키셔도 자동으로 마운트돼서 wsl bash가 나올겁니다! 끝  pyenv-virtualenvwrapper로 python 개발환경 셋팅하기anaconda랑 폴더로 가상환경 세팅하는 것 말고 pyenv-virtualenvwrapper를 사용하는 방법이 있어 설정해보겠다.  pyenv: Python을 여러 버전을 설치할 수 있도록 도와주고, 현재 사용할 Python 버전을 정할 수 있게 해줍니다.  virtualenv: virtualenv 관련 디렉토리를 한 곳에 몰아서 관리해주고, activate 등의 작업을 보다 편하게 할 수 있도록 도와줍니다.참고로, 원래 window에서는 사용불가능한 세팅이다. 우분투에서 설치하는 것과 같은방법이다.세팅방법pyenv 설치curl https://pyenv.run | bashshell 세팅bashrc파일을 키셔서vim ~/.bashrc 파일 맨 밑에 해당 코드를 추가해 줍니다.export PYENV_ROOT=\"$HOME/.pyenv\"export PATH=\"$PYENV_ROOT/bin:$PATH\"if command -v pyenv 1&gt;/dev/null 2&gt;&1; then  eval \"$(pyenv init -)\"fi밑에 명령어로 shell을 재시작 해줍시다.exec \"$SHELL\"python 설치pyenv install 3.7.2pyenv global 3.7.2이 부분 설치할 때 에러가 많이 뜰 것입니다.밑에 명령어를 실행하시고 다시 설치해주세요!내가 설치했던 것들을 적어 놓을텐데 빼먹은 거 있으면 댓글로 남겨주시면 감사하겠습니다.참고 블로그sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \\libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \\xz-utils tk-devpyenv-virtualenvwrapper 설치git clone https://github.com/pyenv/pyenv-virtualenvwrapper.git $(pyenv root)/plugins/pyenv-virtualenvwrappershell 설정아까 열었던 .bashrc에 마지막에 밑에 코드를 추가해준다.pyenv virtualenvwrapper_lazy다시 shell 재시작exec \"$SHELL\"끝! 간단한 사용법을 남기고 글을 마무리 짓겠습니다.  pyenv 명령어예를 들어 web이라는 가상환경을 만들고 사용하고 싶으면mkvirtualenv webworkon web처럼 사용하시면 됩니다. 평소에 하시던 것처럼 pip install명령어를 통해 라이브러리 설치하시면 됩니다.pyenv install [version] # Python 버전 설치pyenv versions # 현재 설치된 Python 버전 목록pyenv global [version] # 전역 Python 버전 변경mkvirtualenv [project name] # 프로젝트를 위해 virtualenv 생성workon [project name] # virtualenv 활성화deactivate # virtualenv 비활성화setvirtualenvproject # 현재 디렉토리를 프로젝트의 Home 디렉토리로 설정하기rmvirtualenv [project name] # virtualenv 삭제lsvirtualenv # virtualenv 목록이제 window안에서도 lunux환경에서 python을 제대로 사용할 수 있다!  출처  https://beelinekim.tistory.com/2  https://webnautes.tistory.com/1197  https://devlog.jwgo.kr/2019/06/05/must-installed-lib-when-installing-python-using-pyenv/",
+        "url": "/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html"
+      }
+      ,
+    
       "data-20science-nlp-2020-01-14-eb-84-a4-ec-9d-b4-eb-b2-84-ec-98-81-ed-99-94-eb-a6-ac-eb-b7-b0-eda-clustering-k-means-html": {
-        "title": "네이버 영화 리뷰 EDA &amp; Clustering(Kmeans)",
+        "title": "네이버 영화 리뷰 EDA &amp; Clustering(K-means)",
         "tags": "NLP, Python, Clustering, EDA, K-means",
         "date": "January 14, 2020",
         "author": "",
@@ -286,17 +297,6 @@
         "category": "",
         "content": "  한글 자모 분리 코드제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.그래서 여러가지 라이브러리를 찾아봤는데  정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x  종성 없을 경우 무시하는 문제  결합도 제대로 분리된 경우에만 해주는 문제등의 문제들이 있었습니다.채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.제 github에서 얼마든지 유용하게 사용하셔도 됩니다!  코드hangul-toolkit과 hangulpy를 참조하여 만들었습니다.주요 수정부분  end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리  완전한 글자가 아니여도 자모분리  자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS# 자모분리def jamo_split(word, end_char=\"_\"):        result = []        for char in word:                character_code = ord(char)                if 0xD7A3 &lt; character_code or character_code &lt; 0xAC00:            result.append(char)            continue        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)        jongsung_index = int((character_code - 0xAC00) % 28)                chosung = CHOSUNGS[chosung_index]        joongsung = JOONGSUNGS[joongsung_index]        jongsung = JONGSUNGS[jongsung_index]                # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.        if jongsung_index == 0:            jongsung = end_char                result.append(chosung)        result.append(joongsung)        result.append(jongsung)    return \"\".join(result)# 자모결합def jamo_combine(word):    result = \"\"    index = 0        while index &lt; len(word):            # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.        try:            cho = CHOSUNGS.index(word[index]) * 21 * 28            joong = JOONGSUNGS.index(word[index+1]) * 28            jong = JONGSUNGS.index(word[index+2])            result += chr(cho + joong + jong + 0xAC00)             index += 3        except:            result += word[index]            index += 1            return result  출처  https://github.com/smothly/Jamo_Split_and_Combine  https://github.com/bluedisk/hangul-toolkit  https://github.com/rhobot/Hangulpy",
         "url": "/data%20science/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html"
-      }
-      ,
-    
-      "data-20science-nlp-2019-11-23-fasttext-html": {
-        "title": "자모단위 Embedding By FastText",
-        "tags": "Preprocessing, NLP, Python",
-        "date": "November 23, 2019",
-        "author": "",
-        "category": "",
-        "content": "이전 포스트에 올린 한글자모분리 코드를 참조하여 자모단위로 임베딩하고 그 결과를 확인해보는 시간",
-        "url": "/data%20science/nlp/2019/11/23/FastText.html"
       }
       ,
     
