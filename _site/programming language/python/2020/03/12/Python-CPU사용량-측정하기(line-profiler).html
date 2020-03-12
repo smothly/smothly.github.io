@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>Docker 명령어 | Seungho's Blog</title>
-	<meta name="description" content="Docker 명령어  Docker에서 자주 쓰이고 유용한 명령어들 모음  Docker 이미지 다운로드docker pull [image]  Docker 이미지 확인docker imagesdocker image ls  Docker 이미지 삭제docker rmi 이미지명  Docker ...">
+	<title>Python CPU사용량 측정하기(line profiler) | Seungho's Blog</title>
+	<meta name="description" content="Python CPU사용량 측정하기(line profiler)CPU 병목원인을 찾아주는 도구로 한줄씩 프로파일링 해주는 line_profiler를 사용해 보겠습니다.  프로파일링(profiling): 프로그램의 시간 복잡도 및 공간(메모리) 등 분석  병목(bottleneck): 전...">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+	<link rel="canonical" href="/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -211,139 +211,115 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">Docker 명령어</h1>
+    <h1 class="title">Python CPU사용량 측정하기(line profiler)</h1>
     
     <p class="meta">
-      November 6, 2019
+      March 12, 2020
       
     </p>
   </header>
-  <section class="post-content"><h1 id="docker-명령어">Docker 명령어</h1>
+  <section class="post-content"><h1 id="python-cpu사용량-측정하기line-profiler">Python CPU사용량 측정하기(line profiler)</h1>
+
+<p>CPU 병목원인을 찾아주는 도구로 한줄씩 프로파일링 해주는 <code class="highlighter-rouge">line_profiler</code>를 사용해 보겠습니다.</p>
+
+<ul>
+  <li>프로파일링(profiling): 프로그램의 시간 복잡도 및 공간(메모리) 등 분석</li>
+  <li>병목(bottleneck): 전체 시스템의 성능이나 용량이 하나의 구성 요소로 인해 제한을 받는 현상</li>
+</ul>
+
+<p>고성능 파이썬 책을 읽고 따라해보고 고찰한 것입니다. <br />
+쥘리아집합 예제를 사용할 것입니다.</p>
+<ul>
+  <li>쥘리아 집합: 복작합 그림을 생성하는 프렉탈</li>
+</ul>
+
+<p>자세한 건 저도 잘 모르고, CPU와 RAM사용량을 측정하기에 좋은 예제라고 합니다. <a href="https://ko.wikipedia.org/wiki/%EC%A5%98%EB%A6%AC%EC%95%84_%EC%A7%91%ED%95%A9">자세한 설명</a>은 링크를 참조해주세요.
+<br /><br /></p>
 
 <hr />
 
 <blockquote>
-  <h2 id="docker에서-자주-쓰이고-유용한-명령어들-모음">Docker에서 자주 쓰이고 유용한 명령어들 모음</h2>
+  <h2 id="시작">시작</h2>
 </blockquote>
 
-<ul>
-  <li>Docker 이미지 다운로드</li>
-</ul>
-<pre><code class="bash">docker pull [image]
-</code></pre>
+<h4 id="라이브러리-설치">라이브러리 설치</h4>
+<pre><code>pip install line_profiler</code></pre>
+
+<p><a href="https://github.com/smothly/High_Perfomance_Python/blob/master/julia_example.py">코드</a>
+를 다운받으시거나 복사하셔서 <code class="highlighter-rouge">julia_example.py</code>로 생성해주고,
+밑에 명령어로 실행해 줍니다.</p>
+
+<pre><code>kernprof -l -v  julia_example.py</code></pre>
 
 <ul>
-  <li>Docker 이미지 확인</li>
+  <li><code class="highlighter-rouge">-l</code>은 결과를 한줄씩 출력</li>
+  <li><code class="highlighter-rouge">-v</code>는 lprof파일 반환이 아니라 출력</li>
 </ul>
-<pre><code class="bash">docker images
-docker image ls
-</code></pre>
+
+<hr />
+
+<blockquote>
+  <h2 id="결과">결과</h2>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/76531560-badc9600-64b8-11ea-952d-4d82d45d90e2.png" alt="image" />
+Line Contents로 원본코드를 볼 수 있고, 다른 것들을 설명 드리겠습니다.<br />
+<code class="highlighter-rouge">Hits</code>는 각 라인이 실행된 횟수입니다. CPU가 몇번 라인을 실행했는지입니다. 이것은 시간과 비례합니다.<br />
+<code class="highlighter-rouge">Time</code> 항목에서 각 줄에서 시간이 얼마나 소요된지 확인할 수 있습니다.<br />
+<code class="highlighter-rouge">%Time</code> 퍼센트로 약 34퍼센트가 17번째 while문에서 소요됨을 확인할 수 있습니다.<br /></p>
+
+<p>밑에 결과는 바깥에서 함수를 실행한 부분으로 <code class="highlighter-rouge">calculate_z_serial_pureputhon(max_iterations, zs, cs)</code>가 전체 시간을 거의 차지함을 볼 수 있다.
+<img src="https://user-images.githubusercontent.com/37397737/76531722-fd9e6e00-64b8-11ea-919b-0502b10d2f11.png" alt="image" />
+<img src="https://user-images.githubusercontent.com/37397737/76531802-1444c500-64b9-11ea-96b2-fb71c3e909ff.png" alt="image" /></p>
+
+<p><br /></p>
+
+<hr />
+
+<blockquote>
+  <h2 id="고찰">고찰</h2>
+</blockquote>
+
+<p>라이브러리를 이용하여 간단하게 <code class="highlighter-rouge">line profiling</code>을 해보았습니다. <br />
+이번에는 어느 부분이 많이 실행되고 많은 시간이 소요되었는지를 확인할 수 있는 예제였습니다.<br /></p>
+
+<p>예제 코드에서는 17, 18, 19번째에서 연산의 대부분이 진행되었습니다. 코드의 성능을 개선하기 위해서는 이 부분을 만져야 함을 알 수 있습니다!<br /></p>
+
+<p>책에서는 나중에 이 코드를 어떻게 효율적으로 만들 것인지에 대해 알려줍니다.<br /> 방법들을 몇 가지 나열해 보자면,</p>
 
 <ul>
-  <li>Docker 이미지 삭제</li>
-</ul>
-<pre><code class="bash">docker rmi 이미지명
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 이름 변경</li>
-</ul>
-<pre><code class="bash">docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 실행</li>
-</ul>
-<pre><code class="bash">docker run -it hello-world
-</code></pre>
-<ul>
-  <li>-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고<br /></li>
-  <li>-t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.<br />
-마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.</li>
+  <li>numpy를 통한 벡터 연산</li>
+  <li>cython/pypy를 통한 속도 향상</li>
+  <li>조건문 변경</li>
+  <li>multiprocessing</li>
 </ul>
 
-<p><code class="highlighter-rouge">docker run</code> = <code class="highlighter-rouge">docker pull</code>, <code class="highlighter-rouge">docker create</code>, <code class="highlighter-rouge">docker start</code>, <code class="highlighter-rouge">docker attach</code>(-it 옵션을 사용했다면)이 포함</p>
+<p>을 통해 속도를 드라마틱하게 향상시켰습니다.</p>
 
-<pre><code class="bash">docker run -d -p 8080:8080 --name my-cat tomcat
-</code></pre>
-<p>-d 옵션은 Background로 실행하겠다는 의미입니다.<br />
--p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.<br />
-호스트의 8080 포트와 컨테이너의 8080 포트와 연결<br /></p>
+<p>다음 포스팅에는 memory profiling을 하고, 향후에는 이 예제코드가 최고 효율을 내는 방법을 포스팅 해보겠습니다.
+<br /><br /><br /></p>
 
-<p>이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; <br />
-tag_name은 default값은 latest입니다.</p>
-
-<ul>
-  <li>컨테이너 이름 변경</li>
-</ul>
-<pre><code class="bash">docker rename
-</code></pre>
-
-<ul>
-  <li>로그확인: 컨테이너의 ID 일부만 적어도 식별 함</li>
-</ul>
-<pre><code class="bash">docker logs -f 89c
-docker logs -f my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 종료</li>
-</ul>
-<pre><code class="bash">docker stop 89c
-docker stop my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 확인</li>
-</ul>
-<pre><code class="bash">docker ps -a
-docker container ls -a
-</code></pre>
-
-<ul>
-  <li>컨테이너 실행</li>
-</ul>
-<pre><code class="bash">docker exec -it  [container id] /bin/bash
-</code></pre>
-
-<ul>
-  <li>컨테이너 제거</li>
-</ul>
-<pre><code class="bash">docker rm 89c(id)
-docker rm my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 전체 제거</li>
-</ul>
-<pre><code class="bash">docker ps -q -a | xargs docker rm
-</code></pre>
-
-<ul>
-  <li>Docker 컨테이너를 이미지로 커밋</li>
-</ul>
-<pre><code class="bash">docker commit [container-name] [image-id]
-</code></pre>
-
-<p>새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
-<br /><br /></p>
 <blockquote>
   <subtitle>출처</subtitle>
 </blockquote>
 
 <ul>
-  <li>https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container<br /></li>
-  <li>https://docs.docker.com/engine/reference/commandline/tag/
-<br /><br /></li>
+  <li>https://ko.wikipedia.org/wiki/%EC%A5%98%EB%A6%AC%EC%95%84_%EC%A7%91%ED%95%A9</li>
+  <li>고성능 파이썬 책</li>
+  <li>https://github.com/scari/high_performance_python/</li>
 </ul>
+
+<p><br /><br /></p>
 </section>
   
 <footer>
   <div class="tags">
     
-    <a class="tag" href="/tags#Docker">#Docker</a>
+    <a class="tag" href="/tags#Python">#Python</a>
     
-    <a class="tag" href="/tags#Development Environment">#Development Environment</a>
+    <a class="tag" href="/tags#CPU">#CPU</a>
+    
+    <a class="tag" href="/tags#LineProfiler">#LineProfiler</a>
     
   </div>
 </footer>
@@ -352,7 +328,7 @@ docker rm my-cat
 
 
   <!-- Disqus -->
-  <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html#disqus_thread"></a>
+  <a href="https://smothly.github.io/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -421,18 +397,11 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
-        Docker로 딥러닝 개발환경 구성하기
+      <a href="/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html">
+        윈도우에 우분투(wsl) 파이썬 개발환경 구축하기
       </a>
   </div>
   
-  
-  <div id="next-post" class="post-nav-post">
-      <p>Next post</p>
-      <a href="/data%20science/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
-        한글자모분리 By Python
-      </a>
-  </div>
   
 </div>
 

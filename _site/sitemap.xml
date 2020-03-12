@@ -2,6 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://localhost:4000/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html</loc>
+    </url>
+    
+    <url>
         <loc>http://localhost:4000/develop%20environment/linux/2020/03/07/%EC%9C%88%EB%8F%84%EC%9A%B0%EC%97%90-%EC%9A%B0%EB%B6%84%ED%88%AC(wsl)-%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0.html</loc>
     </url>
     
@@ -249,6 +253,14 @@
     
     <url>
         <loc>http://localhost:4000/category/Development+Environment%252FDocker/</loc>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>http://localhost:4000/category/Programming+Language%252FPython/</loc>
     </url>
     
     
