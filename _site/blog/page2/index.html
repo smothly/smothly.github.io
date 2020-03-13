@@ -157,6 +157,8 @@
 					
 						
 					
+						
+					
 					
 		</nav>
 	</div>
@@ -293,6 +295,331 @@
   <div class="posts">
   	<h2 class="post-title">Recent Post</h2>
 
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
+          <a class="post-link" href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">
+            네이버 영화 리뷰 크롤링(Crawling) By Selenium
+          </a>
+        </h2>
+        <p class="meta">
+          January 13, 2020
+        </p>
+        <div class="excerpt">
+          <!--<blockquote>
+  <h2 id="네이버-영화-한줄평">네이버 영화 한줄평</h2>
+</blockquote>
+
+<p><a href="https://movie.naver.com/movie/point/af/list.nhn">네이버 영화 한줄평 사이트</a>를 크롤링 하는 코드입니다.</p>
+
+<p><a href="https://www.google.com/search?sxsrf=ACYBGNQjY8XryO_PEF8ruiTL__ufq8RtBw%3A1578918458013&amp;ei=OmIcXtc4xdP5Bpits8AK&amp;q=selenium+python&amp;oq=sele+python&amp;gs_l=psy-ab.3.0.0i7i30l7j0i13j0i7i30l2.26275.26737..27927...2.0..0.274.1603.0j7j2......0....1..gws-wiz.......0j0i203.FMjDX5Fhb9E">Selenium</a>에 대한 자세한 설명은 생략하고, 코드를 어떻게 짰는지 간단하게만 설명하겠습니다.</p>
+
+<p>이 데이터를 활용하여 간단히 한 프로젝트도 링크 첨부해 드리며</p>
+
+<p>활용 방안은 다양하니 셀레니움으로 네이버 영화 리뷰를 한 번 크롤링 해봅시다!
+<br /><br /></p>
+
+<blockquote>
+  <h2 id="코드">코드</h2>
+</blockquote>
+
+<pre><code class="python">import requests
+from selenium import webdriver
+import time
+from tqdm import tqdm
+import csv
+</code></pre>
+<p>크롤링을 위한 , <code class="highlighter-rouge">selenium</code>, <code class="highlighter-rouge">request</code> 라이브러리</p>
+
+<p>시간을 재기위한 <code class="highlighter-rouge">time</code>, <code class="highlighter-rouge">tqdm</code> 라이브러리</p>
+
+<p>마지막으로는 csv파일로 저장하기 위하여 <code class="highlighter-rouge">csv</code>를 import 하였다.</p>
+
+<p>다른 라이브러리들은 그냥 설치하시면 되고, selenium만 chrome driver가 필요하니 <a href="https://beomi.github.io/2017/02/27/HowToMakeWebCrawler-With-Selenium/">여기</a>를 참고하여 chrome driver를 현재 디렉토리에 넣어서 실행하시면 됩니다.
+<br /><br /></p>
+
+<pre><code class="python">browser = webdriver.Chrome()
+url = "https://movie.naver.com/movie/point/af/list.nhn"
+browser.get(url)
+</code></pre>
+<p>일단 chrome driver를 활용하여 사이트가 자동으로 열리는지 확인합니다.
+<br /><br /></p>
+
+<pre><code class="python">from tqdm import tqdm
+reviewData = list()
+# links = browser.find_element_by_class_name('paging').find_elements_by_tag_name('a')
+_iter = 1000
+for page in tqdm(range(_iter)):
+    for row in browser.find_elements_by_tag_name('tr')[1:]:
+        content = row.find_element_by_class_name('title').text.split('\n') 
+        title = content[0]
+        point = content[2]
+        text = content[3][:-4]
+#         print(title, point, text)
+        reviewData.append((title, point, text))
+    browser.find_element_by_class_name('pg_next').click()
+</code></pre>
+<p>일단 <code class="highlighter-rouge">2020.01.13</code> 기준으로는 돌아가는 것 확인했습니다.</p>
+
+<p>홈페이지 구조가 조금 바뀌더라도 find하는 부분만 잘 바꿔서 사용하시면 됩니다.</p>
+
+<p>코드 최적화는 하지 않았고, 간단한 프로젝트 하실 때 유용하게 사용하시기 바랍니다!
+<br /><br /></p>
+
+<pre><code class="python">import csv
+
+csvFile = open("./reviewData.csv", "a", newline="\n")
+csvWriter = csv.writer(csvFile)
+
+for row in reviewData:
+    csvWriter.writerow(row)
+
+csvFile.close()
+</code></pre>
+<p>csv 파일 형태로 저장하는 것입니다.</p>
+
+<p>위에서 append안하고 바로바로 write할 수도 있고,</p>
+
+<p>dataframe 형태로 만들어서 저장하여도 되고, 굳이 csv파일로 저장안해도 되지만…</p>
+
+<p>그 당시 했던 코드라 그냥 올리겠습니다! 유용하게 활용하십시오!
+<br /><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb</li>
+  <li>https://github.com/smothly/ai_innovation_NLP/blob/master/5.28~29%20search%20engine.ipynb</li>
+</ul>
+
+<p><br /><br /></p>
+
+          <a class="button" href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
+          <a class="post-link" href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+            MongoDB 개념 및 명령어
+          </a>
+        </h2>
+        <p class="meta">
+          December 3, 2019
+        </p>
+        <div class="excerpt">
+          <!--<h1 id="mongodb-개념-및-명령어">MongoDB 개념 및 명령어</h1>
+
+<hr />
+
+<blockquote>
+  <h2 id="mongodb몽고디비">MongoDB(몽고디비)</h2>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/70114357-942fe780-169f-11ea-8eda-a676b8513cb5.png" alt="image" /></p>
+
+<h3 id="개념"><strong>개념</strong></h3>
+<ul>
+  <li><code class="highlighter-rouge">MongoDB</code>: C++로 작성된 오픈소스 문서지향(Document-Oriented)적 Cross-platform 데이터베이스</li>
+  <li>뛰어난 확장성과 성능, 현존하는 NoSQL 데이터베이스 중 인지도 1위를 유지</li>
+</ul>
+
+<hr />
+
+<h3 id="nosql--schemaless"><strong>NoSQL &amp; Schemaless</strong></h3>
+<ul>
+  <li><code class="highlighter-rouge">NoSQL</code> = Not Only SQL 쿼리를 안쓴다는 것이 아닙니다. 기존 RDBMS(관계형 데이터 베이스 매니지먼트)가 갖고 있는 특성뿐만 아니라, 다른 특성들을 부가적으로 지원한다는 것을 의미합니다.<br /> 그중에서도 MongoDB는 Key Value DB를 사용하고 있습니다.</li>
+  <li><code class="highlighter-rouge">Schemaless</code>: Schema를 따로 정의할 필요가 없다. 같은 컬렉션안에서 데이터 타입, 필드가 서로 달라도 저장됩니다.
+    <ul>
+      <li>Schema: RDBMS에서 주로 쓰이는 개체, 속성, 관계를 미리 정의 (비정형 데이터를 다루기 힘듬)</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="mongodb-구성요소">MongoDB 구성요소</h2>
+</blockquote>
+
+<p><img src="https://user-images.githubusercontent.com/37397737/70114448-d9541980-169f-11ea-808f-57daa9e6100d.png" alt="image" /></p>
+
+<h3 id="collections"><strong>Collections</strong></h3>
+<ul>
+  <li>MongoDB Document의 그룹</li>
+  <li>RDBMS의 Table과 비슷한 개념</li>
+  <li>따로 schema를 가지고 있지 않음</li>
+</ul>
+
+<hr />
+
+<h3 id="document"><strong>Document</strong></h3>
+<ul>
+  <li>문서라기 보다는 RDBMS의 record와 비슷한 개념</li>
+  <li>_id 자동적으로 부여함 -&gt; unique한 document를 가지기 위함.
+    <ul>
+      <li>12bytes의 hexadecimal</li>
+      <li>4bytes:timestamp / 3bytes:machine id / 2bytes:MongoDB 서버의 프로세스id,  / 3bytes:순차번호</li>
+    </ul>
+  </li>
+  <li>예시</li>
+</ul>
+
+<pre><code>{
+    "_id": ObjectId("631203df3f4948bd2f98312"),
+    "nickname": "smothly",
+    "name": { first: "Seung Ho", last: "Choi" }
+}
+</code></pre>
+<ul>
+  <li>key:value쌍으로 이루어짐, key=”nickname” value=”smothly”</li>
+  <li>동적 Schema를 가짐 = Document끼리 다른 구조를 가질 수 있음</li>
+</ul>
+
+<hr />
+
+<h3 id="fields"><strong>Fields</strong></h3>
+<ul>
+  <li>RDBMS의 속성과 비슷한 개념</li>
+  <li>위에서 key에 해당하는 값들로 주로 조회할 때 많이 사용합니다.</li>
+</ul>
+
+<hr />
+
+<h3 id="rdms와의-비교"><strong>RDMS와의 비교</strong></h3>
+<ul>
+  <li>table &lt;-&gt; collection</li>
+  <li>tuple/row &lt;-&gt; document</li>
+  <li>column &lt;-&gt; key/field</li>
+  <li>table join &lt;-&gt; embedded document</li>
+  <li>primary key &lt;-&gt; primary key(_id)</li>
+</ul>
+
+<hr />
+<p><br /></p>
+
+<blockquote>
+  <h2 id="mongodb-명령어--실습">MongoDB 명령어 &amp; 실습</h2>
+</blockquote>
+
+<h3 id="설치"><strong>설치</strong></h3>
+<p>OS에 맞게 <a href="https://docs.mongodb.com/manual/installation/">공식사이트</a>에서 community edition 설치해주세요!<br />
+공식문서 보기 힘드시면 <a href="https://velopert.com/436">velopert 블로그</a>나 <a href="https://www.google.com/search?q=mongodb+%EC%84%A4%EC%B9%98&amp;rlz=1C5CHFA_enKR864KR864&amp;oq=mongodb+%EC%84%A4%EC%B9%98&amp;aqs=chrome.0.0l5j69i61.2630j0j7&amp;sourceid=chrome&amp;ie=UTF-8">구글검색</a>을 보시고 설치해주시기 바랍니다.</p>
+
+<p>터미널에 <code class="highlighter-rouge">mongo</code>입력하셔서 접근 되시면 성공하신겁니다.</p>
+
+<hr />
+
+<h3 id="database"><strong>Database</strong></h3>
+
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>use [DATABASE_NAME]
+use tutorial
+</code></pre>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>db</code></pre>
+<p>현재 사용중인 db(tutorial)가 나오는 것을 확인</p>
+<pre><code>show dbs</code></pre>
+<p>다른 db들도 조회 가능합니다.</p>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code>db.dropDatabase();
+</code></pre>
+<p>현재 사용중인(use) database 삭제<br /></p>
+
+<hr />
+
+<h3 id="collection"><strong>Collection</strong></h3>
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>db.createCollection(name, [options]) 
+db.createCollection('users') 
+</code></pre>
+<p>각 명령어의 옵션들은 <a href="https://docs.mongodb.com/manual/reference/method/]">몽고디비 매뉴얼</a>에서 확인하고 사용하시길 바랍니다.</p>
+<pre><code>db.adminUsers.insert({"name": "seungho"})
+</code></pre>
+<p>이렇게 Document를 생성해도 자동으로 Collection이 생성이 됩니다.<br />
+여기서 확인할 수 있는거는 본인이 원하는 형식으로 insert할 수 있습니다. = schemaless</p>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>show collections
+</code></pre>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.drop()
+db.adminUsers.drop()
+</code></pre>
+
+<hr />
+
+<h3 id="document-1"><strong>Document</strong></h3>
+<p>일단 위에서 <code class="highlighter-rouge">use</code>명령어로 본인이 사용할 db를 먼저 선택해 줍니다.</p>
+<ul>
+  <li>생성</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.insert(document)
+db.users.insert({"name": "seungho", "nickname": "smothly"})
+</code></pre>
+<ul>
+  <li>여러개 넣기</li>
+</ul>
+<pre><code>db.users.insert([
+    {"name": "seungho", "nickname": "smothly"},
+    {"name": "철수", "nickname": "영희친구"}
+])</code></pre>
+<p>배열을 사용하여 넣으면 됩니다!</p>
+<ul>
+  <li>조회</li>
+</ul>
+<pre><code>db.COLLECTION_NAME.find()
+db.users.find()
+</code></pre>
+<p>find 함수는 조건을 사용하여 조회할 수도 있으므로 다음 포스트에 다뤄보겠습니다.<br />
+지금은 전체를 조회하는 구문입니다.</p>
+<ul>
+  <li>삭제</li>
+</ul>
+<pre><code class="bash">db.COLLECTION_NAME.remove(criteria, justOne)
+db.users.remove({"name": "철수"})
+</code></pre>
+<p>criteria 조건 부분에 name이 ‘철수’인 documnet만 삭제하라고 조건을 주었습니다.<br />
+평소에 사용하실 때는 미리 find 메소드를 사용하여 조회하고 삭제하는 것을 추천합니다.</p>
+
+<p><br /><br /></p>
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://velopert.com/436</li>
+  <li>https://nicewoong.github.io/development/2018/02/10/mongodb-feature/</li>
+  <li>https://www.mongodb.com/</li>
+  <li>https://docs.mongodb.com/manual/reference/method
+<br /><br /></li>
+</ul>
+
+          <a class="button" href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
     
     <div class="post-teaser">
       <header>
@@ -552,366 +879,6 @@ def jamo_combine(word):
       </header>
     </div>
     
-    <div class="post-teaser">
-      <header>
-        <h2>
-          <a class="post-link" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
-            Docker 명령어
-          </a>
-        </h2>
-        <p class="meta">
-          November 6, 2019
-        </p>
-        <div class="excerpt">
-          <!--<h1 id="docker-명령어">Docker 명령어</h1>
-
-<hr />
-
-<blockquote>
-  <h2 id="docker에서-자주-쓰이고-유용한-명령어들-모음">Docker에서 자주 쓰이고 유용한 명령어들 모음</h2>
-</blockquote>
-
-<ul>
-  <li>Docker 이미지 다운로드</li>
-</ul>
-<pre><code class="bash">docker pull [image]
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 확인</li>
-</ul>
-<pre><code class="bash">docker images
-docker image ls
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 삭제</li>
-</ul>
-<pre><code class="bash">docker rmi 이미지명
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 이름 변경</li>
-</ul>
-<pre><code class="bash">docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
-</code></pre>
-
-<ul>
-  <li>Docker 이미지 실행</li>
-</ul>
-<pre><code class="bash">docker run -it hello-world
-</code></pre>
-<ul>
-  <li>-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고<br /></li>
-  <li>-t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.<br />
-마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.</li>
-</ul>
-
-<p><code class="highlighter-rouge">docker run</code> = <code class="highlighter-rouge">docker pull</code>, <code class="highlighter-rouge">docker create</code>, <code class="highlighter-rouge">docker start</code>, <code class="highlighter-rouge">docker attach</code>(-it 옵션을 사용했다면)이 포함</p>
-
-<pre><code class="bash">docker run -d -p 8080:8080 --name my-cat tomcat
-</code></pre>
-<p>-d 옵션은 Background로 실행하겠다는 의미입니다.<br />
--p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.<br />
-호스트의 8080 포트와 컨테이너의 8080 포트와 연결<br /></p>
-
-<p>이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; <br />
-tag_name은 default값은 latest입니다.</p>
-
-<ul>
-  <li>컨테이너 이름 변경</li>
-</ul>
-<pre><code class="bash">docker rename
-</code></pre>
-
-<ul>
-  <li>로그확인: 컨테이너의 ID 일부만 적어도 식별 함</li>
-</ul>
-<pre><code class="bash">docker logs -f 89c
-docker logs -f my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 종료</li>
-</ul>
-<pre><code class="bash">docker stop 89c
-docker stop my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 확인</li>
-</ul>
-<pre><code class="bash">docker ps -a
-docker container ls -a
-</code></pre>
-
-<ul>
-  <li>컨테이너 실행</li>
-</ul>
-<pre><code class="bash">docker exec -it  [container id] /bin/bash
-</code></pre>
-
-<ul>
-  <li>컨테이너 제거</li>
-</ul>
-<pre><code class="bash">docker rm 89c(id)
-docker rm my-cat
-</code></pre>
-
-<ul>
-  <li>컨테이너 전체 제거</li>
-</ul>
-<pre><code class="bash">docker ps -q -a | xargs docker rm
-</code></pre>
-
-<ul>
-  <li>Docker 컨테이너를 이미지로 커밋</li>
-</ul>
-<pre><code class="bash">docker commit [container-name] [image-id]
-</code></pre>
-
-<p>새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
-<br /><br /></p>
-<blockquote>
-  <subtitle>출처</subtitle>
-</blockquote>
-
-<ul>
-  <li>https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container<br /></li>
-  <li>https://docs.docker.com/engine/reference/commandline/tag/
-<br /><br /></li>
-</ul>
-
-          <a class="button" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
-            Continue reading
-          </a>-->
-        </div>
-      </header>
-    </div>
-    
-    <div class="post-teaser">
-      <header>
-        <h2>
-          <a class="post-link" href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
-            Docker로 딥러닝 개발환경 구성하기
-          </a>
-        </h2>
-        <p class="meta">
-          November 6, 2019
-        </p>
-        <div class="excerpt">
-          <!--<h1 id="docker를-통한-딥러닝-개발환경-구성하기">Docker를 통한 딥러닝 개발환경 구성하기</h1>
-
-<hr />
-
-<blockquote>
-  <h2 id="docker-image-tensorflow-다운">Docker Image (Tensorflow) 다운</h2>
-</blockquote>
-
-<p>cpu 버전은 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest</a><br />
-gpu 버전은 Nvidia 그래픽 카드를 가정할 때 <a href="https://hub.docker.com/r/tensorflow/tensorflow">tensorflow/tensorflow:latest-gpu</a>
-자세한 이미지 정보는 <a href="https://www.tensorflow.org/install/docker">이곳</a>을 참고하셔서 본인에게 맞는 버전을 다운받으시기 바랍니다!</p>
-
-<p>PyTorch는, TF 컨테이너 위에 pip으로 PyTorch를 설치하신 뒤 이미지에 변경사항을 커밋시키면 gpu도 잘 작동합니다.</p>
-
-<p>Nvidia-docker 프로젝트는 아직 윈도우를 지원하지 않습니다.<br />
-윈도우에서는 도커 컨테이너에 tensorflow-gpu는 설치할 수 없습니다ㅠㅠ</p>
-
-<p>호스트 OS(Ubuntu 혹은 다른 Linux)에는<br />
-gpu의 경우: 그래픽카드와 맞는 버전의 Nvidia-driver, docker, nvidia-docker2가 필요<br />
-cpu만 사용하실 경우: Docker 만 설치하시면 됩니다.
-<br /><br /></p>
-
-<hr />
-<blockquote>
-  <h2 id="jupyter-notebook-gpu버전-설치">Jupyter Notebook gpu버전 설치</h2>
-</blockquote>
-
-<p><a href="https://swalloow.github.io/docker-install">Docker 설치</a>는 되어있다고 가정하고!<br />
-환경설정이 필요할 경우 <a href="https://docs.docker.com/install/linux/linux-postinstall/">공식 사이트</a>를 참고하여 <code class="highlighter-rouge">docker version</code>이 제대로 수행되는지 확인합니다</p>
-
-<h4 id="jupyter-notebook-설치">jupyter notebook 설치</h4>
-<pre><code class="bash">docker run -it --rm -p 8888:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
-</code></pre>
-<p>이미지가 없을경우 자동으로 docker hub에서 찾아와서 받아옵니다.<br />
-attach 상태에서 호스트 쉘로 서버를 중지하지 않고 돌아가려면 <code class="highlighter-rouge">Ctrl + p</code> <code class="highlighter-rouge">Ctrl + q</code>(Escape sequence)를 차례대로 입력하면 됩니다.<br />
-port 변경을 원하면 ????:8888로 설정하셔서 실행하시면 됩니다. 여러개 설정도 가능합니다!</p>
-
-<h2 id="성공">성공!!</h2>
-<p><img src="https://user-images.githubusercontent.com/37397737/67648616-8d63d580-f979-11e9-9618-85f9d92e8b81.png" alt="스크린샷 2019-10-28 오전 11 53 16" /><br />
-localhost:8888 들어가셔서 token 입력해주시면 됩니다!</p>
-
-<p><img src="https://user-images.githubusercontent.com/37397737/67648562-5f7e9100-f979-11e9-97a4-70625f8e741f.png" alt="스크린샷 2019-10-28 오전 11 51 55" /><br />
-하지만 컨테이너는 휘발성이라 여기서 아무리 작업해도 컨테이너가 멈추면 데이터는 전부 사라집니다!
-<br /><br /></p>
-
-<hr />
-
-<blockquote>
-  <h2 id="host-os---컨테이너간의-공유폴더-생성">Host Os &lt;-&gt; 컨테이너간의 공유폴더 생성!</h2>
-</blockquote>
-
-<p><img src="https://docs.docker.com/storage/images/types-of-mounts-bind.png" alt="image" /></p>
-
-<p>https://docs.docker.com/storage/images/types-of-mounts-bind.png</p>
-
-<p><code class="highlighter-rouge">docker volume</code>은, 호스트의 파일시스템과 격리된 도커 컨테이너의 파일시스템이다.<br />
-run할 떄 <code class="highlighter-rouge">-v</code>옵션이나 <code class="highlighter-rouge">volume</code>을 따로 생성한 후 <code class="highlighter-rouge">run</code>할 때 붙여 사용 가능합니다.</p>
-
-<pre><code class="bash">docker run -it -p [host port]:[container port] -v ${HOME}/code:/tf [image-id]
-</code></pre>
-
-<p>-v 옵션으로 volume을 추가해 준 것이다. <code class="highlighter-rouge">${HOME}/code</code>가 host path <code class="highlighter-rouge">/tf</code>가 container path</p>
-
-<p>기본적으로 /Users, /Volume등 폴더들이 file sharing path에 들어가 있어<br />
-본인이 원하는 폴더를 host path 부분에 적어주면 된다.(마운트 하는 것이다.)<br />
-ex) `docker run -it -p ????:8888 -v /Users/내꺼/폴더:/tf c652(image id)</p>
-
-<h2 id="성공-1">성공!!</h2>
-<p><img src="https://user-images.githubusercontent.com/37397737/67652435-39acb880-f988-11e9-99db-c6dd765c72d2.png" alt="스크린샷 2019-10-28 오후 1 38 05" /><br />
-컨테이너를 키고 파일 저장 후 컨테이너를 종료후 다시 실행해도 정상적으로 파일이 남아 있음을 확인하였다.
-<br /><br /></p>
-
-<blockquote>
-  <p>추가사항!
-컨테이너 안에서 패키지를 깔거나 바인딩 된 볼륨(/tf)이외에 파일이 추가되면</p>
-  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker commit &lt;container_id&gt; &lt;image_id&gt;:&lt;tag&gt;
-</code></pre></div>  </div>
-  <p><code class="highlighter-rouge">commit</code> 을 통해 이미지를 업데이트 해줘야 합니다.</p>
-</blockquote>
-
-<h3 id="여기까지-jupyter-notebook-gpu-버젼을-받아-volume-공유까지-성공한-것이다">여기까지 jupyter notebook gpu 버젼을 받아 volume 공유까지 성공한 것이다.</h3>
-<p><br /><br /></p>
-
-<hr />
-
-<blockquote>
-  <h2 id="gpu-개발환경-구축">GPU 개발환경 구축</h2>
-</blockquote>
-
-<h3 id="nvidia-gpu-그리고-ubuntu-os를-가정">Nvidia GPU, 그리고 Ubuntu OS를 가정</h3>
-
-<h4 id="1-gpu-설치">1. gpu 설치</h4>
-<pre><code class="bash">ubuntu-drivers devices
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/37397737/67653887-c8243880-f98e-11e9-95a2-e2064dd477a8.png" alt="스크린샷 2019-10-28 오후 2 25 10" /></p>
-
-<p>recommended하는 드라이버가 나온다!</p>
-
-<ul>
-  <li>recommended 드라이버 설치</li>
-</ul>
-<pre><code class="bash">sudo ubuntu-drivers autoinstall
-</code></pre>
-
-<ul>
-  <li>직접 설치</li>
-</ul>
-<pre><code class="bash">sudo add-apt-repository ppa:graphics-drivers/ppa # ppa를 추가
-sudo apt update
-sudo apt install nvidia-440(버전)
-</code></pre>
-
-<p>재부팅한 후 <code class="highlighter-rouge">nvidia-smi</code>를 통하여 확인<br />
-<img src="https://user-images.githubusercontent.com/37397737/67654118-d32b9880-f98f-11e9-8648-4019e2708ae8.png" alt="스크린샷 2019-10-28 오후 2 32 42" /></p>
-
-<h4 id="2-nvidia-docker2-설치">2. Nvidia-Docker2 설치</h4>
-<p><a href="https://github.com/NVIDIA/nvidia-docker">Nvidia Docker</a>에서 Quick Start 부분을 참고하여 진행하면 된다.</p>
-
-<p><img src="https://cloud.githubusercontent.com/assets/3028125/12213714/5b208976-b632-11e5-8406-38d379ec46aa.png" alt="image" /></p>
-<pre><code class="bash">curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
-  sudo apt-key add -
-curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-sudo apt-get update
-sudo apt-get install -y nvidia-docker2
-sudo pkill -SIGHUP dockerd
-</code></pre>
-<p>이대로 실행하면 된다. bash명령어를 잘 몰라…. 공부해야 할 것 같다 ㅠ</p>
-
-<p>만약에 안된다면 이전에 nvidia-docker를 삭제해보도록 한다.</p>
-<pre><code class="bash"># 삭제 방법
-# Ubuntu
-docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
-sudo apt-get purge nvidia-docker
-
-# CentOS
-docker volume ls -q -f driver=nvidia-docker | xargs -r -I{} -n1 docker ps -q -a -f volume={} | xargs -r docker rm -f
-sudo yum remove nvidia-docker
-</code></pre>
-
-<p>잘 설치되었는지 ‘nvidia-smi’ 명령어를 컨테이너 안에서 실행시키고, 결과를 확인</p>
-<pre><code class="bash">docker run --runtime=nvidia --rm -ti nvidia/cuda nvidia-smi
-</code></pre>
-<p><img src="https://user-images.githubusercontent.com/37397737/67660988-63bfa400-f9a3-11e9-95d3-fdd3d2e54da0.png" alt="스크린샷 2019-10-28 오후 4 52 48" /></p>
-
-<p>런타임을 nvidia 환경에서 진행하는 것이다. 이런식으로 나오면 성공한 것이다!<br /></p>
-
-<hr />
-
-<blockquote>
-  <h2 id="tensorflow-gpu-확인">Tensorflow GPU 확인</h2>
-</blockquote>
-
-<p><a href="https://hub.docker.com/r/tensorflow/tensorflow/tags">Docker 이미지 주소</a>에서 찾아보고 설치하면 된다.<br />
-위에서 설치했으니 패스하면 된다!</p>
-<pre><code class="bash">docker pull tensorflow/tensorflow:nightly-gpu-py3-jupyter
-</code></pre>
-
-<ul>
-  <li>최종실행!</li>
-</ul>
-<pre><code class="bash">docker run --runtime=nvidia -it -p 2222:8888 tensorflow/tensorflow:nightly-gpu-py3-jupyter
-</code></pre>
-
-<ul>
-  <li>volume 설정을 원하면 -v옵션을 추가하여 실행해주면 된다.</li>
-</ul>
-<pre><code class="bash">docker run --runtime=nvidia -it -p 2222:8888 -v /Users:/tf tensorflow/tensorflow:nightly-gpu-py3-jupyter
-</code></pre>
-
-<ul>
-  <li>주피터 노트북 접속해서 GPU 확인<br /></li>
-</ul>
-<pre><code class="python">from tensorflow.python.client import device_lib
-print(device_lib.list_local_devices())
-</code></pre>
-
-<ul>
-  <li>pytorch도 설치 후 확인</li>
-</ul>
-<pre><code class="python">!pip install torchvision
-import torch
-torch.cuda.get_device_name(0)
-</code></pre>
-
-<h2 id="성공-2">성공!!</h2>
-<p><img src="https://user-images.githubusercontent.com/37397737/67666006-388e8200-f9ae-11e9-8df5-35b812b80b9f.png" alt="스크린샷 2019-10-28 오후 6 09 22" /></p>
-
-<h2 id="성공했다-이제-이-이미지를-docker-hub에-이미지로-올려서-필요할때-받아쓰면-된다">성공했다!! 이제 이 이미지를 docker-hub에 이미지로 올려서 필요할때 받아쓰면 된다.</h2>
-<h2 id="참고로-용량은-엄청-크다-38gb">참고로 용량은 엄청 크다…. 3.8GB!</h2>
-<p><br /><br /></p>
-<blockquote>
-  <subtitle>출처</subtitle>
-</blockquote>
-
-<ul>
-  <li>http://haanjack.github.io/docker/2017/12/01/nvidia-docker-ngc.html<br /></li>
-  <li>http://moducon.kr/2018/wp-content/uploads/sites/2/2018/12/leesangsoo_slide.pdf</li>
-  <li>https://github.com/NVIDIA/nvidia-docker<br /></li>
-  <li>https://github.com/voyagerwoo/docker-hands-on<br /></li>
-  <li>https://futurecreator.github.io/2018/11/16/docker-container-basics/
-<br /><br /></li>
-</ul>
-
-
-          <a class="button" href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
-            Continue reading
-          </a>-->
-        </div>
-      </header>
-    </div>
-    
 
   </div>
 
@@ -923,6 +890,11 @@ torch.cuda.get_device_name(0)
       Prev
     </a>
     
+    
+    <a href="/blog/page3" class="button" >
+      Next
+      <i class="fa fa-chevron-right"></i>
+    </a>
     
   </div>
   

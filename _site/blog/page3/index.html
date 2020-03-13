@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>Docker로 딥러닝 개발환경 구성하기 | Seungho's Blog</title>
-	<meta name="description" content="Docker를 통한 딥러닝 개발환경 구성하기  Docker Image (Tensorflow) 다운cpu 버전은 tensorflow/tensorflow:latestgpu 버전은 Nvidia 그래픽 카드를 가정할 때 tensorflow/tensorflow:latest-gpu자세한 이미...">
+	<title> Seungho's Blog</title>
+	<meta name="description" content="seungho`s development blog">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
+	<link rel="canonical" href="/blog/page3/">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -211,16 +211,240 @@
 
   <body>
     <div class="content">
-      <article >
-  <header style="background-image: url('/')">
-    <h1 class="title">Docker로 딥러닝 개발환경 구성하기</h1>
+      <div class="home">
+  <div class="selfie">
+  	<a href="https://smothly.github.io/about">
+  		<img src="https://smothly.github.io/assets/img/profile.jpg">
+  	</a>
+  </div>
+
+  
+  <div class="call-out"
+  style="background-image: url('/')">
+    <p>Data Engineer & Data Scientist를 꿈꾸며</p>
+
+  </div>
+  
+
+  <!-- Social icons from Font Awesome, if enabled  -->
+  
+<ul class='social'>
+	
+	<li>
+		<a href="/feed.xml" title="Follow RSS feed">
+			<i class="fa fa-fw fa-rss"></i>
+		</a>
+	</li>
+	
+
+	
+	<li>
+		<a href="mailto:seungho546@naver.com" title="Email">
+			<i class="fa fa-fw fa-envelope"></i>
+		</a>
+	</li>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	<li>
+		<a href="https://github.com/smothly" title="Follow on GitHub">
+			<i class="fa fa-fw fa-github"></i>
+		</a>
+	</li>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+</ul>
+
+
+  <hr>
+  <div class="posts">
+  	<h2 class="post-title">Recent Post</h2>
+
     
-    <p class="meta">
-      November 6, 2019
-      
-    </p>
-  </header>
-  <section class="post-content"><h1 id="docker를-통한-딥러닝-개발환경-구성하기">Docker를 통한 딥러닝 개발환경 구성하기</h1>
+    <div class="post-teaser">
+      <header>
+        <h2>
+          <a class="post-link" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+            Docker 명령어
+          </a>
+        </h2>
+        <p class="meta">
+          November 6, 2019
+        </p>
+        <div class="excerpt">
+          <!--<h1 id="docker-명령어">Docker 명령어</h1>
+
+<hr />
+
+<blockquote>
+  <h2 id="docker에서-자주-쓰이고-유용한-명령어들-모음">Docker에서 자주 쓰이고 유용한 명령어들 모음</h2>
+</blockquote>
+
+<ul>
+  <li>Docker 이미지 다운로드</li>
+</ul>
+<pre><code class="bash">docker pull [image]
+</code></pre>
+
+<ul>
+  <li>Docker 이미지 확인</li>
+</ul>
+<pre><code class="bash">docker images
+docker image ls
+</code></pre>
+
+<ul>
+  <li>Docker 이미지 삭제</li>
+</ul>
+<pre><code class="bash">docker rmi 이미지명
+</code></pre>
+
+<ul>
+  <li>Docker 이미지 이름 변경</li>
+</ul>
+<pre><code class="bash">docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+</code></pre>
+
+<ul>
+  <li>Docker 이미지 실행</li>
+</ul>
+<pre><code class="bash">docker run -it hello-world
+</code></pre>
+<ul>
+  <li>-i는 현재 호스트와 컨테이너의 상호 입출력을 맞추고<br /></li>
+  <li>-t는 TTY를 활성화해서 컨테이너에 터미널로 입력이 가능하게 합니다.<br />
+마지막 위치에는 도커 이미지 이름을 적어줍니다. control + c로 컨테이너를 종료합니다.</li>
+</ul>
+
+<p><code class="highlighter-rouge">docker run</code> = <code class="highlighter-rouge">docker pull</code>, <code class="highlighter-rouge">docker create</code>, <code class="highlighter-rouge">docker start</code>, <code class="highlighter-rouge">docker attach</code>(-it 옵션을 사용했다면)이 포함</p>
+
+<pre><code class="bash">docker run -d -p 8080:8080 --name my-cat tomcat
+</code></pre>
+<p>-d 옵션은 Background로 실행하겠다는 의미입니다.<br />
+-p(publish)는 웹서비스를 한다면 굉장히 중요한 옵션입니다. 호스트의 포트와 컨테이너의 포트를 바인딩해줍니다.<br />
+호스트의 8080 포트와 컨테이너의 8080 포트와 연결<br /></p>
+
+<p>이미지 이름의 형식은 &lt;repo&gt;/&lt;image_name&gt;:&lt;tag_name&gt; <br />
+tag_name은 default값은 latest입니다.</p>
+
+<ul>
+  <li>컨테이너 이름 변경</li>
+</ul>
+<pre><code class="bash">docker rename
+</code></pre>
+
+<ul>
+  <li>로그확인: 컨테이너의 ID 일부만 적어도 식별 함</li>
+</ul>
+<pre><code class="bash">docker logs -f 89c
+docker logs -f my-cat
+</code></pre>
+
+<ul>
+  <li>컨테이너 종료</li>
+</ul>
+<pre><code class="bash">docker stop 89c
+docker stop my-cat
+</code></pre>
+
+<ul>
+  <li>컨테이너 확인</li>
+</ul>
+<pre><code class="bash">docker ps -a
+docker container ls -a
+</code></pre>
+
+<ul>
+  <li>컨테이너 실행</li>
+</ul>
+<pre><code class="bash">docker exec -it  [container id] /bin/bash
+</code></pre>
+
+<ul>
+  <li>컨테이너 제거</li>
+</ul>
+<pre><code class="bash">docker rm 89c(id)
+docker rm my-cat
+</code></pre>
+
+<ul>
+  <li>컨테이너 전체 제거</li>
+</ul>
+<pre><code class="bash">docker ps -q -a | xargs docker rm
+</code></pre>
+
+<ul>
+  <li>Docker 컨테이너를 이미지로 커밋</li>
+</ul>
+<pre><code class="bash">docker commit [container-name] [image-id]
+</code></pre>
+
+<p>새로 알게된 명령어나 유용한 명령어들 계속 추가할 계획입니다.
+<br /><br /></p>
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://github.com/voyagerwoo/docker-hands-on/tree/master/PART1-docker-image-and-container<br /></li>
+  <li>https://docs.docker.com/engine/reference/commandline/tag/
+<br /><br /></li>
+</ul>
+
+          <a class="button" href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
+          <a class="post-link" href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
+            Docker로 딥러닝 개발환경 구성하기
+          </a>
+        </h2>
+        <p class="meta">
+          November 6, 2019
+        </p>
+        <div class="excerpt">
+          <!--<h1 id="docker를-통한-딥러닝-개발환경-구성하기">Docker를 통한 딥러닝 개발환경 구성하기</h1>
 
 <hr />
 
@@ -424,102 +648,29 @@ torch.cuda.get_device_name(0)
 <br /><br /></li>
 </ul>
 
-</section>
-  
-<footer>
-  <div class="tags">
+
+          <a class="button" href="/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
     
-    <a class="tag" href="/tags#Docker">#Docker</a>
-    
-    <a class="tag" href="/tags#Deep Learning">#Deep Learning</a>
-    
-    <a class="tag" href="/tags#Development Environment">#Development Environment</a>
-    
+
   </div>
-</footer>
 
-
-
-
-  <!-- Disqus -->
-  <a href="https://smothly.github.io/development%20environment/docker/2019/11/06/Docker-%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%9C%EB%B0%9C%ED%99%98%EA%B2%BD.html#disqus_thread"></a>
   
-  <div>
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://smothly-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-  
-  <!-- Disqus -->
-  <!-- <div id="post-disqus" class="container">
+  <div class="pagination">
     
-      <div id="disqus" class="container">
-      <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://smothly-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-      </div>
+    <a href="/blog/page2" class="button" >
+      <i class="fa fa-chevron-left"></i>
+      Prev
+    </a>
     
-  </div> -->
-
-</article>
-
-
-
-
-
-
-
-
-
-<!-- Post navigation -->
-
-  <div id="post-nav">
-  
-  
-  <div id="next-post" class="post-nav-post">
-      <p>Next post</p>
-      <a href="/development%20environment/docker/2019/11/06/Docker-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
-        Docker 명령어
-      </a>
+    
   </div>
   
 </div>
-
-
 
     </div>
     

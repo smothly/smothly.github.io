@@ -2,8 +2,8 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title>conda와 pip 분리 | Seungho's Blog</title>
-	<meta name="description" content="Conda 가상환경 사용시 라이브러리 패키지 문제conda 가상환경을 쓸 시 conda install 명령어로 설치가 안되는 라이브러리들이 있습니다. 이럴 경우 pip install을 사용하게 되는데 이렇게 설치하면 local에 전역적으로 설치되어 가상환경을 쓸 이유가 없는 문제가...">
+	<title>Python List Tuple 설명 | Seungho's Blog</title>
+	<meta name="description" content="Python List Tuple 설명Python에서 흔히 쓰는 리스트[ ], 튜플( ) 자료형에 대해 알아보겠습니다.보통은 혼용해서 쓰기 마련인데, 차이점들을 설명해드리겠습니다.  List 리스트  동적배열          변경이 가능한 배열로 append명령어를 통해 리스트를 변...">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- CSS -->
@@ -13,7 +13,7 @@
 	<link rel="shortcut icon" href="/assets/coding.ico" type="image/x-icon">
 
 	<!-- Canonical -->
-	<link rel="canonical" href="/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html">
+	<link rel="canonical" href="/programming%20language/python/2020/03/13/Python-List-Tuple-%EC%84%A4%EB%AA%85.html">
 
 	<!-- RSS -->
 	<link rel="alternate" type="application/atom+xml" title="Seungho's Blog" href="/feed.xml" />
@@ -213,75 +213,93 @@
     <div class="content">
       <article >
   <header style="background-image: url('/')">
-    <h1 class="title">conda와 pip 분리</h1>
+    <h1 class="title">Python List Tuple 설명</h1>
     
     <p class="meta">
-      December 3, 2019
+      March 13, 2020
       
     </p>
   </header>
-  <section class="post-content"><h1 id="conda-가상환경-사용시-라이브러리-패키지-문제">Conda 가상환경 사용시 라이브러리 패키지 문제</h1>
+  <section class="post-content"><h1 id="python-list-tuple-설명">Python List Tuple 설명</h1>
 
-<p>conda 가상환경을 쓸 시 <code class="highlighter-rouge">conda install</code> 명령어로 설치가 안되는 라이브러리들이 있습니다. <br /><br />
-이럴 경우 <code class="highlighter-rouge">pip install</code>을 사용하게 되는데 이렇게 설치하면 local에 전역적으로 설치되어 <br /><br />
-가상환경을 쓸 이유가 없는 문제가 생김을 발견하였습니다.</p>
+<p>Python에서 흔히 쓰는 <code class="highlighter-rouge">리스트[ ]</code>, <code class="highlighter-rouge">튜플( )</code> 자료형에 대해 알아보겠습니다.<br />
+보통은 혼용해서 쓰기 마련인데, 차이점들을 설명해드리겠습니다.</p>
 
 <hr />
 
 <blockquote>
-  <h2 id="conda-가상환경-키고-pip과-library설치">Conda 가상환경 키고 pip과 library설치</h2>
+  <h2 id="list-리스트">List 리스트</h2>
 </blockquote>
-<pre><code>conda create -n test python=3.7 # 가상환경 설치
-conda activate test # 가상환경 접속
-conda install pip # conda가상환경에 pip 패키지를 설치
-pip install hgtk # 아무 라이브러리 설치
-</code></pre>
-<p><br />
-conda 가상환경 내에 <code class="highlighter-rouge">pip</code>을 설치하여 위의 문제를 해결하였습니다.</p>
 
-<hr />
-<p><br /></p>
+<ul>
+  <li>동적배열
+    <ul>
+      <li>변경이 가능한 배열로 <code class="highlighter-rouge">append</code>명령어를 통해 리스트를 변경할 수 있음</li>
+    </ul>
+  </li>
+  <li>초기할당은 정해진 양만큼 하지만, <code class="highlighter-rouge">append</code>를 쓰는 순간 초과할당을 합니다.
+    <ul>
+      <li>resize연산이 가능하여 길이가 N짜리 배열을 만드는 것이 아니라 N + M(M &gt; N)인 여유분이 있는 배열을 만듭니다.</li>
+      <li>memory할당과 복사 요청 횟수를 줄이기 위함입니다.</li>
+      <li>리스트 크기 할당 방정식: (N » 3) + (N &lt; 9 ? 3 : 6) ex) 10,000,000짜리 배열이 약 16,000,000개 배열만큼 메모리를 사용함</li>
+    </ul>
+  </li>
+</ul>
 
 <blockquote>
-  <h2 id="library-분리-확인">library 분리 확인</h2>
+  <h2 id="tuple-튜플">Tuple 튜플</h2>
 </blockquote>
-<pre><code>conda list | grep hgtk 
-conda deactivate # 가상환경 종료
-pip list | grep hgtk
-</code></pre>
-<p><code class="highlighter-rouge">conda list</code> 명령어에서는 나오고 <code class="highlighter-rouge">pip list</code> 에서는 안나온 것을 확인할 수 있습니다.</p>
+
+<ul>
+  <li>정적배열
+    <ul>
+      <li>튜플은 한 번 생성되면 내용을 바꾸거나 크기를 변경할 수 없다.</li>
+      <li>합치는건 가능 ex) tuple1 + tuple2</li>
+    </ul>
+  </li>
+  <li>여유 공간 할당 x</li>
+  <li>리소스 캐싱
+    <ul>
+      <li>크기가 20이하인 튜플은 GC를 통해 메모리를 반환하지 않는다.</li>
+      <li>같은 크기의 튜플이 필요해지면 메모리에 새로 할당받지 않고, 기존에 있던걸 사용함</li>
+    </ul>
+  </li>
+</ul>
 
 <hr />
-<p><br /></p>
 
 <blockquote>
-  <h2 id="conda-가상환경-삭제">conda 가상환경 삭제</h2>
+  <h2 id="언제-써야-할까">언제 써야 할까?</h2>
 </blockquote>
-<pre><code>conda info --envs # 본인의 conda 가상환경 확인
-conda remove --name test --all 
-</code></pre>
-<p><br /></p>
-<h2 id="이로써-anaconda를-통한-완전한-가상환경을-사용할-수-있습니다">이로써 anaconda를 통한 완전한 가상환경을 사용할 수 있습니다!</h2>
-<p><br /></p>
+
+<p>앞서 말한 리소스 캐싱 기능 덕분에 튜플을 중복할당할 일이 생기면 속도차이가 생깁니다.
+<img src="https://user-images.githubusercontent.com/37397737/76627397-4a984800-657e-11ea-8a4d-50fb5c824103.png" alt="image" /></p>
+
+<p>보통은 <code class="highlighter-rouge">list</code>를 쓰는게 더 편하겠지만, 정적데이터에 한해서는 <code class="highlighter-rouge">tuple</code>을 쓰는 버릇을 들이는 게 좋아보입니다.<br />
+list와 tuple 타입만으로 동적, 정적데이터가 구분될 수 있습니다.</p>
+
+<p><br /><br /><br /></p>
+
 <blockquote>
   <subtitle>출처</subtitle>
 </blockquote>
 
 <ul>
-  <li>https://dailyheumsi.tistory.com/33</li>
-  <li>https://leebaro.tistory.com/entry/anaconda%EC%97%90%EC%84%9C-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-%EC%82%AD%EC%A0%9C%ED%95%98%EA%B8%B0
-<br /><br /></li>
+  <li>고성능 파이썬 책</li>
+  <li>https://github.com/scari/high_performance_python/</li>
 </ul>
+
+<p><br /><br /></p>
 </section>
   
 <footer>
   <div class="tags">
     
-    <a class="tag" href="/tags#Anaconda">#Anaconda</a>
+    <a class="tag" href="/tags#Python">#Python</a>
     
-    <a class="tag" href="/tags#Pip">#Pip</a>
+    <a class="tag" href="/tags#List">#List</a>
     
-    <a class="tag" href="/tags#Virtual Environment">#Virtual Environment</a>
+    <a class="tag" href="/tags#Tuple">#Tuple</a>
     
   </div>
 </footer>
@@ -290,7 +308,7 @@ conda remove --name test --all
 
 
   <!-- Disqus -->
-  <a href="https://smothly.github.io/develop%20environment/linux/2019/12/03/conda-pip-%EB%B6%84%EB%A6%AC.html#disqus_thread"></a>
+  <a href="https://smothly.github.io/programming%20language/python/2020/03/13/Python-List-Tuple-%EC%84%A4%EB%AA%85.html#disqus_thread"></a>
   
   <div>
     <div id="disqus_thread"></div>
@@ -359,16 +377,16 @@ s.setAttribute('data-timestamp', +new Date());
   
   <div id="previous-post" class="post-nav-post">
       <p>Previous post</p>
-      <a href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
-        Github Blog에 이미지 올리기 꿀팁!
+      <a href="/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html">
+        Python CPU사용량 측정하기(line profiler)
       </a>
   </div>
   
   
   <div id="next-post" class="post-nav-post">
       <p>Next post</p>
-      <a href="/data%20engineering/database/2019/12/03/MongoDB-%EA%B0%9C%EB%85%90-%EB%B0%8F-%EB%AA%85%EB%A0%B9%EC%96%B4.html">
-        MongoDB 개념 및 명령어
+      <a href="/programming%20language/python/2020/03/13/Python-Memory-%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0.html">
+        Python Memory 사용량 측정하기(memory profiler)
       </a>
   </div>
   
