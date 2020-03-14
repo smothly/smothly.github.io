@@ -299,6 +299,67 @@
     <div class="post-teaser">
       <header>
         <h2>
+          <a class="post-link" href="/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html">
+            네이버 영화 리뷰 EDA & Clustering(K-means)
+          </a>
+        </h2>
+        <p class="meta">
+          January 14, 2020
+        </p>
+        <div class="excerpt">
+          <!--<blockquote>
+  <h2 id="데이터-수집네이버-영화-리뷰">데이터 수집(네이버 영화 리뷰)</h2>
+</blockquote>
+
+<p><a href="https://smothly.github.io/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">크롤링 포스트</a>를 사용하여 네이버 영화 데이터를 약 2만개 모았습니다.
+<br /><br /></p>
+
+<blockquote>
+  <h2 id="eda--시각화--k-means를-활용한-클러스터링">EDA &amp; 시각화 &amp; K-means를 활용한 클러스터링</h2>
+</blockquote>
+
+<p>해본 것들을 설명드리면</p>
+<ul>
+  <li>EDA: 평점 분포, 품사 별 긍부정 분포</li>
+  <li>word2vec을 활용한 워드임베딩</li>
+  <li>K-means를 활용한 군집화</li>
+  <li>이외에 전처리나 WordCloud
+<br /><br />
+결과와 코드는 <a href="https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb">소스 노트북 파일</a>을 참고하여 봐주시기 바랍니다!
+<br /><br /></li>
+</ul>
+
+<p>사이드 프로젝트 느낌으로 해본거라 많이 부족합니다. NLP기본적인 것들 배운것을 활용하여 진행했습니다.
+<br /><br /></p>
+
+<p>이외에도 딥러닝을 활용하여 감성분석을 진행할 수도 있고,</p>
+
+<p>LDA, LSA등 토픽모델링로 군집화를 진행해볼 수 있었는데 제일 간단한 머신러닝 기법인 K-means로 진행하였습니다.</p>
+
+<p><br /><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://medium.com/ml2vec/using-word2vec-to-analyze-reddit-comments-28945d8cee57</li>
+  <li>https://github.com/smothly/ToBigs/blob/master/week8/NLP/nlpProject.ipynb</li>
+  <li>https://github.com/smothly/ai_innovation_NLP/blob/master/6.21%2C%2026%20Sentiment%20Analysis%20%EC%8B%A4%EC%8A%B5.ipynb</li>
+</ul>
+
+<p><br /><br /></p>
+
+          <a class="button" href="/data%20science/nlp/2020/01/14/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-EDA-&-Clustering(K-means).html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
           <a class="post-link" href="/data%20science/nlp/2020/01/13/%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%98%81%ED%99%94-%EB%A6%AC%EB%B7%B0-%ED%81%AC%EB%A1%A4%EB%A7%81(Crawling).html">
             네이버 영화 리뷰 크롤링(Crawling) By Selenium
           </a>
@@ -755,124 +816,6 @@ markdown 문법으로 그대로 복사해서 쓰면 됩니다!</p>
 </ul>
 
           <a class="button" href="/develop%20environment/git/2019/12/03/Github-Blog%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%98%AC%EB%A6%AC%EA%B8%B0-%EA%BF%80%ED%8C%81.html">
-            Continue reading
-          </a>-->
-        </div>
-      </header>
-    </div>
-    
-    <div class="post-teaser">
-      <header>
-        <h2>
-          <a class="post-link" href="/data%20science/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
-            한글자모분리 By Python
-          </a>
-        </h2>
-        <p class="meta">
-          November 23, 2019
-        </p>
-        <div class="excerpt">
-          <!--<blockquote>
-  <h2 id="한글-자모-분리-코드">한글 자모 분리 코드</h2>
-</blockquote>
-
-<p>제가 NLP 프로젝트를 진행중에 자모단위로 분리하여 임베딩 해야하는 일이 생겼습니다.<br />
-그래서 여러가지 라이브러리를 찾아봤는데</p>
-<ul>
-  <li>정확히 완성된 한글일 경우만 split해주는 문제 ex) 바보 o, 바보ㅋ x</li>
-  <li>종성 없을 경우 무시하는 문제</li>
-  <li>결합도 제대로 분리된 경우에만 해주는 문제
-등의 문제들이 있었습니다.<br />
-채팅 데이터나 블로그 데이터들은 정확한 문법과 철자를 지키지 않기 때문에 수많은 에러를 마주할 수 밖에 없었습니다.<br />
-그래서 변칙적인 한글에서도 쓸 수 있는 자모 분리 코드를 만들어서 올려놨습니다.<br />
-제 <a href="https://github.com/smothly/Jamo_Split_and_Combine">github</a>에서 얼마든지 유용하게 사용하셔도 됩니다!</li>
-</ul>
-
-<blockquote>
-  <h2 id="코드">코드</h2>
-</blockquote>
-
-<p><a href="https://github.com/bluedisk/hangul-toolkit">hangul-toolkit</a>과 <a href="https://github.com/rhobot/Hangulpy">hangulpy</a>를 참조하여 만들었습니다.</p>
-
-<p>주요 수정부분</p>
-<ul>
-  <li>end_char 파라미터를 추가하여 한글자가 무조건 3개의 자모로 분리</li>
-  <li>완전한 글자가 아니여도 자모분리</li>
-  <li>자모 결합 에러처리 구문으로 이상한 글자가 와도 전부 결합</li>
-</ul>
-<pre><code class="python">CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
-JONGSUNGS = [u'_',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-TOTAL = CHOSUNGS + JOONGSUNGS + JONGSUNGS
-
-# 자모분리
-def jamo_split(word, end_char="_"):
-    
-    result = []
-    
-    for char in word:
-        
-        character_code = ord(char)
-        
-        if 0xD7A3 &lt; character_code or character_code &lt; 0xAC00:
-            result.append(char)
-            continue
-
-        chosung_index = int((((character_code - 0xAC00) / 28) / 21) % 19)
-        joongsung_index = int(((character_code - 0xAC00) / 28) % 21)
-        jongsung_index = int((character_code - 0xAC00) % 28)
-        
-        chosung = CHOSUNGS[chosung_index]
-        joongsung = JOONGSUNGS[joongsung_index]
-        jongsung = JONGSUNGS[jongsung_index]
-        
-        # 종성 범위 밖에 있는 것들은 end_char로 메꿔준다.
-        if jongsung_index == 0:
-            jongsung = end_char
-        
-        result.append(chosung)
-        result.append(joongsung)
-        result.append(jongsung)
-
-    return "".join(result)
-
-
-# 자모결합
-def jamo_combine(word):
-
-    result = ""
-    index = 0
-    
-    while index &lt; len(word):
-    
-        # 3개의 char를 보아 글자가 만들어지면 만들고 아니면 1개의 char만 추가한다.
-        try:
-            cho = CHOSUNGS.index(word[index]) * 21 * 28
-            joong = JOONGSUNGS.index(word[index+1]) * 28
-            jong = JONGSUNGS.index(word[index+2])
-
-            result += chr(cho + joong + jong + 0xAC00) 
-            index += 3
-
-        except:
-            result += word[index]
-            index += 1
-        
-    return result
-</code></pre>
-
-<blockquote>
-  <subtitle>출처</subtitle>
-</blockquote>
-
-<ul>
-  <li>https://github.com/smothly/Jamo_Split_and_Combine</li>
-  <li>https://github.com/bluedisk/hangul-toolkit</li>
-  <li>https://github.com/rhobot/Hangulpy
-<br /><br /></li>
-</ul>
-
-          <a class="button" href="/data%20science/nlp/2019/11/23/%ED%95%9C%EA%B8%80%EC%9E%90%EB%AA%A8%EB%B6%84%EB%A6%AC.html">
             Continue reading
           </a>-->
         </div>
