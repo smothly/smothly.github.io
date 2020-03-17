@@ -50,8 +50,8 @@ feature-img: "assets/img/tree.jpg"
 
 > <h3 style="color: red">Experience</h3>
 
-- **다이어**: ICT인턴십 - [2019.09 ~]<br><br>
-- **투빅스**: 빅데이터 분석 연합 동아리 - [2019. 07 ~ ]<br><br>
+- **다이어**: ICT인턴십 - [2019.09 ~ 2020.02]<br><br>
+- **투빅스**: 빅데이터 분석 연합 동아리 - [2019. 07 ~ 2020.01]<br><br>
 - [**AI Innovation Square**](https://github.com/smothly/ai_innovation_NLP): 자연어 처리 심화 교육 - [2019. 05 ~ 2019. 06]<br><br>
 - **이팝콘**: 학점연계인턴 [2018. 12 ~ 2019. 02]<br><br>
 - **멋쟁이 사자처럼**: 웹프로그래밍 연합 동이리 [2018. 04 ~ 2019 . 06]<br><br>
@@ -63,10 +63,12 @@ feature-img: "assets/img/tree.jpg"
 - Web Project
   - [2018 국민대학교 축제페이지](https://github.com/smothly/KmuFestival)
   - [2018 멋쟁이사자처럼 해커톤](https://github.com/smothly/Hackaton_Platform_2018)
+  - [2020 에브리타임 리뷰 기반 시간표 추천 서비스](https://github.com/smothly/Si-Chu)
 <br><br>
 - Data Science Project
   - [욕설 탐지기](https://github.com/smothly/BadWordDetection)
   - [뉴스 분류기](https://github.com/smothly/ai_innovation_NLP/blob/master/5.28~29%20search%20engine.ipynb)
+  - [MyMai singing voice conversion](https://github.com/sora-12/Singing-Voice-Conversion)
 <br><br>
 - Etc
   - [Hidato Puzzle](https://github.com/YoungsunCho/Algorithm_HidatoPuzzle)

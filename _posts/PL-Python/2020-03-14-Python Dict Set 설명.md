@@ -13,7 +13,7 @@ tags: [Python, Dict, Set]
 
 `dict`와 `set`은 내재적 순서가 존재하지 않지만 특정 데이터를 고유하게 참조할 때 유용하게 쓰이는 자료구조입니다.<br>
 dict와 set의 차이점은 dict에는 key:value쌍이 존재한다는 점이고, set은 value가 없이 key로만 접근한다는 점입니다.<br>
-또한, 앞서 소개한 list tuple은 탐색알고리즘이 O(nlog n)이 걸리는 데 비해 dict와 set은 `hash table`에 의존하여 O(1)시간복잡도로 찾을 수 있습니다.<br><br><br>
+또한, 앞서 소개한 list tuple은 탐색알고리즘이 O(log n)이 걸리는 데 비해 dict와 set은 `hash table`에 의존하여 O(1)시간복잡도로 찾을 수 있습니다.<br><br><br>
 
 ---
 
