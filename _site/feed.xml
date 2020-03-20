@@ -5,7 +5,7 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Fri, 20 Mar 2020 12:04:48 +0900</pubDate>
+    <pubDate>Fri, 20 Mar 2020 12:09:51 +0900</pubDate>
     
       <item>
         <title>Python Iterator Generator 설명</title>
@@ -25,7 +25,7 @@
         start += step&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;이렇습니다. 여기서 생소해 보이는 것이 &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt;함수를 쓰는 것입니다.&lt;br /&gt;
 파이썬 2에서는 기존에는 yield 방식이 아니라 그냥 append를 해서 전체 메모리가 잡는 방식을 사용했었습니다.(xrange라는 함수로 제너레이터 방식이 존재는 했었습니다.)&lt;br /&gt;
-만약에 range를 선언할 때 마다, 크기 만큼의 리스트가 만들어지면 메모리가 엄청나게 낭비 됐을 겁니다.&lt;br /&gt;
+만약에 range를 선언할 때 마다, 크기 만큼의 리스트가 만들어지면 메모리가 엄청나게 낭비 됐을 겁니다.&lt;br /&gt;&lt;br /&gt;
 제너레이터는 &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt;를 실행하는 순간 함수는 그 값을 방출하고, 다음 요청에는 이전 상태를 유지했다가 새 값을 방출합니다. 계속 반복하다가 &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; 예외를 발생시켜 함수를 종료시킵니다.&lt;br /&gt;
 간단한 제너레이터의 예제로서, 순차적이고 현재값만 필요한 경우 유용합니다.&lt;/p&gt;
 
