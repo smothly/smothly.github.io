@@ -5,7 +5,63 @@
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
     <link>http://localhost:4000/</link>
     <description>seungho`s development blog</description>
-    <pubDate>Sun, 15 Mar 2020 00:58:45 +0900</pubDate>
+    <pubDate>Fri, 20 Mar 2020 12:04:48 +0900</pubDate>
+    
+      <item>
+        <title>Python Iterator Generator 설명</title>
+        <link>/programming%20language/python/2020/03/20/Python-Iterator-Generator-%EC%84%A4%EB%AA%85.html</link>
+        <guid isPermaLink="true">/programming%20language/python/2020/03/20/Python-Iterator-Generator-%EC%84%A4%EB%AA%85.html</guid>
+        <description>&lt;h1 id=&quot;python-iterator-generator-설명&quot;&gt;Python Iterator Generator 설명&lt;/h1&gt;
+
+&lt;h4 id=&quot;iterator이터레이터-next를-호출했을-때-다음값을-생성해내는-상태를-가진-헬퍼-객체iterable&quot;&gt;Iterator(이터레이터): next()를 호출했을 때 다음값을 생성해내는 상태를 가진 헬퍼 객체(iterable)&lt;/h4&gt;
+&lt;h4 id=&quot;generator제너레이터-이터레이터의-종류로서-그-값을-그떄그때-생성해냄-yield-키워드를-가지고-있음&quot;&gt;Generator(제너레이터): 이터레이터의 종류로서 그 값을 그떄그때 생성해냄 yield 키워드를 가지고 있음&lt;/h4&gt;
+
+&lt;p&gt;결론부터 말하자면, 제너레이터는 메모리/CPU 효율이 더 좋습니다. 제너레이터에 대해 설명해보겠습니다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;우리가 loop를 돌릴 때 흔히 쓰는 &lt;code class=&quot;highlighter-rouge&quot;&gt;range&lt;/code&gt;의 내부 문법을 보면 제너레이터에 대해 알 수 있습니다.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;def range(start, stop, step=1):
+    while start &amp;lt; stop:
+        yield start
+        start += step&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이렇습니다. 여기서 생소해 보이는 것이 &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt;함수를 쓰는 것입니다.&lt;br /&gt;
+파이썬 2에서는 기존에는 yield 방식이 아니라 그냥 append를 해서 전체 메모리가 잡는 방식을 사용했었습니다.(xrange라는 함수로 제너레이터 방식이 존재는 했었습니다.)&lt;br /&gt;
+만약에 range를 선언할 때 마다, 크기 만큼의 리스트가 만들어지면 메모리가 엄청나게 낭비 됐을 겁니다.&lt;br /&gt;
+제너레이터는 &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt;를 실행하는 순간 함수는 그 값을 방출하고, 다음 요청에는 이전 상태를 유지했다가 새 값을 방출합니다. 계속 반복하다가 &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; 예외를 발생시켜 함수를 종료시킵니다.&lt;br /&gt;
+간단한 제너레이터의 예제로서, 순차적이고 현재값만 필요한 경우 유용합니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;h2 id=&quot;리스트와-비교&quot;&gt;리스트와 비교&lt;/h2&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;코드는 밑과 같고 이전 포스트에 올렸던 &lt;a href=&quot;https://smothly.github.io/programming%20language/python/2020/03/13/Python-Memory-%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0.html&quot;&gt;memory profiling&lt;/a&gt;을 해보겠습니다.
+&lt;img src=&quot;https://user-images.githubusercontent.com/37397737/77132264-1fdc5100-6aa2-11ea-8041-02cf6cfb0669.png&quot; alt=&quot;image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;파이썬3에서는 기본적으로 loop가 제너레이터 형식으로 되어있어 시간상에는 차이가 없고, 메모리 사용량을 보면 차이남(0.555 mb)을 볼 수 있습니다. 조금 rough한 예제라 큰 차이가 아니여 보이는데 실제로 더 큰 데이터를 사용하게 되면 엄청 큰 차이를 느끼실 수 있습니다.&lt;br /&gt;&lt;br /&gt;
+간단한 사용법을 알려드리자면, &lt;code class=&quot;highlighter-rouge&quot;&gt;list comphrension&lt;/code&gt;을 아시는 분들은&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;A = [i for i in range(0, 100000)]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;이런식으로 보통 사용하실텐데, 제너레이터를 만드는 간단한 방법은 &lt;code class=&quot;highlighter-rouge&quot;&gt;[] =&amp;gt; ()&lt;/code&gt;로 바꿔주시면 됩니다. (tuple이 아닙니다.)&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;python&quot;&gt;A = (i for i in range(0, 100000))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;참고로, 이런식으로 만들면 우리가 기존에 쓰던 list 문법(&lt;code class=&quot;highlighter-rouge&quot;&gt;len()&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;index()&lt;/code&gt;등)들이 안먹힙니다.&lt;br /&gt;
+그래서 sum(A)이런식으로 길이를 구하기도 합니다만 경우에 따라 제너레이터와 리스트를 적절히 사용하시면 될 것 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;subtitle&gt;출처&lt;/subtitle&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;고성능 파이썬 책&lt;/li&gt;
+  &lt;li&gt;https://github.com/scari/high_performance_python/&lt;/li&gt;
+  &lt;li&gt;https://mingrammer.com/translation-iterators-vs-generators/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 20 Mar 2020 00:00:00 +0900</pubDate>
+      </item>
     
       <item>
         <title>Python Dict Set 설명</title>
@@ -17,7 +73,7 @@
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dict&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;set&lt;/code&gt;은 내재적 순서가 존재하지 않지만 특정 데이터를 고유하게 참조할 때 유용하게 쓰이는 자료구조입니다.&lt;br /&gt;
 dict와 set의 차이점은 dict에는 key:value쌍이 존재한다는 점이고, set은 value가 없이 key로만 접근한다는 점입니다.&lt;br /&gt;
-또한, 앞서 소개한 list tuple은 탐색알고리즘이 O(nlog n)이 걸리는 데 비해 dict와 set은 &lt;code class=&quot;highlighter-rouge&quot;&gt;hash table&lt;/code&gt;에 의존하여 O(1)시간복잡도로 찾을 수 있습니다.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+또한, 앞서 소개한 list tuple은 탐색알고리즘이 O(log n)이 걸리는 데 비해 dict와 set은 &lt;code class=&quot;highlighter-rouge&quot;&gt;hash table&lt;/code&gt;에 의존하여 O(1)시간복잡도로 찾을 수 있습니다.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
