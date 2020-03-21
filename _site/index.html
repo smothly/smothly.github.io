@@ -159,6 +159,8 @@
 					
 						
 					
+						
+					
 					
 		</nav>
 	</div>
@@ -295,6 +297,158 @@
   <div class="posts">
   	<h2 class="post-title">Recent Post</h2>
 
+    
+    <div class="post-teaser">
+      <header>
+        <h2>
+          <a class="post-link" href="/programming%20language/python/2020/03/21/Python-%EC%86%8C%EB%A6%AC-%EB%8D%B0%EC%9D%B4%ED%84%B0-(Audio-Data)Augmentaton.html">
+            Python 소리 데이터 (Audio Data)Augmentaton
+          </a>
+        </h2>
+        <p class="meta">
+          March 21, 2020
+        </p>
+        <div class="excerpt">
+          <!--<h1 id="python-소리-데이터-audio-dataaugmentaton">Python 소리 데이터 (Audio Data)Augmentaton</h1>
+
+<p><code class="highlighter-rouge">소리 데이터 augmentation</code>에 다양한 방법에 대해 알아보겠습니다.<br />
+먼저 말씀드리자면, 이 코드는 올해 1월에 했던 빅데이터분석연합동아리 투빅스 컨퍼런스에 했던 코드들입니다.<br />
+이때 했던 프로젝트는 <a href="https://github.com/sora-12/Singing-Voice-Conversion">Singing Voice Conversion</a>으로 기회가 되면 <code class="highlighter-rouge">Cycle GAN</code>내용과 함께 나중에 포스팅 하겠습니다.<br /><br /></p>
+
+<p>이미지 같은 경우는 noise, 회전, 압축 등 다양한 <code class="highlighter-rouge">augmentation</code> 방법이 있고 설명도 많은데, 소리 같은 경우는 코드나 방법에 관한 내용이 별로 없습니다. 그래서 제가 알고 있고 사용했던 총 5가지 방법을 포스팅하겠습니다.(참고로 이 augmentation 방법이 정확하고 항상 설명력이 있다고는 못함을 전제합니다.)</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="augmentation-code">Augmentation Code</h2>
+</blockquote>
+
+<h3 id="라이브러리-설치">라이브러리 설치</h3>
+<p>다 설치 되어있으시면 넘어가셔도 됩니다.</p>
+<pre><code>pip install librosa
+pip install numpy
+pip install matplotlib</code></pre>
+<p><br /></p>
+
+<p>전체 코드는 <a href="https://github.com/smothly/High_Perfomance_Python/blob/master/Untitled.ipynb">여기</a> 올려놓겠습니다. 블로그에서는 함수 별로 설명하겠습니다.</p>
+
+<h3 id="원본-데이터-plot">원본 데이터 Plot</h3>
+<p><img src="https://user-images.githubusercontent.com/37397737/77171823-58ab1300-6b00-11ea-8126-b0c8dd5037aa.png" alt="image" /></p>
+
+<p>원본 데이터로 다른 함수들과 비교하며 설명하겠습니다.</p>
+
+<blockquote>
+  <h2 id="1-white-noise">1. White Noise</h2>
+</blockquote>
+
+<pre><code class="python">def adding_white_noise(data, sr=22050, noise_rate=0.005):
+    # noise 방식으로 일반적으로 쓰는 잡음 끼게 하는 겁니다.
+    wn = np.random.randn(len(data))
+    data_wn = data + noise_rate*wn
+    plot_time_series(data_wn)
+    librosa.output.write_wav('./white_noise.wav', data, sr=sr) # 저장
+    print('White Noise 저장 성공')
+    
+    return data</code></pre>
+<p><img src="https://user-images.githubusercontent.com/37397737/77171603-0ff35a00-6b00-11ea-8ce6-15915642ad2a.png" alt="image" /></p>
+
+<p>이미지와 비슷하게 잡음 끼게 하였습니다. 그림에서 보다시피 원본데이터에 비해 그래프가 두꺼워진 것을 볼 수 있습니다. 흔히 쓰는 방법으로 모델의 일반화를 하는데 많은 도움을 줍니다.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="2-shifting">2. Shifting</h2>
+</blockquote>
+
+<pre><code class="python">def shifting_sound(data, sr=22050, roll_rate=0.1):
+    # 그냥 [1, 2, 3, 4] 를 [4, 1, 2, 3]으로 만들어주는겁니다.
+    data_roll = np.roll(data, int(len(data) * roll_rate))
+    plot_time_series(data_roll)
+    librosa.output.write_wav('./rolling_sound.wav', data, sr=sr)
+    print('rolling_sound 저장 성공')
+    
+    return data</code></pre>
+<p><img src="https://user-images.githubusercontent.com/37397737/77172171-e4bd3a80-6b00-11ea-9afe-1db2f1abb02a.png" alt="image" /></p>
+
+<p>주석에서 쓰여있다 싶이 말 그대로 데이터를 <code class="highlighter-rouge">roll</code>하는 것이다. 원래 빨간선 쯤에서 끝났던 데이터가 새로운 지점에서 시작합니다. classfication할 때 추가 데이터로 도움이 됩니다.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="3-stretching">3. Stretching</h2>
+</blockquote>
+
+<pre><code class="python">def stretch_sound(data, sr=22050, rate=0.8):
+    # stretch 해주는 것 테이프 늘어진 것처럼 들린다.
+    stretch_data = librosa.effects.time_stretch(data, rate)
+    plot_time_series(stretch_data)
+    librosa.output.write_wav('./stretch_data.wav', stretch_data, sr=sr)
+    print('stretch_data 저장 성공')
+    
+    return data</code></pre>
+<p><img src="https://user-images.githubusercontent.com/37397737/77172511-6dd47180-6b01-11ea-819f-cb7f100a41a0.png" alt="image" /></p>
+
+<p>우리 귀에는 테이프처럼 늘어지게 하는것이다. 자세한 설명은 <a href="https://librosa.github.io/librosa/generated/librosa.effects.time_stretch.html">librosa 공식홈페이지</a>를 참고해주세요. 그림으로 보면 빈공간들이 채워진 느낌이 듭니다. 위에 예제들과 비슷한 상황에 쓰입니다.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="4-reverse">4. Reverse</h2>
+</blockquote>
+
+<pre><code class="python">def reverse_sound(data, sr=22050):
+    # 거꾸로 재생
+    data_len = len(data)
+    data = np.array([data[len(data)-1-i] for i in range(len(data))])
+    plot_time_series(data)
+    librosa.output.write_wav('./reverse_data.wav', data, sr=sr)
+    
+    return data</code></pre>
+<p><img src="https://user-images.githubusercontent.com/37397737/77172856-ffdc7a00-6b01-11ea-9802-0ff1b85ad86c.png" alt="image" /></p>
+
+<p>소리를 거꾸로 재생하는 겁니다. 원본데이터 세로축 기준으로 뒤집어 졌다고 보시면 됩니다. 위에 3가지 방법과 다른 점은 원본데이터의 변형을 가하지 않았다는 점입니다. 그래서 제가 했던 voice conversion project에서 사용했던 방법입니다.</p>
+
+<hr />
+
+<blockquote>
+  <h2 id="5-minus">5. Minus</h2>
+</blockquote>
+
+<pre><code class="python">def minus_sound(data, sr=22050):
+    # 위상을 뒤집는 것으로서 원래 소리와 똑같이 들린다.
+    temp_numpy = (-1)*data
+    plot_time_series(temp_numpy)
+    librosa.output.write_wav('./minus_data.wav', temp_numpy, sr=sr)
+    
+    return data</code></pre>
+<p><img src="https://user-images.githubusercontent.com/37397737/77173384-c5271180-6b02-11ea-97c3-a5f77dccc2af.png" alt="image" /></p>
+
+<p>그림에서도 보다시피 x축 기준으로 뒤집는 것인데, 이게 사람귀에는 똑같이 들립니다. 실제로 확인해 보셔도 됩니다. 이것도 원본에 변형을 가하지 않고 단순한 대칭이므로 프로젝트에 사용했었습니다.</p>
+
+<hr />
+
+<p>이상으로 python으로 간편하게  할수 있는 <code class="highlighter-rouge">5가지 augmentation 방법</code>에 대해 보았습니다. 음성전문가가 아니라 설명이 잘못 되어있을 수도 있습니다.(태클 환영합니다) 음성 관련 ML/DL 프로젝트하실 때 유용하게 사용하십시오!</p>
+
+<p><br /><br /><br /></p>
+
+<blockquote>
+  <subtitle>출처</subtitle>
+</blockquote>
+
+<ul>
+  <li>https://github.com/sora-12/Singing-Voice-Conversion/blob/master/Preprocessing/data_augmentation.ipynb</li>
+  <li>https://www.kaggle.com/CVxTz/audio-data-augmentation</li>
+  <li>https://librosa.github.io/librosa/generated/librosa.effects.time_stretch.html</li>
+</ul>
+
+<p><br /><br /></p>
+
+          <a class="button" href="/programming%20language/python/2020/03/21/Python-%EC%86%8C%EB%A6%AC-%EB%8D%B0%EC%9D%B4%ED%84%B0-(Audio-Data)Augmentaton.html">
+            Continue reading
+          </a>-->
+        </div>
+      </header>
+    </div>
     
     <div class="post-teaser">
       <header>
@@ -645,125 +799,6 @@ list와 tuple 타입만으로 동적, 정적데이터가 구분될 수 있습니
 <p><br /><br /></p>
 
           <a class="button" href="/programming%20language/python/2020/03/13/Python-List-Tuple-%EC%84%A4%EB%AA%85.html">
-            Continue reading
-          </a>-->
-        </div>
-      </header>
-    </div>
-    
-    <div class="post-teaser">
-      <header>
-        <h2>
-          <a class="post-link" href="/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html">
-            Python CPU사용량 측정하기(line profiler)
-          </a>
-        </h2>
-        <p class="meta">
-          March 12, 2020
-        </p>
-        <div class="excerpt">
-          <!--<h1 id="python-cpu사용량-측정하기line-profiler">Python CPU사용량 측정하기(line profiler)</h1>
-
-<p>CPU 병목원인을 찾아주는 도구로 한줄씩 프로파일링 해주는 <code class="highlighter-rouge">line_profiler</code>를 사용해 보겠습니다.</p>
-
-<ul>
-  <li>프로파일링(profiling): 프로그램의 시간 복잡도 및 공간(메모리) 등 분석</li>
-  <li>병목(bottleneck): 전체 시스템의 성능이나 용량이 하나의 구성 요소로 인해 제한을 받는 현상</li>
-</ul>
-
-<p>고성능 파이썬 책을 읽고 따라해보고 고찰한 것입니다. <br />
-쥘리아집합 예제를 사용할 것입니다.</p>
-<ul>
-  <li>쥘리아 집합: 복작합 그림을 생성하는 프렉탈</li>
-</ul>
-
-<p>자세한 건 저도 잘 모르고, CPU와 RAM사용량을 측정하기에 좋은 예제라고 합니다. <a href="https://ko.wikipedia.org/wiki/%EC%A5%98%EB%A6%AC%EC%95%84_%EC%A7%91%ED%95%A9">자세한 설명</a>은 링크를 참조해주세요.
-<br /><br /></p>
-
-<hr />
-
-<blockquote>
-  <h2 id="시작">시작</h2>
-</blockquote>
-
-<h4 id="라이브러리-설치">라이브러리 설치</h4>
-<pre><code>pip install line_profiler</code></pre>
-
-<p><a href="https://github.com/smothly/High_Perfomance_Python/blob/master/julia_example.py">코드</a>
-를 다운받으시거나 복사하셔서 <code class="highlighter-rouge">julia_example.py</code>로 생성해주고,<br /></p>
-<ul>
-  <li><code class="highlighter-rouge">@profile</code> 데코레이터를 통해 분석을 수행할 함수를 지정해 줍니다.</li>
-  <li>대부분 조건문과 반복문을 통한 연산입니다.</li>
-</ul>
-
-<p>밑에 명령어로 실행해 줍니다.</p>
-
-<pre><code>kernprof -l -v  julia_example.py</code></pre>
-
-<ul>
-  <li><code class="highlighter-rouge">-l</code>은 결과를 한줄씩 출력</li>
-  <li><code class="highlighter-rouge">-v</code>는 lprof파일 반환이 아니라 출력</li>
-</ul>
-
-<hr />
-
-<blockquote>
-  <h2 id="결과">결과</h2>
-</blockquote>
-
-<p><img src="https://user-images.githubusercontent.com/37397737/76531560-badc9600-64b8-11ea-952d-4d82d45d90e2.png" alt="image" />
-Line Contents로 원본코드를 볼 수 있고, 다른 것들을 설명 드리겠습니다.<br />
-<code class="highlighter-rouge">Hits</code>는 각 라인이 실행된 횟수입니다. CPU가 몇번 라인을 실행했는지입니다. 이것은 시간과 비례합니다.<br />
-<code class="highlighter-rouge">Time</code> 항목에서 각 줄에서 시간이 얼마나 소요된지 확인할 수 있습니다.<br />
-<code class="highlighter-rouge">%Time</code> 퍼센트로 약 34퍼센트가 17번째 while문에서 소요됨을 확인할 수 있습니다.<br /></p>
-
-<p>밑에 결과는 바깥에서 함수를 실행한 부분으로 <code class="highlighter-rouge">calculate_z_serial_pureputhon(max_iterations, zs, cs)</code>가 전체 시간을 거의 차지함을 볼 수 있다.
-<img src="https://user-images.githubusercontent.com/37397737/76531722-fd9e6e00-64b8-11ea-919b-0502b10d2f11.png" alt="image" />
-<img src="https://user-images.githubusercontent.com/37397737/76531802-1444c500-64b9-11ea-96b2-fb71c3e909ff.png" alt="image" /></p>
-
-<p><br /></p>
-
-<hr />
-
-<blockquote>
-  <h2 id="고찰">고찰</h2>
-</blockquote>
-
-<p>라이브러리를 이용하여 간단하게 <code class="highlighter-rouge">line profiling</code>을 해보았습니다. <br />
-이번에는 어느 부분이 많이 실행되고 많은 시간이 소요되었는지를 확인할 수 있는 예제였습니다.<br /></p>
-
-<p>예제 코드에서는 17, 18, 19번째에서 연산의 대부분이 진행되었습니다. 코드의 성능을 개선하기 위해서는 이 부분을 만져야 함을 알 수 있습니다!<br /></p>
-
-<p>책에서는 나중에 이 코드를 어떻게 효율적으로 만들 것인지에 대해 알려줍니다.<br /> 방법들을 몇 가지 나열해 보자면,</p>
-
-<ul>
-  <li>numpy를 통한 벡터 연산</li>
-  <li>cython/pypy를 통한 속도 향상</li>
-  <li>조건문 변경</li>
-  <li>multiprocessing</li>
-</ul>
-
-<p>을 통해 속도를 드라마틱하게 향상시켰습니다.<br /><br /></p>
-
-<p>참고로, 주피터 노트북 환경에서는 셀 앞에다가 <code class="highlighter-rouge">%time</code>, <code class="highlighter-rouge">%timeit</code>을 추가하여 간단하게 측정할 수 있습니다.<br />
-하지만 셀별로 측정하는거라 자세한 <code class="highlighter-rouge">profiling</code>을 하고 싶으면 <code class="highlighter-rouge">line_profiler</code>를 쓰는 것을 추천합니다!<br /></p>
-
-<p>다음 포스팅에는 memory profiling을 하고, 향후에는 이 예제코드가 최고 효율을 내는 방법을 포스팅 해보겠습니다.
-<br /><br /><br /></p>
-
-<blockquote>
-  <subtitle>출처</subtitle>
-</blockquote>
-
-<ul>
-  <li>https://ko.wikipedia.org/wiki/%EC%A5%98%EB%A6%AC%EC%95%84_%EC%A7%91%ED%95%A9</li>
-  <li>고성능 파이썬 책</li>
-  <li>https://github.com/scari/high_performance_python/</li>
-</ul>
-
-<p><br /><br /></p>
-
-          <a class="button" href="/programming%20language/python/2020/03/12/Python-CPU%EC%82%AC%EC%9A%A9%EB%9F%89-%EC%B8%A1%EC%A0%95%ED%95%98%EA%B8%B0(line-profiler).html">
             Continue reading
           </a>-->
         </div>
