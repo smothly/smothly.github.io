@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Python 소리 데이터 (Audio Data)Augmentaton
+title: Python 소리 데이터 (Audio Data)Augmentation
 comments: true
 categories : [Programming Language/Python]
 tags: [Python, Audio, Augmentation, Deeplearning]
 ---
 
-# Python 소리 데이터 (Audio Data)Augmentaton
+# Python 소리 데이터 (Audio Data)Augmentation
 
 `소리 데이터 augmentation`에 다양한 방법에 대해 알아보겠습니다.<br>
 먼저 말씀드리자면, 이 코드는 올해 1월에 했던 빅데이터분석연합동아리 투빅스 컨퍼런스에 했던 코드들입니다.<br>
