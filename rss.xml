@@ -1,396 +1,278 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[SeungHo, Choi | Data Engineer]]></title><description><![CDATA[Data Engineer @Neowiz]]></description><link>https://smothly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 25 Dec 2023 13:43:56 GMT</lastBuildDate><item><title><![CDATA[01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline]]></title><description><![CDATA[AWS RDS Aurora → Google Bigquery 멀티 클라우드간 준실시간(CDC) 데이터 파이프라인 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit…]]></description><link>https://smothly.github.io/blog/01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline/</link><guid isPermaLink="false">https://smothly.github.io/blog/01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline/</guid><pubDate>Tue, 20 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;aws-rds-aurora--google-bigquery-멀티-클라우드간-준실시간cdc-데이터-파이프라인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#aws-rds-aurora--google-bigquery-%EB%A9%80%ED%8B%B0-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C%EA%B0%84-%EC%A4%80%EC%8B%A4%EC%8B%9C%EA%B0%84cdc-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%8C%8C%EC%9D%B4%ED%94%84%EB%9D%BC%EC%9D%B8&quot; aria-label=&quot;aws rds aurora  google bigquery 멀티 클라우드간 준실시간cdc 데이터 파이프라인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;AWS RDS Aurora → Google Bigquery 멀티 클라우드간 준실시간(CDC) 데이터 파이프라인&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[SeungHo, Choi | Data Engineer]]></title><description><![CDATA[Data Engineer @Neowiz]]></description><link>https://smothly.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 13 Mar 2024 13:04:02 GMT</lastBuildDate><item><title><![CDATA[03. Text To SQL Using LLM]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/03. Text To SQL Using LLM/</link><guid isPermaLink="false">https://smothly.github.io/blog/03. Text To SQL Using LLM/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[06. Process Automation & Infrastructure Optimization]]></title><description><![CDATA[크앙 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro…]]></description><link>https://smothly.github.io/blog/06. Process Automation &amp; Infrastructure Optimization/</link><guid isPermaLink="false">https://smothly.github.io/blog/06. Process Automation &amp; Infrastructure Optimization/</guid><pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;크앙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot; aria-label=&quot;크앙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;크앙&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[05. IaC & Code Standardization]]></title><description><![CDATA[크앙 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro…]]></description><link>https://smothly.github.io/blog/05. IaC &amp; Code Standardization/</link><guid isPermaLink="false">https://smothly.github.io/blog/05. IaC &amp; Code Standardization/</guid><pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;크앙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot; aria-label=&quot;크앙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;크앙&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[03. Various Data Source]]></title><description><![CDATA[바로가기 테스트1 테스트2 테스트3 크앙 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore…]]></description><link>https://smothly.github.io/blog/03. Various Data Source/</link><guid isPermaLink="false">https://smothly.github.io/blog/03. Various Data Source/</guid><pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;바로가기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%94%EB%A1%9C%EA%B0%80%EA%B8%B0&quot; aria-label=&quot;바로가기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;바로가기&lt;/h1&gt;
 &lt;hr&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;#%ED%82%81&quot;&gt;테스트1&lt;/a&gt;&lt;br&gt;
-&lt;a href=&quot;#facere-labore-velit-ad-autem&quot;&gt;테스트2&lt;/a&gt;&lt;br&gt;
-&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot;&gt;테스트3&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;크앙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot; aria-label=&quot;크앙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;크앙&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[02. Trino on AWS ECS]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/02. Trino on AWS ECS/</link><guid isPermaLink="false">https://smothly.github.io/blog/02. Trino on AWS ECS/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h1 id=&quot;킁&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%82%81&quot; aria-label=&quot;킁 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;킁&lt;/h1&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[02. ETL evolution from RDB to DW]]></title><description><![CDATA[크앙 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro…]]></description><link>https://smothly.github.io/blog/02. ETL evolution from RDB to DW/</link><guid isPermaLink="false">https://smothly.github.io/blog/02. ETL evolution from RDB to DW/</guid><pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;크앙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot; aria-label=&quot;크앙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;크앙&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
-        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
-        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
-        loading=&quot;lazy&quot;
-      /&gt;
-  &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[04. Monitoring&Alarm]]></title><description><![CDATA[목차 1번 크앙 Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus…]]></description><link>https://smothly.github.io/blog/04. Monitoring &amp; Alarm/</link><guid isPermaLink="false">https://smothly.github.io/blog/04. Monitoring &amp; Alarm/</guid><pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h1 id=&quot;목차&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%EC%B0%A8&quot; aria-label=&quot;목차 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목차&lt;/h1&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot;&gt;1번&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;크앙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%81%AC%EC%95%99&quot; aria-label=&quot;크앙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;크앙&lt;/h2&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 데이터 누락 데이터 중복 테이블 관리 자동 스키마 추론 성과 아쉬운 점 목표 PnE도입으로 인해 글로벌 카지노 게임 3종의 일배치를 준실시간 배치로 전환 DB Cluster 6개 테이블 70여개 하루 데이터 400…]]></description><link>https://smothly.github.io/blog/01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline/</link><guid isPermaLink="false">https://smothly.github.io/blog/01. AWS RDS Aurora → Google Bigquery Multi-Cloud Near-Realtime(CDC) Data Pipeline/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%88%84%EB%9D%BD&quot;&gt;데이터 누락&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EB%B3%B5&quot;&gt;데이터 중복&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B4%80%EB%A6%AC&quot;&gt;테이블 관리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9E%90%EB%8F%99-%EC%8A%A4%ED%82%A4%EB%A7%88-%EC%B6%94%EB%A1%A0&quot;&gt;자동 스키마 추론&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;PnE도입으로 인해 글로벌 카지노 게임 3종의 일배치를 &lt;strong&gt;준실시간 배치&lt;/strong&gt;로 전환&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DB Cluster 6개&lt;/li&gt;
+&lt;li&gt;테이블 70여개&lt;/li&gt;
+&lt;li&gt;하루 데이터 4000만 row&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;RDB에 저장된 데이터를 실시간으로 옮겨야 하는 미션&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;아키텍처&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot; aria-label=&quot;아키텍처 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;아키텍처&lt;/h2&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg&quot;
+    href=&quot;/static/1f6975eae5e8c56ab7224a55e21d340f/2cefc/architecture.png&quot;
     style=&quot;display: block&quot;
     target=&quot;_blank&quot;
     rel=&quot;noopener&quot;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.89189189189189%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB1rgK4oCfE//EABkQAAMBAQEAAAAAAAAAAAAAAAABERIhIv/aAAgBAQABBQKI8zhtmmVn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPwG4Y//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPwGMjP/EABcQAQEBAQAAAAAAAAAAAAAAAAAxARD/2gAIAQEABj8CXFVef//EABsQAAIDAAMAAAAAAAAAAAAAAAABESExYXGR/9oACAEBAAE/IeoelAk6pCVa9J9Y5j//2gAMAwEAAgADAAAAEJAP/8QAGBEAAgMAAAAAAAAAAAAAAAAAABEhMVH/2gAIAQMBAT8QhoeD/8QAFREBAQAAAAAAAAAAAAAAAAAAAGH/2gAIAQIBAT8Qoo//xAAcEAEAAgIDAQAAAAAAAAAAAAABABFhcSExgZH/2gAIAQEAAT8QpChIW2yvhcGXJJuFp52j2BtmR9n/2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 28.37837837837838%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAIAAABM9SnKAAAACXBIWXMAAAsTAAALEwEAmpwYAAABDUlEQVR42i2QTU4DMQyF52KcBQmJQ7DkAOzYV1B2bHoBlrBBgrJALQJVmikgqlbTTibJ+Cf24ASiKPry7Njxq5xzIokgSlsTISGMKqMt1QKat0ERVWV1ECRKIhao9oHaaGIS8MykJSlgBxxziYHGroCkMWyEMfLoSe20VV3edSeTrVG9Xl9Pp0RZPpsdz54mBv3NfX96ZfV418SLI6hfTDx/oNu33KOqf/x8+S3kfe+Wi1ccHKNfNM/rzUrtM81nO/9ACOhb9/7Y77cI/mu723vIj5MkJo9DlxiZgMBlzhAxHshCBBA6GnpOGGOIwTF0KbG1rmzyPLuZIUm1UDFGR/23Tf5syxlaMuyeSvgXE/1UTDwixRQAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Mountain&quot;
-        title=&quot;Mountain&quot;
-        src=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg&quot;
-        srcset=&quot;/static/04fd963e3e5a465c84a4c4d5014f320f/a80bd/mountain.jpg 148w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c91a/mountain.jpg 295w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/1c72d/mountain.jpg 590w,
-/static/04fd963e3e5a465c84a4c4d5014f320f/c08c5/mountain.jpg 640w&quot;
+        alt=&quot;architecture&quot;
+        title=&quot;architecture&quot;
+        src=&quot;/static/1f6975eae5e8c56ab7224a55e21d340f/fcda8/architecture.png&quot;
+        srcset=&quot;/static/1f6975eae5e8c56ab7224a55e21d340f/12f09/architecture.png 148w,
+/static/1f6975eae5e8c56ab7224a55e21d340f/e4a3f/architecture.png 295w,
+/static/1f6975eae5e8c56ab7224a55e21d340f/fcda8/architecture.png 590w,
+/static/1f6975eae5e8c56ab7224a55e21d340f/efc66/architecture.png 885w,
+/static/1f6975eae5e8c56ab7224a55e21d340f/c83ae/architecture.png 1180w,
+/static/1f6975eae5e8c56ab7224a55e21d340f/2cefc/architecture.png 1400w&quot;
         sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Aliquam aliquid rem facere dolorum consectetur consequatur distinctio &lt;a href=&quot;https://github.com/RyanFitzgerald/devfolio&quot;&gt;mollitia id modi repellendus&lt;/a&gt; vero quae dolorem commodi soluta voluptates iusto nobis est dolore provident, porro veritatis placeat nemo impedit! Asperiores culpa delectus hic qui saepe, ipsum quia, exercitationem repellendus magni soluta sit suscipit laborum ducimus.&lt;/p&gt;
-&lt;h2 id=&quot;asperiores-culpa-delectus-hic-qui-saepe&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asperiores-culpa-delectus-hic-qui-saepe&quot; aria-label=&quot;asperiores culpa delectus hic qui saepe permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asperiores culpa delectus hic qui saepe&lt;/h2&gt;
-&lt;h3 id=&quot;facere-labore-velit-ad-autem&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#facere-labore-velit-ad-autem&quot; aria-label=&quot;facere labore velit ad autem permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Facere labore velit ad autem&lt;/h3&gt;
-&lt;p&gt;Vitae veritatis quae eius quis vel soluta cumque? Facere labore velit ad autem. Nisi recusandae ducimus molestiae error ipsa quaerat, dignissimos suscipit similique itaque sunt provident quasi minus ut porro. Optio modi harum &lt;em&gt;dolore necessitatibus exercitationem&lt;/em&gt; blanditiis magni error ipsum, odit deleniti eligendi facilis, nesciunt delectus sit nostrum porro quam accusamus excepturi labore sequi maiores soluta?&lt;/p&gt;
-&lt;h3 id=&quot;porro-veritatis-placeat-nemo-impedit&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#porro-veritatis-placeat-nemo-impedit&quot; aria-label=&quot;porro veritatis placeat nemo impedit permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Porro veritatis placeat nemo impedit&lt;/h3&gt;
-&lt;p&gt;Veritatis et praesentium totam neque earum commodi nesciunt dolor quibusdam incidunt non, ex dicta molestias omnis maiores, maxime velit perferendis tenetur aut porro nostrum, suscipit soluta necessitatibus deserunt nobis. Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Repudiandae iusto et iure pariatur aliquid, quisquam, non sed culpa, dignissimos recusandae facilis. Debitis hic, quaerat recusandae ad id, quis nisi perspiciatis quo aliquid natus similique.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Illum esse recusandae facere ipsam fugiat est eaque ducimus facilis provident, distinctio cum aut corporis officiis quo fugit, similique temporibus inventore quidem tempora commodi saepe dicta! Numquam fugiat quibusdam aut ut, voluptatibus accusamus &lt;strong&gt;repellendus quas minus consequuntur&lt;/strong&gt; possimus! Est eaque nesciunt, reiciendis voluptate placeat aspernatur doloremque unde cum et architecto suscipit quam facere corrupti nihil odit eum minima voluptatem nobis.&lt;/p&gt;
-&lt;h2 id=&quot;voluptatibus-accusamus-repellendus-quas-minus&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#voluptatibus-accusamus-repellendus-quas-minus&quot; aria-label=&quot;voluptatibus accusamus repellendus quas minus permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Voluptatibus accusamus repellendus quas minus&lt;/h2&gt;
-&lt;p&gt;Ipsum quod, ut animi mollitia ipsam repellat, dolore voluptate quibusdam quasi reiciendis necessitatibus odio ea nostrum illo explicabo? Ducimus, in repudiandae. Ratione dolore sequi in animi obcaecati incidunt reprehenderit illo repellat atque aperiam, praesentium eligendi! Sed voluptas voluptatem sunt distinctio pariatur ullam? Laudantium laboriosam.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
+&lt;li&gt;RDS(MySQL) → DMS(CDC) → S3 → SQS → Lambda → Bigquery&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Numquam fugiat quibusdam aut ut&lt;/li&gt;
-&lt;li&gt;Soluta necessitatibus deserunt nobis&lt;/li&gt;
-&lt;li&gt;Illum esse recusandae facere ipsam&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde reprehenderit inventore sunt, consequatur omnis tempore ullam natus, porro odit aut, atque asperiores repudiandae corporis quidem esse eos provident velit perferendis magni fugit eum quisquam eligendi. Atque distinctio iure aliquam veniam inventore, soluta est, cum accusantium possimus illum quasi eveniet sed amet ipsa culpa vel in delectus laboriosam repellendus totam. Facere.&lt;/p&gt;
-&lt;h2 id=&quot;suscipit-soluta-necessitatibus-deserunt-nobi&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#suscipit-soluta-necessitatibus-deserunt-nobi&quot; aria-label=&quot;suscipit soluta necessitatibus deserunt nobi permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Suscipit soluta necessitatibus deserunt nobi&lt;/h2&gt;
-&lt;p&gt;Minus rem dicta eos exercitationem illum consequatur consectetur praesentium voluptas. Dolor inventore quasi necessitatibus odio eaque doloribus.&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; helloWorld &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;World&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Hello &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;name&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;John Doe&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Numquam fugiat quibusdam aut ut, voluptatibus accusamus repellendus quas minus consequuntur possimus!&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;hr&gt;
+&lt;h2 id=&quot;이슈--해결&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot; aria-label=&quot;이슈  해결 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;이슈 &amp;#x26; 해결&lt;/h2&gt;
+&lt;h4 id=&quot;데이터-누락&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%88%84%EB%9D%BD&quot; aria-label=&quot;데이터 누락 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 누락&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;이슈&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;빅쿼리 API - 빅쿼리 로드가 API 기반이다 보니 간헐적으로 로드 오류가 발생&lt;/li&gt;
+&lt;li&gt;휴먼 에러 - 테이블 명이나 코드의 문법오류가 발생시 로드 실패&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;해결&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S3와 Lambda사이에 &lt;strong&gt;SQS큐를 추가&lt;/strong&gt;함으로써 실패한 이벤트들은 다시 큐로 돌아가도록 함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;데이터-중복&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A4%91%EB%B3%B5&quot; aria-label=&quot;데이터 중복 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;데이터 중복&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;이슈&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;S3 event가 at least once여서 중복이벤트가 발생함&lt;/li&gt;
+&lt;li&gt;빅쿼리에 append형태로 적재를 하는데 실패 시 재처리&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;해결&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;빅쿼리의 &lt;strong&gt;Job id를 unique id처럼 활용하여 중복된 job일 경우 패스&lt;/strong&gt;하도록 함&lt;/li&gt;
+&lt;li&gt;ex) 로드할 때 yyyymmddhhmmss_{테이블}.parquet을 Job id로 올리고 중복된 Job인지 체크&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;테이블-관리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%85%8C%EC%9D%B4%EB%B8%94-%EA%B4%80%EB%A6%AC&quot; aria-label=&quot;테이블 관리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;테이블 관리&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;이슈&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블의 변동이 잦음&lt;/li&gt;
+&lt;li&gt;테이블 매핑 코드를 매번 수동으로 배포했어야함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;해결&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블 매핑 파일을 따로 두어 관리&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CD(자동 배포)를 구축하여 테이블 파일 수정하면 자동으로 배포&lt;/strong&gt;되도록 변경&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;자동-스키마-추론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9E%90%EB%8F%99-%EC%8A%A4%ED%82%A4%EB%A7%88-%EC%B6%94%EB%A1%A0&quot; aria-label=&quot;자동 스키마 추론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;자동 스키마 추론&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;이슈&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bit, Boolean등 MySQL의 특정타입들을 지원하지 않아 인코딩이 깨짐&lt;/li&gt;
+&lt;li&gt;테이블 추가시 매번 빅쿼리에서 테이블 정의했어야 함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;해결&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1차적으로 &lt;strong&gt;DMS에게 공통변환을 맡겨 mysql라이브러리의 이슈들은 해결&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;2차적으로는 &lt;strong&gt;parquet파일로 변환 및 빅쿼리의 autodetect 스키마 추론 기능을 활용&lt;/strong&gt;하여 테이블을 자동으로 생성함&lt;br&gt;
+parquet + gz압축으로 비용절감 효과는 덤!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;성과&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot; aria-label=&quot;성과 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;성과&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;평균 Latency 1~2분정도의 &lt;strong&gt;준실시간 배치로의 안정적인 파이프라인&lt;/strong&gt; 구축&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;실시간 대시보드, 실시간 FDS가 가능하도록 함&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;DW/BI엔지니어 분들이 ETL 파이프라인을 관리하는데 리소스 낭비가 없도록 함&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;테이블 관리를 분석가 분들이 직접 함으로써 데이터 엔지니어와 dependency를 줄임&lt;/li&gt;
+&lt;li&gt;데이터 현황 모니터링 대시보드를 통해 데이터가 안정적으로 수집되고 있음을 확인하도록 함  &lt;/li&gt;
+&lt;li&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c077ad29c485c812b76674217e885166/d0ab7/table_status.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 74.32432432432432%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAIAAABr+ngCAAAACXBIWXMAAAsTAAALEwEAmpwYAAACFUlEQVR42nWSy44SQRSGe+sTwNDV9+rqqr7SMCBjogGkjW6GQcxcQqS5zGSMF8DReEsYGOJqEp/AZzBhb2Tn1q1v4MKXGA90pgOZNjmpxV/nq/+cU4eTNBtJRgYpGUGNghcxkpkg64S62HCQhCMdSbqse4LKkKQpxEMS4Uw7z5wcL2oxvIVUjdgZUUvz8haSr0UFRMcv3SvXur3+m7fv9g9anE4d08lhw07zUhSpjCjIGLBYiURFo9TKVqrBaPR6Npt1On3OYJ6TLSiYgTlUGIWkUqiNF9U4MoKCiWW5+fu1h4PBYDKZtNtdDjxtN68RKxWb8CKQCc546VyuBMPhcDqdtsMuR1bO8CS8Haci8X+wX64GgxUchj3OMD3XL8IFXMd5skbX34pEFTPTyVdrD4ajVxcXk7DTXfbsZovU9NZTVd286byCc+XKo+enZ+OPn9tPT1YD84uEueup4HwT1jDV7O3jsv/rtPT7Q/3yKOComV1O67rmKE9SSQJMqEp23p8pV39vXf1Jfb1EAHvAw3g3Z8MSytYpY4UgLH76Xvny80lvGkDZruMVwHyz50SYWWy70Lq7+6158uPZ7vgxfJXr+bfhXK9cN5xE2KT5UuvO4bw+WPSb53vLnsFZ1ow4CT7J2Bz+ShdUwkwjVzja2Z/vvVwcN88bHCY2rDfsfZoXIxiW0XJziTAD+LB0MG+8WPQb4/o/7duhaEfxz9oAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;table_status&quot;
+        title=&quot;table_status&quot;
+        src=&quot;/static/c077ad29c485c812b76674217e885166/fcda8/table_status.png&quot;
+        srcset=&quot;/static/c077ad29c485c812b76674217e885166/12f09/table_status.png 148w,
+/static/c077ad29c485c812b76674217e885166/e4a3f/table_status.png 295w,
+/static/c077ad29c485c812b76674217e885166/fcda8/table_status.png 590w,
+/static/c077ad29c485c812b76674217e885166/efc66/table_status.png 885w,
+/static/c077ad29c485c812b76674217e885166/c83ae/table_status.png 1180w,
+/static/c077ad29c485c812b76674217e885166/d0ab7/table_status.png 1532w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 590px; margin: 0 0 30px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/638c68f799c4f7b68c554656764a3e98/ccd6a/table_status2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 47.2972972972973%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABo0lEQVR42l2QW2/aQBCF8x+qJsEJGENscwmkgBOlqpIWvONdry/0rS8NAez4AtjGN0j667s8VIhKR6M5Gn1zNHN2yfEXlRpXFbgroS6L8n239dCVR53br3f9b0Om1n1X/ic2koadC67GqE+fuTOuJlzzTUFs3XaVkfFI96b1YZOcmh82zgndG7Q06c409hYtDfOPrUWEwZXr+gFmZENsi+2e3B48aaPXLVqk8HutzlPtZYPmMbwmMIvRLEEvsbootF/h+Aiz7rxS5RtiU+p/Hw/8EIIVOK4ahOAukecgz4c3T/UC5PqTkG1xfxzhyyuemfqNLLe+DPHIzrWfBTETYNVKtWlB7FSzDsLGFqalTgJ0ksx4viE15Tt4Huw9ePchn6vvDuQz2M2hdFC+nGQOSpfqbg2r5eT/5KbU6fQUdaxsAhyFJHAg8nGwwGuHrN5w6MLa00IPRQl23Mk5Vz2B2c9FqaeQB7vQpyU1EsyqlZJpQe2MWJluZcRktqT6Ck6SmarCjST1h5pCt8TMKNmAlep6xO4keoxpTGhyaMxM1/zjzX8BVsqHZFJHF/0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;table_status2&quot;
+        title=&quot;table_status2&quot;
+        src=&quot;/static/638c68f799c4f7b68c554656764a3e98/fcda8/table_status2.png&quot;
+        srcset=&quot;/static/638c68f799c4f7b68c554656764a3e98/12f09/table_status2.png 148w,
+/static/638c68f799c4f7b68c554656764a3e98/e4a3f/table_status2.png 295w,
+/static/638c68f799c4f7b68c554656764a3e98/fcda8/table_status2.png 590w,
+/static/638c68f799c4f7b68c554656764a3e98/efc66/table_status2.png 885w,
+/static/638c68f799c4f7b68c554656764a3e98/c83ae/table_status2.png 1180w,
+/static/638c68f799c4f7b68c554656764a3e98/ccd6a/table_status2.png 1549w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;장애가 발생할 경우 재처리를 할 수 있도록 백필하는 시스템(Prefect Flow) 제공&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;아쉬운-점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot; aria-label=&quot;아쉬운 점 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;아쉬운 점&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CD를 구축하긴 하였지만, DMS와 코드를 각각 수정해야하는 문제점이 있음. 한꺼번에 수정하도록 wrapping하는 작업이 필요했음&lt;/li&gt;
+&lt;li&gt;준실시간 말고 로그성 데이터는 실시간성으로 받고싶었던 아쉬움. 데이터를 Produce하는 곳이 리소스가 없었음&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[04. RDB to DW ETL Evolution]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/04. DB to DW ETL Evolution/</link><guid isPermaLink="false">https://smothly.github.io/blog/04. DB to DW ETL Evolution/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[06. Various Data Source]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/06. Various Data Source/</link><guid isPermaLink="false">https://smothly.github.io/blog/06. Various Data Source/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[07. Etc]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/07.  Etc/</link><guid isPermaLink="false">https://smothly.github.io/blog/07.  Etc/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[05. Infra Management]]></title><description><![CDATA[목차 목표 아키텍처 이슈 & 해결 성과 아쉬운 점 목표]]></description><link>https://smothly.github.io/blog/05. Infra Management/</link><guid isPermaLink="false">https://smothly.github.io/blog/05. Infra Management/</guid><content:encoded>&lt;p&gt;목차&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot;&gt;목표&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98&quot;&gt;아키텍처&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%9D%B4%EC%8A%88--%ED%95%B4%EA%B2%B0&quot;&gt;이슈 &amp;#x26; 해결&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EA%B3%BC&quot;&gt;성과&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%95%84%EC%89%AC%EC%9A%B4-%EC%A0%90&quot;&gt;아쉬운 점&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;목표&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%AA%A9%ED%91%9C&quot; aria-label=&quot;목표 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;목표&lt;/h2&gt;</content:encoded></item></channel></rss>
