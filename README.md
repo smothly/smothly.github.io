@@ -2,6 +2,10 @@
 
 **SeungHo Choi**의 데이터 엔지니어 포트폴리오 웹사이트입니다. Python FastAPI 기반으로 구축되었으며, 깔끔하고 현대적인 디자인을 제공합니다.
 
+## 🌐 Live Demo
+
+**배포된 사이트**: https://smothly.github.io
+
 ## ✨ 특징
 
 - **🐍 Python 기반**: FastAPI + Jinja2로 구축
@@ -34,6 +38,27 @@ python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 브라우저에서 `http://localhost:8000`으로 접속하여 확인할 수 있습니다.
 
+## 🌐 GitHub Pages 배포
+
+### 자동 배포
+
+이 저장소는 GitHub Actions를 통해 자동으로 배포됩니다:
+
+1. `main` 브랜치에 코드 푸시
+2. GitHub Actions가 자동으로 정적 사이트 빌드
+3. `gh-pages` 브랜치에 배포
+4. https://smothly.github.io 에서 확인 가능
+
+### 수동 배포
+
+```bash
+# 정적 사이트 빌드
+python build_static.py
+
+# 또는 간단한 버전
+python generate_static.py
+```
+
 ## 📁 프로젝트 구조
 
 ```
@@ -47,6 +72,8 @@ python-portfolio/
 │   └── 404.html              # 404 페이지
 ├── content/projects/          # 프로젝트 마크다운 파일들
 ├── static/images/            # 이미지 파일들
+├── docs/                     # GitHub Pages 정적 파일
+├── .github/workflows/        # GitHub Actions
 ├── quick_start.py            # 간단한 실행 스크립트
 ├── run_dev.py               # 개발 서버 실행 (UV 지원)
 ├── build_static.py          # 정적 사이트 빌드
@@ -94,7 +121,8 @@ ABOUT_TEXT = """
     "description": "프로젝트 설명",
     "tech_stack": ["Python", "FastAPI", "PostgreSQL"],
     "image": "/static/images/your-image.png",  # 대표 이미지 경로
-    "github": "https://github.com/username/project"
+    "github": "https://github.com/username/project",
+    "highlights": ["성과 1", "성과 2"]  # 주요 성과
 }
 ```
 
@@ -102,10 +130,6 @@ ABOUT_TEXT = """
 - 이미지를 `static/images/` 폴더에 업로드
 - `"image"` 필드에 이미지 경로 지정
 - 각 프로젝트마다 다른 이미지 사용 가능
-- 예시: 
-  - `"/static/images/projects/aws-bigquery-pipeline/architecture.png"` (아키텍처 다이어그램)
-  - `"/static/images/projects/aws-bigquery-pipeline/table_status.png"` (모니터링 화면)
-  - `"/static/images/projects/aws-bigquery-pipeline/table_status2.png"` (대시보드 화면)
 
 그리고 `content/projects/new-project.md` 파일을 생성하여 상세 내용을 작성하세요.
 
@@ -115,36 +139,11 @@ ABOUT_TEXT = """
 
 ```python
 SKILLS_DATA = {
-    "languages": ["Python", "JavaScript", "Java"],
-    "frameworks": ["FastAPI", "React", "Django"],
+    "cloud_platforms": ["AWS (Expert)", "Google Cloud", "Azure"],
+    "data_engineering": ["Apache Spark", "Kafka", "Airflow"],
     # ...
 }
 ```
-
-## 🌐 GitHub Pages 배포
-
-### 1. 정적 사이트 빌드
-
-```bash
-python build_static.py
-```
-
-### 2. GitHub에 배포
-
-```bash
-git add .
-git commit -m "Update portfolio"
-git push origin main
-```
-
-GitHub Actions가 자동으로 사이트를 빌드하고 배포합니다.
-
-### 3. GitHub Pages 설정
-
-1. GitHub 저장소 → Settings → Pages
-2. Source: "Deploy from a branch" 선택
-3. Branch: "gh-pages" 선택
-4. 저장
 
 ## 🛠️ 기술 스택
 
@@ -153,6 +152,7 @@ GitHub Actions가 자동으로 사이트를 빌드하고 배포합니다.
 - **Styling**: TailwindCSS
 - **Markdown**: Python-Markdown
 - **Deployment**: GitHub Pages
+- **CI/CD**: GitHub Actions
 - **Package Management**: UV (선택적)
 
 ## 📝 마크다운 작성 가이드
@@ -214,9 +214,16 @@ python quick_start.py
 질문이나 제안사항이 있으시면 언제든 연락주세요!
 
 - **Email**: your.email@example.com
-- **GitHub**: [Your GitHub](https://github.com/yourusername)
-- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- **GitHub**: [Your GitHub](https://github.com/smothly)
+- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/csh0911)
 
 ---
 
 **💡 Tip**: `data/portfolio_data.py` 파일만 수정하면 대부분의 내용을 변경할 수 있습니다!
+
+## 🚀 배포 상태
+
+- **메인 브랜치**: `main` (기본 브랜치)
+- **배포 브랜치**: `gh-pages` (자동 생성)
+- **배포 URL**: https://smothly.github.io
+- **자동 배포**: GitHub Actions 활성화
