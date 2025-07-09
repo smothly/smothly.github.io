@@ -8,7 +8,7 @@ from typing import Dict, List, Optional
 # 상수 정의
 PERSONAL_INFO = {
     "name": "SeungHo, Choi",
-    "title": "Senior Data Engineer",
+    "title": "Data Engineer",
     "company": "Neowiz",
     "email": "your.email@example.com",
     "github": "https://github.com/smothly",
@@ -18,7 +18,7 @@ PERSONAL_INFO = {
 
 ABOUT_TEXT = """
 <p class="mb-6 text-lg leading-relaxed">
-<strong>데이터 생성부터 소비까지 End-to-End를 책임지는</strong> 4년차 시니어 데이터 엔지니어입니다.<br>
+<strong>데이터 생성부터 소비까지 End-to-End를 책임지는</strong> 4년차 데이터 엔지니어입니다.<br>
 게임 산업에서 <strong>일 4,000만 건의 데이터를 안정적으로 처리</strong>하며, 실시간 데이터 파이프라인부터 AI/ML 인프라까지 구축해왔습니다.
 </p>
 
@@ -38,7 +38,7 @@ LLM 기반 Text-to-SQL로 데이터 추출 요청 70% 감소, 자동화를 통�
 EXPERIENCE_DATA = [
     {
         "company": "Neowiz",
-        "position": "Senior Data Engineer",
+        "position": "Data Engineer",
         "period": "2022.01 - Present",
         "description": "게임 데이터 플랫폼 설계 및 운영, 실시간 데이터 파이프라인 구축",
         "achievements": [
@@ -70,7 +70,6 @@ PROJECTS_DATA = [
         "description": "AWS DMS CDC, Lambda, SQS를 활용하여 RDS Aurora의 데이터를 Google BigQuery로 준실시간 이동하는 멀티클라우드 파이프라인 구축. 일 4,000만 건 데이터 처리로 실시간 분석 및 FDS 지원",
         "tech_stack": ["AWS DMS", "AWS Lambda", "SQS", "Google BigQuery", "Python", "Terraform"],
         "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
-        "github": "https://github.com/smothly",
         "highlights": ["일 4,000만 건 데이터 처리", "99.9% 데이터 정합성", "평균 지연시간 1-2분", "실시간 FDS 지원"]
     },
     {
@@ -80,7 +79,6 @@ PROJECTS_DATA = [
         "description": "단일 클러스터 DW 환경을 멀티클러스터로 전환하여 성능 병목 해결. AWS와 협업하여 Games on AWS 발표 및 $34K 크레딧 확보. Concurrency Scaling, 암호화, 비용 최적화 적용",
         "tech_stack": ["Amazon Redshift", "AWS", "Terraform", "Grafana", "CloudWatch"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status.png",
-        "github": "https://github.com/smothly",
         "highlights": ["AWS 크레딧 $34K 확보", "Games on AWS 발표", "성능 병목 해결", "무중단 암호화 적용"]
     },
     {
@@ -90,7 +88,6 @@ PROJECTS_DATA = [
         "description": "LangChain과 OpenAI GPT를 활용한 챗봇 형태의 Text-to-SQL 시스템 구축. 자연어 질의를 SQL로 변환하여 데이터 추출 요청을 70% 감소시키고 비개발자도 쉽게 데이터 조회 가능",
         "tech_stack": ["OpenAI GPT", "LangChain", "Chainlit", "FastAPI", "Langfuse"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status2.png",
-        "github": "https://github.com/smothly",
         "highlights": ["데이터 추출 요청 70% 감소", "자연어 → SQL 변환", "대화형 인터페이스", "프롬프트 최적화"]
     },
     {
@@ -100,7 +97,6 @@ PROJECTS_DATA = [
         "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스(S3, BigQuery, Redshift 등)를 통합 쿼리할 수 있는 DataLake 환경 구축. Federated Query와 Iceberg 테이블 포맷 활용",
         "tech_stack": ["Trino", "AWS ECS", "Apache Iceberg", "S3", "Glue Catalog"],
         "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
-        "github": "https://github.com/smothly",
         "highlights": ["15개 이상 데이터 소스 통합", "Federated Query 지원", "Iceberg 테이블 포맷", "ECS 기반 Auto Scaling"]
     },
     {
@@ -110,7 +106,6 @@ PROJECTS_DATA = [
         "description": "S3 Intelligent Tiering, Graviton 인스턴스, Serverless 아키텍처 등을 통한 체계적인 비용 최적화. 월 $1,000+ 절감 달성 및 지속적인 비용 모니터링 체계 구축",
         "tech_stack": ["AWS Cost Explorer", "S3 Lifecycle", "Graviton", "Lambda", "Grafana"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status.png",
-        "github": "https://github.com/smothly",
         "highlights": ["월 $1,000+ 비용 절감", "S3 Intelligent Tiering", "Graviton 적용", "자동 비용 모니터링"]
     },
     {
@@ -120,7 +115,6 @@ PROJECTS_DATA = [
         "description": "Google/Apple 마켓, Data.ai, ElasticSearch, DynamoDB, Redis 등 15개 이상의 외부 데이터 소스를 안정적으로 수집하는 통합 플랫폼 구축. API 제한 대응 및 자동 복구 시스템 포함",
         "tech_stack": ["Python", "AWS Lambda", "Prefect", "API Integration", "Redis", "DynamoDB"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status2.png",
-        "github": "https://github.com/smothly",
         "highlights": ["15개 이상 데이터 소스", "API Rate Limiting 대응", "자동 복구 시스템", "실시간 모니터링"]
     },
     {
@@ -130,7 +124,6 @@ PROJECTS_DATA = [
         "description": "Grafana, CloudWatch, Prefect를 활용한 종합적인 모니터링 시스템 구축. 자동화를 통해 운영 리소스 90% 절감 및 장애 대응 시간 최소화",
         "tech_stack": ["Grafana", "CloudWatch", "Prefect", "AWS SNS", "Slack API"],
         "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
-        "github": "https://github.com/smothly",
         "highlights": ["운영 리소스 90% 절감", "실시간 장애 감지", "자동 복구 시스템", "통합 대시보드"]
     }
 ]
