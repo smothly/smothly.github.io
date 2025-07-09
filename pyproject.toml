@@ -1,0 +1,39 @@
+[project]
+name = "python-portfolio"
+version = "0.1.0"
+description = "A modern Python-based portfolio website"
+authors = [
+    {name = "SeungHo Choi", email = "your.email@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi>=0.104.1",
+    "jinja2>=3.1.2",
+    "uvicorn[standard]>=0.24.0",
+    "python-multipart>=0.0.6",
+    "markdown>=3.5.1",
+    "pyyaml>=6.0.1",
+    "python-frontmatter>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/smothly/python-portfolio"
+Repository = "https://github.com/smothly/python-portfolio"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line-length = 88

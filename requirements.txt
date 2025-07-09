@@ -1,0 +1,11 @@
+# UV 기반 프로젝트이지만 pip 호환성을 위해 유지
+# 실제 의존성은 pyproject.toml에서 관리됩니다
+# UV 사용을 권장합니다: uv sync
+
+fastapi>=0.104.1
+jinja2>=3.1.2
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+markdown>=3.5.1
+pyyaml>=6.0.1
+python-frontmatter>=1.0.0
