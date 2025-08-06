@@ -10,7 +10,7 @@ PERSONAL_INFO = {
     "name": "SeungHo, Choi",
     "title": "Data Engineer",
     "company": "Neowiz",
-    "email": "your.email@example.com",
+    "email": "seungho546@naver.com",
     "github": "https://github.com/smothly",
     "linkedin": "https://www.linkedin.com/in/csh0911/",
     "location": "Seoul, Korea"
@@ -18,20 +18,19 @@ PERSONAL_INFO = {
 
 ABOUT_TEXT = """
 <p class="mb-6 text-lg leading-relaxed">
-<strong>데이터 생성부터 소비까지 End-to-End를 책임지는</strong> 4년차 데이터 엔지니어입니다.<br>
-게임 산업에서 <strong>일 4,000만 건의 데이터를 안정적으로 처리</strong>하며, 실시간 데이터 파이프라인부터 AI/ML 인프라까지 구축해왔습니다.
+데이터가 잘 흐르고 다양하게 활용 될 수 있도록 꿈꾸고 실현하는 <b>5년차 데이터 엔지니어 최승호</b>입니다.
 </p>
 
 <p class="mb-6 text-lg leading-relaxed">
-<strong>비용 효율성과 안정성을 동시에 추구</strong>하는 것이 저의 강점입니다.<br>
-AWS 크레딧 $34K 확보, 월 $1,000+ 비용 절감, 99.9% 데이터 정합성 달성 등<br>
-<strong>기술적 우수성을 비즈니스 가치로 전환</strong>하는 능력을 입증해왔습니다.
+어떻게 하면 <b>안정적인 데이터 파이프라인</b>을 구축할 지,<br>
+어떻게 하면 <b>비용효율적으로 데이터 플랫폼</b>을 구성할 지,<br>
+어떻게 하면 <b>데이터 분석에 집중할 수 있는 환경</b>을 제공할 지<br>
+지속적으로 고민하고 테스트하고 도입하는 데이터 엔지니어입니다.
 </p>
 
-<p class="text-lg leading-relaxed">
-단순한 데이터 파이프라인 구축을 넘어, <strong>조직의 데이터 문화를 혁신</strong>하는 것이 목표입니다.<br>
-LLM 기반 Text-to-SQL로 데이터 추출 요청 70% 감소, 자동화를 통한 운영 리소스 90% 절감 등<br>
-<strong>기술로 사람과 조직의 생산성을 극대화</strong>하는 데이터 엔지니어입니다.
+<p class="mb-6 text-lg leading-relaxed">
+데이터를 통해 인사이트를 낼 수 있다고 생각하며 그 가치가 무궁무진하다고 믿습니다.<br>
+조직이 공통된 목표를 향해 나아갈 수 있도록 중간에서 커뮤니케이션하며 업무를 진행하여 인사이트를 내는데 도움이 되기를 희망합니다.
 </p>
 """
 
@@ -39,27 +38,28 @@ EXPERIENCE_DATA = [
     {
         "company": "Neowiz",
         "position": "Data Engineer",
-        "period": "2022.01 - Present",
-        "description": "게임 데이터 플랫폼 설계 및 운영, 실시간 데이터 파이프라인 구축",
+        "period": "2020.07 - Present",
+        "description": "실시간(CDC) 데이터 파이프라인 구축 및 데이터 웨어하우스 운영",
         "achievements": [
             "🏗️ 멀티클라우드 실시간 데이터 파이프라인 구축 (AWS ↔ GCP, 일 4,000만 건 처리)",
-            "💰 인프라 비용 최적화로 월 $1,000+ 절감 및 AWS 크레딧 $34K 확보",
-            "🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 70% 감소",
+            "🔄 15개 이상 다양한 데이터 소스 통합 및 실시간 ETL 구축",
             "📊 Redshift 멀티클러스터 아키텍처 설계로 성능 병목 해결",
             "⚡ 자동화 및 모니터링 시스템으로 운영 리소스 90% 절감",
-            "🔄 15개 이상 다양한 데이터 소스 통합 및 실시간 ETL 구축"
+            "💰 인프라 비용 최적화로 월 $1,000+ 절감 및 AWS 크레딧 $34K 확보",
+            "🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 70% 감소",
         ]
     }
 ]
 
 SKILLS_DATA = {
-    "cloud_platforms": ["AWS (Expert)", "Google Cloud Platform", "Azure"],
-    "data_engineering": ["Apache Spark", "Apache Kafka", "Airflow", "dbt", "Trino", "Prefect"],
-    "databases": ["Redshift", "BigQuery", "PostgreSQL", "MySQL", "DynamoDB", "ElasticSearch", "Redis"],
-    "programming": ["Python", "SQL", "Scala", "Java", "JavaScript"],
-    "infrastructure": ["Terraform", "Docker", "ECS", "Kubernetes", "Grafana", "Prometheus"],
-    "ai_ml": ["LangChain", "OpenAI GPT", "MLflow", "Scikit-learn", "TensorFlow"],
-    "specialties": ["Real-time Data Pipeline", "Multi-cloud Architecture", "Cost Optimization", "Data Governance"]
+    "specialties": ["Real-time Data Pipeline", "Multi-cloud Architecture", "Cost Optimization", "Data Governance"],
+    "cloud_platforms": ["AWS (Expert)", "Google Cloud Platform"],
+    "data_engineering": ["Prefect (Expert)", "Apache Kafka", "Trino"],
+    "data warehouse": ["Redshift (Expert)", "BigQuery", "Snowflake"],
+    "databases": ["PostgreSQL", "MySQL (Expert)", "DynamoDB", "ElasticSearch", "Redis"],
+    "programming": ["Python (Expert)", "SQL", "Java"],
+    "infrastructure": ["Terraform (Expert)", "Docker", "ECS", "Grafana"],
+    "ai_ml": ["LangChain", "OpenAI GPT", "MLflow", "Scikit-learn", "TensorFlow"]
 }
 
 PROJECTS_DATA = [
