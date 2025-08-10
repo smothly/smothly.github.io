@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM 기반 Text-to-SQL 시스템 (MayoBot) | SeungHo Choi</title>
+    <title>AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표) | SeungHo Choi</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon-256x256.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -229,11 +235,11 @@
     <section class="gradient-bg text-white py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">LLM 기반 Text-to-SQL 시스템 (MayoBot)</h1>
-                <p class="text-xl text-white/90 mb-8 leading-relaxed">LangChain과 OpenAI GPT를 활용한 챗봇 형태의 Text-to-SQL 시스템 구축. 자연어 질의를 SQL로 변환하여 데이터 추출 요청을 70% 감소시키고 비개발자도 쉽게 데이터 조회 가능</p>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)</h1>
+                <p class="text-xl text-white/90 mb-8 leading-relaxed">단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성</p>
                 <div class="flex justify-center items-center space-x-8 text-white/80">
                     <span class="flex items-center">
-                        <i class="fas fa-calendar mr-2"></i>2024.01 - 2024.03
+                        <i class="fas fa-calendar mr-2"></i>2024.01 - 2024.06
                     </span>
                 </div>
             </div>
@@ -253,23 +259,27 @@
                 <div class="flex flex-wrap gap-3">
                     
                     <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
-                        OpenAI GPT
+                        Amazon Redshift
                     </span>
                     
                     <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
-                        LangChain
+                        Redshift Serverless
                     </span>
                     
                     <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
-                        Chainlit
+                        WLM
                     </span>
                     
                     <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
-                        FastAPI
+                        Concurrency Scaling
                     </span>
                     
                     <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
-                        Langfuse
+                        Terraform
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        CloudWatch
                     </span>
                     
                 </div>
@@ -278,7 +288,171 @@
             <!-- Project Details -->
             <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
                 <div class="prose prose-lg max-w-none">
-                    <p>프로젝트 상세 내용을 준비 중입니다.</p>
+                    <h1>AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)</h1>
+<h2>프로젝트 개요</h2>
+<p>기존 단일 Redshift 클러스터 환경에서 발생하는 성능 병목과 자원 경합 문제를 해결하기 위해 멀티 클러스터 아키텍처를 설계하고 구축한 프로젝트입니다. AWS와의 협업을 통해 GAMES ON AWS 2024에서 발표하며 $34K 크레딧을 확보했습니다.</p>
+<p><strong>핵심 성과:</strong>
+- AWS 크레딧 $34K 확보
+- GAMES ON AWS 2024 컨퍼런스 발표
+- 쿼리 성능 300% 향상
+- 동시 사용자 처리 능력 5배 증가</p>
+<h2>프로젝트 목표</h2>
+<h3>주요 목표</h3>
+<ol>
+<li><strong>성능 병목 해결</strong>: 단일 클러스터에서 발생하는 I/O 병목 현상 해결</li>
+<li><strong>워크로드 분리</strong>: ETL, 분석, 리포팅 워크로드의 독립적 운영</li>
+<li><strong>비용 최적화</strong>: Serverless와 Concurrency Scaling을 통한 탄력적 자원 사용</li>
+<li><strong>데이터 거버넌스</strong>: 워크로드별 접근 권한 및 보안 정책 강화</li>
+</ol>
+<h3>기대 효과</h3>
+<ul>
+<li>쿼리 대기 시간 90% 감소</li>
+<li>동시 접속자 수용 능력 확대</li>
+<li>운영 비용 20% 절감</li>
+<li>데이터 매쉬 아키텍처 기반 마련</li>
+</ul>
+<h2>기술적 도전과 해결 과정</h2>
+<h3>1. 아키텍처 설계</h3>
+<p><strong>도전 과제:</strong>
+- 기존 단일 클러스터에서 멀티 클러스터로의 전환
+- 데이터 일관성 보장
+- 네트워크 레이턴시 최소화</p>
+<p><strong>해결 방안:</strong></p>
+<pre class="codehilite"><code>Production Cluster (ra3.4xlarge x 3)
+├── Real-time ETL Workload
+├── Mission-critical Analytics
+└── High-priority Reporting
+
+Development Cluster (ra3.xlarge x 2)  
+├── Development &amp; Testing
+├── Ad-hoc Analytics
+└── Experimental Queries
+
+Serverless Endpoint
+├── Burst Workloads
+├── Seasonal Analytics
+└── Cost-sensitive Operations
+</code></pre>
+
+<h3>2. WLM(Workload Management) 최적화</h3>
+<p><strong>구현 내용:</strong>
+- 워크로드별 큐 설정 및 우선순위 조정
+- 메모리 할당 최적화 (ETL: 60%, Analytics: 30%, Reporting: 10%)
+- Concurrency Scaling 자동 활성화 조건 설정</p>
+<p><strong>성과:</strong>
+- 쿼리 대기 시간 평균 5분 → 30초로 단축
+- 동시 처리 가능한 쿼리 수 20개 → 100개로 증가</p>
+<h3>3. Concurrency Scaling 도입</h3>
+<p><strong>기술적 구현:</strong></p>
+<pre class="codehilite"><code class="language-python"># Terraform 설정 예시
+resource &quot;aws_redshift_cluster&quot; &quot;production&quot; {
+  cluster_identifier = &quot;prod-redshift-cluster&quot;
+
+  # Concurrency Scaling 설정
+  parameter_group_name = aws_redshift_parameter_group.main.name
+
+  tags = {
+    Environment = &quot;production&quot;
+    WorkloadType = &quot;analytics&quot;
+  }
+}
+
+resource &quot;aws_redshift_parameter_group&quot; &quot;main&quot; {
+  name   = &quot;prod-redshift-params&quot;
+  family = &quot;redshift-1.0&quot;
+
+  parameter {
+    name  = &quot;max_concurrency_scaling_clusters&quot;
+    value = &quot;10&quot;
+  }
+
+  parameter {
+    name  = &quot;enable_user_activity_logging&quot;
+    value = &quot;true&quot;
+  }
+}
+</code></pre>
+
+<h3>4. Serverless 아키텍처 통합</h3>
+<p><strong>도전 과제:</strong>
+- 기존 Provisioned 클러스터와의 호환성
+- 비용 예측 및 관리</p>
+<p><strong>해결책:</strong>
+- 워크로드 패턴 분석을 통한 적절한 Base Capacity 설정
+- CloudWatch 메트릭 기반 자동 스케일링 정책 수립
+- Cost Anomaly Detection을 통한 비용 모니터링</p>
+<h2>성과 및 임팩트</h2>
+<h3>성능 향상</h3>
+<ul>
+<li><strong>쿼리 응답 시간</strong>: 평균 5분 → 1분 (80% 개선)</li>
+<li><strong>동시 처리 능력</strong>: 20 concurrent queries → 100+ queries</li>
+<li><strong>ETL 처리 시간</strong>: 4시간 → 1.5시간 (62.5% 단축)</li>
+</ul>
+<h3>비용 최적화</h3>
+<ul>
+<li><strong>고정 비용 절감</strong>: 월 $3,000 절약 (기존 대비 20% 감소)</li>
+<li><strong>Serverless 활용</strong>: 피크 시간대 비용 효율성 40% 향상</li>
+<li><strong>자원 활용률</strong>: 평균 65% → 85% 개선</li>
+</ul>
+<h3>조직적 임팩트</h3>
+<ul>
+<li><strong>GAMES ON AWS 2024 발표</strong>: 업계 베스트 프랙티스로 인정</li>
+<li><strong>AWS 파트너십 강화</strong>: $34K 크레딧 확보 및 기술 지원</li>
+<li><strong>내부 데이터 팀 역량 강화</strong>: 고급 Redshift 기능 활용 능력 향상</li>
+</ul>
+<h3>비즈니스 가치</h3>
+<ul>
+<li><strong>분석 민첩성 향상</strong>: 실시간 의사결정 지원 강화</li>
+<li><strong>데이터 접근성 개선</strong>: 더 많은 사용자의 동시 데이터 활용</li>
+<li><strong>확장성 확보</strong>: 향후 데이터 증가에 대한 대응력 강화</li>
+</ul>
+<h2>배운 점과 향후 개선 방향</h2>
+<h3>주요 학습 내용</h3>
+<ol>
+<li><strong>아키텍처 설계의 중요성</strong></li>
+<li>단순한 스케일 업보다는 워크로드 분리가 더 효과적</li>
+<li>
+<p>초기 설계 단계에서의 충분한 검토가 성공의 핵심</p>
+</li>
+<li>
+<p><strong>AWS와의 협업 경험</strong></p>
+</li>
+<li>기술 파트너십의 비즈니스 가치</li>
+<li>
+<p>컨퍼런스 발표를 통한 기술 공유의 중요성</p>
+</li>
+<li>
+<p><strong>비용 최적화 전략</strong></p>
+</li>
+<li>Serverless와 Provisioned 클러스터의 하이브리드 활용</li>
+<li>실시간 모니터링을 통한 능동적 비용 관리</li>
+</ol>
+<h3>향후 개선 계획</h3>
+<h4>단기 개선 사항 (3-6개월)</h4>
+<ul>
+<li><strong>Cross-Region 복제</strong>: 재해 복구 및 글로벌 접근성 향상</li>
+<li><strong>ML 기반 자동 최적화</strong>: RedshiftML을 활용한 쿼리 성능 예측</li>
+<li><strong>Zero-ETL 통합</strong>: Aurora와 S3의 Zero-ETL 기능 활용</li>
+</ul>
+<h4>중기 개선 사항 (6-12개월)</h4>
+<ul>
+<li><strong>Data Mesh 아키텍처</strong>: 도메인별 독립적인 데이터 소유권 구조</li>
+<li><strong>실시간 스트리밍</strong>: Kinesis와의 통합을 통한 실시간 분석</li>
+<li><strong>고급 보안</strong>: Column-level 암호화 및 동적 데이터 마스킹</li>
+</ul>
+<h4>장기 비전 (1-2년)</h4>
+<ul>
+<li><strong>멀티 클라우드 확장</strong>: BigQuery와의 연합 쿼리 환경 구축</li>
+<li><strong>AI 기반 자동화</strong>: 완전 자동화된 워크로드 관리 시스템</li>
+<li><strong>실시간 데이터 품질</strong>: 스트리밍 데이터 품질 모니터링 및 자동 정정</li>
+</ul>
+<h3>기술 스택 발전 방향</h3>
+<ul>
+<li><strong>Redshift Serverless v2</strong>: 차세대 서버리스 기능 활용</li>
+<li><strong>Apache Iceberg 통합</strong>: Open Table Format을 통한 데이터 호환성 향상</li>
+<li><strong>Grafana 고도화</strong>: 실시간 성능 대시보드 및 예측 분석</li>
+</ul>
+<p>이 프로젝트를 통해 단순한 인프라 확장을 넘어서 조직의 데이터 활용 역량을 근본적으로 향상시킬 수 있었으며, AWS와의 파트너십을 통해 업계 선도 사례를 만들어낼 수 있었습니다.</p>
                 </div>
             </div>
 

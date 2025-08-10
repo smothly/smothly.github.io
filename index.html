@@ -6,6 +6,12 @@
     <title>SeungHo, Choi | Data Engineer</title>
     <meta name="description" content="Data Engineer Portfolio">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon-256x256.png">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -109,17 +115,17 @@
                         
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                            <span class="text-gray-600">🏗️ 멀티클라우드 실시간 데이터 파이프라인 구축 (AWS ↔ GCP, 일 4,000만 건 처리)</span>
+                            <span class="text-gray-600">🔄 15개 이상 다양한 데이터 소스 통합 및 일 10억건+ CDC ETL 구축</span>
                         </li>
                         
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                            <span class="text-gray-600">🔄 15개 이상 다양한 데이터 소스 통합 및 실시간 ETL 구축</span>
+                            <span class="text-gray-600">📊 Redshift 멀티클러스터 아키텍처 설계로 성능 병목 해결 및 데이터 매쉬 구조 초석 마련</span>
                         </li>
                         
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                            <span class="text-gray-600">📊 Redshift 멀티클러스터 아키텍처 설계로 성능 병목 해결</span>
+                            <span class="text-gray-600">🏗️ 멀티클라우드(AWS ↔ GCP)간 일 4000만건+ 실시간 데이터 파이프라인 구축</span>
                         </li>
                         
                         <li class="flex items-start">
@@ -129,12 +135,12 @@
                         
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                            <span class="text-gray-600">💰 인프라 비용 최적화로 월 $1,000+ 절감 및 AWS 크레딧 $34K 확보</span>
+                            <span class="text-gray-600">💰 인프라 비용 최적화로 고정비용 20%($3,000+) 절감</span>
                         </li>
                         
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                            <span class="text-gray-600">🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 70% 감소</span>
+                            <span class="text-gray-600">🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 40% 감소</span>
                         </li>
                         
                     </ul>
@@ -150,7 +156,62 @@
             <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Projects</h2>
             <div class="grid md:grid-cols-2 gap-8">
                 
-                <a href="/project/realtime-multicloud-pipeline" class="block group">
+                <a href="/project/aws-multi-cluster-architecture" class="block group">
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.06</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 line-clamp-3">단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성</p>
+                            
+                            <!-- 하이라이트 성과 표시 -->
+                            
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ AWS 크레딧 $34K 확보
+                                    </span>
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ GAMES ON AWS 2024 발표
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Amazon Redshift</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Redshift Serverless</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">WLM</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Concurrency Scaling</span>
+                                
+                                
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
+                                
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/project/multicloud-realtime-pipeline" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
                             <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="Multi-Cloud Real-time Data Pipeline (AWS ↔ GCP)" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -205,20 +266,20 @@
                     </div>
                 </a>
                 
-                <a href="/project/redshift-modernization" class="block group">
+                <a href="/project/trino-ecs-platform" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status.png" alt="Redshift 인프라 현대화 & 멀티클러스터 아키텍처" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="Trino on ECS 기반 DataLake 플랫폼" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
                         </div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">Redshift 인프라 현대화 & 멀티클러스터 아키텍처</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.06</span>
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">Trino on ECS 기반 DataLake 플랫폼</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2023.12 - 2024.01</span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">단일 클러스터 DW 환경을 멀티클러스터로 전환하여 성능 병목 해결. AWS와 협업하여 Games on AWS 발표 및 $34K 크레딧 확보. Concurrency Scaling, 암호화, 비용 최적화 적용</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Ad-hoc 쿼리 플랫폼 제공</p>
                             
                             <!-- 하이라이트 성과 표시 -->
                             
@@ -226,11 +287,11 @@
                                 <div class="flex flex-wrap gap-2">
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ AWS 크레딧 $34K 확보
+                                        ✨ ECS 기반 Auto Scaling
                                     </span>
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ Games on AWS 발표
+                                        ✨ Iceberg 테이블 포맷
                                     </span>
                                     
                                 </div>
@@ -239,16 +300,16 @@
                             
                             <div class="flex flex-wrap gap-2 mb-4">
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Amazon Redshift</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Trino</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS ECS</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Terraform</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Apache Iceberg</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Grafana</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">S3 Lifecycle</span>
                                 
                                 
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+1</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
                                 
                             </div>
                             <div class="flex justify-between items-center">
@@ -260,20 +321,20 @@
                     </div>
                 </a>
                 
-                <a href="/project/llm-text-to-sql" class="block group">
+                <a href="/project/streaming-data-collection" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status2.png" alt="LLM 기반 Text-to-SQL 시스템 (MayoBot)" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status.png" alt="스트리밍 데이터 수집 플랫폼" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
                         </div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">LLM 기반 Text-to-SQL 시스템 (MayoBot)</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.03</span>
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">스트리밍 데이터 수집 플랫폼</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2021.06 - 2024.12</span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">LangChain과 OpenAI GPT를 활용한 챗봇 형태의 Text-to-SQL 시스템 구축. 자연어 질의를 SQL로 변환하여 데이터 추출 요청을 70% 감소시키고 비개발자도 쉽게 데이터 조회 가능</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">Amazon MSK와 DynamoDB를 활용한 대용량 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 고성능 NoSQL 데이터 저장소 운영</p>
                             
                             <!-- 하이라이트 성과 표시 -->
                             
@@ -281,7 +342,117 @@
                                 <div class="flex flex-wrap gap-2">
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 데이터 추출 요청 70% 감소
+                                        ✨ 실시간 스트림 처리
+                                    </span>
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ MSK 클러스터 운영
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Amazon MSK</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">DynamoDB</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Kafka Connect</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS Lambda</span>
+                                
+                                
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
+                                
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/project/infrastructure-management-and-monitoring" class="block group">
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status2.png" alt="인프라 운영 및 모니터링 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">인프라 운영 및 모니터링 시스템</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2021.01 - 2024.12</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 line-clamp-3">IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입</p>
+                            
+                            <!-- 하이라이트 성과 표시 -->
+                            
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ IaC 기반 인프라 관리
+                                    </span>
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ 비용 최적화 대시보드
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Terraform</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Serverless Framework</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Grafana</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">CloudWatch</span>
+                                
+                                
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
+                                
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/project/text-to-sql-system" class="block group">
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status.png" alt="LLM 기반 Text-to-SQL 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">LLM 기반 Text-to-SQL 시스템</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.03</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 line-clamp-3">LangChain과 OpenAI GPT를 활용한 자연어 기반 SQL 생성 시스템 구축. 비개발자도 쉽게 데이터 조회가 가능하도록 하여 데이터 추출 요청을 대폭 감소시킨 혁신적인 솔루션</p>
+                            
+                            <!-- 하이라이트 성과 표시 -->
+                            
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ 데이터 추출 요청 40% 감소
                                     </span>
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
@@ -303,171 +474,6 @@
                                 <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">FastAPI</span>
                                 
                                 
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+1</span>
-                                
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
-                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="/project/data-lake-trino" class="block group">
-                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="Trino 기반 DataLake 플랫폼 구축" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center">
-                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">Trino 기반 DataLake 플랫폼 구축</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2023.12 - 2024.01</span>
-                            </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">Trino를 AWS ECS에 배포하여 다양한 데이터 소스(S3, BigQuery, Redshift 등)를 통합 쿼리할 수 있는 DataLake 환경 구축. Federated Query와 Iceberg 테이블 포맷 활용</p>
-                            
-                            <!-- 하이라이트 성과 표시 -->
-                            
-                            <div class="mb-4">
-                                <div class="flex flex-wrap gap-2">
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 15개 이상 데이터 소스 통합
-                                    </span>
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ Federated Query 지원
-                                    </span>
-                                    
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Trino</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS ECS</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Apache Iceberg</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">S3</span>
-                                
-                                
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+1</span>
-                                
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
-                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="/project/cost-optimization" class="block group">
-                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status.png" alt="AWS 인프라 비용 최적화 프로젝트" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center">
-                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">AWS 인프라 비용 최적화 프로젝트</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2021.01 - 2024.06</span>
-                            </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">S3 Intelligent Tiering, Graviton 인스턴스, Serverless 아키텍처 등을 통한 체계적인 비용 최적화. 월 $1,000+ 절감 달성 및 지속적인 비용 모니터링 체계 구축</p>
-                            
-                            <!-- 하이라이트 성과 표시 -->
-                            
-                            <div class="mb-4">
-                                <div class="flex flex-wrap gap-2">
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 월 $1,000+ 비용 절감
-                                    </span>
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ S3 Intelligent Tiering
-                                    </span>
-                                    
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS Cost Explorer</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">S3 Lifecycle</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Graviton</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Lambda</span>
-                                
-                                
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+1</span>
-                                
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
-                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="/project/external-data-integration" class="block group">
-                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status2.png" alt="다양한 외부 데이터 소스 통합 플랫폼" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center">
-                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">다양한 외부 데이터 소스 통합 플랫폼</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2021.01 - 2024.06</span>
-                            </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">Google/Apple 마켓, Data.ai, ElasticSearch, DynamoDB, Redis 등 15개 이상의 외부 데이터 소스를 안정적으로 수집하는 통합 플랫폼 구축. API 제한 대응 및 자동 복구 시스템 포함</p>
-                            
-                            <!-- 하이라이트 성과 표시 -->
-                            
-                            <div class="mb-4">
-                                <div class="flex flex-wrap gap-2">
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 15개 이상 데이터 소스
-                                    </span>
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ API Rate Limiting 대응
-                                    </span>
-                                    
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Python</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS Lambda</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Prefect</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">API Integration</span>
-                                
-                                
                                 <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
                                 
                             </div>
@@ -480,20 +486,20 @@
                     </div>
                 </a>
                 
-                <a href="/project/automation-monitoring" class="block group">
+                <a href="/project/diverse-data-sources" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="데이터 파이프라인 자동화 & 모니터링 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/table_status2.png" alt="다양한 데이터 소스 통합 플랫폼" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
                         </div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">데이터 파이프라인 자동화 & 모니터링 시스템</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2022.01 - 2024.12</span>
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">다양한 데이터 소스 통합 플랫폼</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2021.01 - 2024.12</span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">Grafana, CloudWatch, Prefect를 활용한 종합적인 모니터링 시스템 구축. 자동화를 통해 운영 리소스 90% 절감 및 장애 대응 시간 최소화</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">ElasticSearch, Google/Apple 마켓, Prometheus, Redis, SensorTower 등 15개 이상의 다양한 외부 데이터 소스를 안정적으로 수집하고 통합하는 ETL 플랫폼 구축</p>
                             
                             <!-- 하이라이트 성과 표시 -->
                             
@@ -501,11 +507,11 @@
                                 <div class="flex flex-wrap gap-2">
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 운영 리소스 90% 절감
+                                        ✨ 15개 이상 데이터 소스
                                     </span>
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 실시간 장애 감지
+                                        ✨ 마켓 데이터 수집
                                     </span>
                                     
                                 </div>
@@ -514,16 +520,71 @@
                             
                             <div class="flex flex-wrap gap-2 mb-4">
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Grafana</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">ElasticSearch</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">CloudWatch</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Redis</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Prefect</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Prometheus</span>
                                 
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS SNS</span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">AWS Lambda</span>
                                 
                                 
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+1</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+3</span>
+                                
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/project/other-projects" class="block group">
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                            <img src="/static/images/projects/aws-bigquery-pipeline/architecture.png" alt="기타 프로젝트" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">기타 프로젝트</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2020.07 - 2024.12</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 line-clamp-3">Snowflake PoC, MCMS 개발, 공용 라이브러리 개발, AI FBU CR_CHURN 그룹 운영 등 다양한 엔터프라이즈급 프로젝트 수행 및 조직 내 데이터 문화 확산</p>
+                            
+                            <!-- 하이라이트 성과 표시 -->
+                            
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ Snowflake PoC 수행
+                                    </span>
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ MCMS 시스템 개발
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Snowflake</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Python</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">FastAPI</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Docker</span>
+                                
+                                
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
                                 
                             </div>
                             <div class="flex justify-between items-center">
@@ -554,7 +615,7 @@
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Real-time Data Pipeline
+                            Real-time(CDC) Data Pipeline
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -581,11 +642,11 @@
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            AWS (Expert)
+                            AWS 
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Google Cloud Platform
+                            GCP
                         </span>
                         
                     </div>
@@ -600,7 +661,7 @@
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Prefect (Expert)
+                            Prefect
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -617,11 +678,13 @@
                 <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                     <h3 class="text-xl font-bold mb-4 text-gray-800 capitalize flex items-center">
                         
+                            <i class="fas fa-warehouse mr-3 text-purple-600"></i>Data Warehouse
+                        
                     </h3>
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Redshift (Expert)
+                            Redshift
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -638,17 +701,17 @@
                 <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
                     <h3 class="text-xl font-bold mb-4 text-gray-800 capitalize flex items-center">
                         
-                            <i class="fas fa-server mr-3 text-purple-600"></i>Databases
+                            <i class="fas fa-server mr-3 text-indigo-600"></i>Databases
                         
                     </h3>
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            PostgreSQL
+                            MySQL
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            MySQL (Expert)
+                            PostgreSQL
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -675,7 +738,7 @@
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Python (Expert)
+                            Python
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -698,7 +761,7 @@
                     <div class="flex flex-wrap gap-2">
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Terraform (Expert)
+                            Terraform
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
@@ -729,19 +792,19 @@
                         </span>
                         
                         <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
+                            Langfuse
+                        </span>
+                        
+                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
+                            RedshiftML
+                        </span>
+                        
+                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
+                            SageMaker
+                        </span>
+                        
+                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
                             OpenAI GPT
-                        </span>
-                        
-                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            MLflow
-                        </span>
-                        
-                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            Scikit-learn
-                        </span>
-                        
-                        <span class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                            TensorFlow
                         </span>
                         
                     </div>
@@ -773,7 +836,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2024 SeungHo, Choi. All rights reserved.</p>
+            <p>&copy; 2025 SeungHo, Choi. All rights reserved.</p>
         </div>
     </footer>
 

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인프라 운영 및 모니터링 시스템 | SeungHo Choi</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon-256x256.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        /* 마크다운 스타일링 */
+        .prose {
+            max-width: none;
+            color: #374151;
+            line-height: 1.75;
+        }
+        
+        .prose h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            margin-top: 3rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #3b82f6;
+        }
+        
+        .prose h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            margin-top: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            position: relative;
+        }
+        
+        .prose h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: #3b82f6;
+        }
+        
+        .prose h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .prose h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .prose p {
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+        
+        .prose ul, .prose ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .prose li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+        
+        .prose ul li {
+            position: relative;
+            list-style: none;
+        }
+        
+        .prose ul li::before {
+            content: '•';
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+        
+        .prose ol li {
+            list-style: decimal;
+            color: #4b5563;
+        }
+        
+        .prose strong {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .prose em {
+            font-style: italic;
+            color: #6b7280;
+        }
+        
+        .prose blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        .prose code {
+            background: #f1f5f9;
+            color: #e11d48;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .prose pre {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+            padding: 1.5rem !important;
+            border-radius: 0.75rem !important;
+            overflow-x: auto !important;
+            margin: 2rem 0 !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .prose pre code {
+            background: transparent !important;
+            color: inherit !important;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: 0.875rem !important;
+        }
+        
+        .prose img {
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prose th {
+            background: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .prose td {
+            padding: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #4b5563;
+        }
+        
+        .prose hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            margin: 3rem 0;
+            border-radius: 1px;
+        }
+        
+        /* 특별한 강조 박스 */
+        .prose p:has(strong:first-child) {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="/" class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> SeungHo Choi
+                </a>
+                <div class="flex space-x-4">
+                    <!-- GitHub 링크 제거됨 -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">인프라 운영 및 모니터링 시스템</h1>
+                <p class="text-xl text-white/90 mb-8 leading-relaxed">IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입</p>
+                <div class="flex justify-center items-center space-x-8 text-white/80">
+                    <span class="flex items-center">
+                        <i class="fas fa-calendar mr-2"></i>2021.01 - 2024.12
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Content -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Tech Stack -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg mb-8 border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    <i class="fas fa-tools mr-3 text-blue-600"></i>
+                    기술 스택
+                </h2>
+                <div class="flex flex-wrap gap-3">
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Terraform
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Serverless Framework
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Grafana
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        CloudWatch
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        AWS Cost Explorer
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Graviton
+                    </span>
+                    
+                </div>
+            </div>
+
+            <!-- Project Details -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                <div class="prose prose-lg max-w-none">
+                    <h1>인프라 운영 및 모니터링 시스템</h1>
+<h2>프로젝트 개요</h2>
+<p>IaC(Infrastructure as Code) 기반의 체계적인 인프라 관리와 종합적인 모니터링 시스템을 구축하여 안정적이고 비용 효율적인 클라우드 인프라 운영 환경을 구축했습니다. Terraform과 Serverless Framework를 통한 인프라 코드화, Grafana 기반 통합 모니터링, 그리고 AI 기반 비용 최적화 시스템을 개발했습니다.</p>
+<p><strong>핵심 성과:</strong>
+- IaC 기반 인프라 관리로 배포 시간 80% 단축
+- 비용 최적화 대시보드로 월 $3,000 비용 절감
+- Graviton 인스턴스 적용으로 성능 대비 비용 30% 개선
+- 유휴 리소스 자동 관리로 운영 효율성 90% 향상</p>
+<h2>프로젝트 목표</h2>
+<h3>비즈니스 요구사항</h3>
+<ol>
+<li><strong>인프라 표준화</strong>: 일관된 인프라 구성과 배포 프로세스 확립</li>
+<li><strong>비용 투명성</strong>: 실시간 비용 추적 및 예측을 통한 예산 관리</li>
+<li><strong>운영 자동화</strong>: 반복적인 운영 업무의 자동화로 생산성 향상</li>
+<li><strong>안정성 확보</strong>: 프로액티브 모니터링을 통한 장애 예방</li>
+</ol>
+<h3>기술적 목표</h3>
+<ul>
+<li>GitOps 기반 인프라 관리 프로세스 구축</li>
+<li>실시간 메트릭 수집 및 알러트 시스템 구현</li>
+<li>머신러닝 기반 비용 예측 및 최적화 자동화</li>
+<li>멀티 클라우드 통합 모니터링 플랫폼 구축</li>
+</ul>
+<h2>기술적 도전과 해결 과정</h2>
+<h3>1. IaC 기반 인프라 아키텍처</h3>
+<p><strong>도전 과제:</strong>
+- 복잡한 멀티 환경(Dev, Staging, Prod) 관리
+- 상태 파일(State File) 동시성 및 보안 관리
+- 다양한 서비스 간 의존성 관리</p>
+<p><strong>해결 방안:</strong></p>
+<pre class="codehilite"><code>Infrastructure as Code Architecture
+├── Terraform Core Infrastructure
+│   ├── Remote State (S3 + DynamoDB)
+│   ├── Module Library
+│   └── Environment-specific Configurations
+├── Serverless Framework Applications
+│   ├── Lambda Functions
+│   ├── API Gateway
+│   └── Event-driven Architectures
+└── GitOps Workflow
+    ├── GitHub Actions CI/CD
+    ├── Terraform Cloud Integration
+    └── Automated Testing &amp; Validation
+</code></pre>
+
+<p><strong>Terraform 모듈 구조화:</strong></p>
+<pre class="codehilite"><code class="language-hcl"># modules/vpc/main.tf
+resource &quot;aws_vpc&quot; &quot;main&quot; {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = merge(var.common_tags, {
+    Name        = &quot;${var.environment}-vpc&quot;
+    Environment = var.environment
+  })
+}
+
+resource &quot;aws_internet_gateway&quot; &quot;main&quot; {
+  vpc_id = aws_vpc.main.id
+
+  tags = merge(var.common_tags, {
+    Name = &quot;${var.environment}-igw&quot;
+  })
+}
+
+# Auto Scaling 기반 서브넷 생성
+resource &quot;aws_subnet&quot; &quot;private&quot; {
+  count             = length(var.availability_zones)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = cidrsubnet(var.vpc_cidr, 8, count.index + 10)
+  availability_zone = var.availability_zones[count.index]
+
+  tags = merge(var.common_tags, {
+    Name = &quot;${var.environment}-private-subnet-${count.index + 1}&quot;
+    Type = &quot;Private&quot;
+  })
+}
+
+# environments/production/main.tf
+module &quot;vpc&quot; {
+  source = &quot;../../modules/vpc&quot;
+
+  environment        = &quot;production&quot;
+  vpc_cidr          = &quot;10.0.0.0/16&quot;
+  availability_zones = [&quot;ap-northeast-2a&quot;, &quot;ap-northeast-2b&quot;, &quot;ap-northeast-2c&quot;]
+
+  common_tags = {
+    Project     = &quot;data-platform&quot;
+    Owner       = &quot;data-engineering&quot;
+    CostCenter  = &quot;engineering&quot;
+    Terraform   = &quot;true&quot;
+  }
+}
+
+module &quot;monitoring&quot; {
+  source = &quot;../../modules/monitoring&quot;
+
+  environment = &quot;production&quot;
+  vpc_id      = module.vpc.vpc_id
+  subnet_ids  = module.vpc.private_subnet_ids
+
+  grafana_admin_password = var.grafana_admin_password
+  slack_webhook_url      = var.slack_webhook_url
+}
+</code></pre>
+
+<p><strong>Serverless Framework 통합:</strong></p>
+<pre class="codehilite"><code class="language-yaml"># serverless.yml
+service: infrastructure-automation
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ap-northeast-2
+  environment:
+    ENVIRONMENT: ${opt:stage, 'dev'}
+    GRAFANA_API_URL: ${env:GRAFANA_API_URL}
+    SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+
+functions:
+  costOptimizer:
+    handler: handlers/cost_optimizer.handler
+    events:
+      - schedule: cron(0 9 * * ? *)  # 매일 오전 9시
+    timeout: 300
+    memorySize: 512
+
+  resourceCleaner:
+    handler: handlers/resource_cleaner.handler
+    events:
+      - schedule: cron(0 2 * * ? *)  # 매일 새벽 2시
+    timeout: 900
+    memorySize: 1024
+
+  alertManager:
+    handler: handlers/alert_manager.handler
+    events:
+      - sns: infrastructure-alerts
+    timeout: 30
+    memorySize: 256
+
+plugins:
+  - serverless-python-requirements
+  - serverless-iam-roles-per-function
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    slim: true
+</code></pre>
+
+<h3>2. Grafana 기반 통합 모니터링</h3>
+<p><strong>모니터링 스택 구축:</strong></p>
+<pre class="codehilite"><code class="language-python"># monitoring/grafana_provisioning.py
+import json
+import requests
+from typing import Dict, List
+
+class GrafanaProvisioner:
+    &quot;&quot;&quot;Grafana 대시보드 및 데이터소스 자동 프로비저닝&quot;&quot;&quot;
+
+    def __init__(self, grafana_url: str, admin_token: str):
+        self.grafana_url = grafana_url
+        self.headers = {
+            'Authorization': f'Bearer {admin_token}',
+            'Content-Type': 'application/json'
+        }
+
+    def create_datasources(self):
+        &quot;&quot;&quot;다양한 데이터소스 자동 생성&quot;&quot;&quot;
+
+        datasources = [
+            {
+                'name': 'CloudWatch',
+                'type': 'cloudwatch',
+                'url': 'https://monitoring.ap-northeast-2.amazonaws.com',
+                'access': 'proxy',
+                'jsonData': {
+                    'defaultRegion': 'ap-northeast-2',
+                    'authType': 'credentials'
+                }
+            },
+            {
+                'name': 'Prometheus',
+                'type': 'prometheus',
+                'url': 'http://prometheus:9090',
+                'access': 'proxy',
+                'isDefault': True
+            },
+            {
+                'name': 'Loki',
+                'type': 'loki',
+                'url': 'http://loki:3100',
+                'access': 'proxy'
+            }
+        ]
+
+        for ds in datasources:
+            response = requests.post(
+                f'{self.grafana_url}/api/datasources',
+                headers=self.headers,
+                data=json.dumps(ds)
+            )
+            print(f&quot;데이터소스 {ds['name']} 생성: {response.status_code}&quot;)
+
+    def create_infrastructure_dashboard(self):
+        &quot;&quot;&quot;인프라 종합 모니터링 대시보드 생성&quot;&quot;&quot;
+
+        dashboard = {
+            'dashboard': {
+                'title': '인프라 종합 모니터링',
+                'panels': [
+                    {
+                        'title': 'EC2 인스턴스 상태',
+                        'type': 'stat',
+                        'targets': [
+                            {
+                                'datasource': 'CloudWatch',
+                                'region': 'ap-northeast-2',
+                                'namespace': 'AWS/EC2',
+                                'metricName': 'CPUUtilization',
+                                'statistic': 'Average'
+                            }
+                        ],
+                        'fieldConfig': {
+                            'defaults': {
+                                'thresholds': {
+                                    'steps': [
+                                        {'color': 'green', 'value': None},
+                                        {'color': 'yellow', 'value': 70},
+                                        {'color': 'red', 'value': 85}
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        'title': 'RDS 성능 메트릭',
+                        'type': 'timeseries',
+                        'targets': [
+                            {
+                                'datasource': 'CloudWatch',
+                                'namespace': 'AWS/RDS',
+                                'metricName': 'DatabaseConnections',
+                                'statistic': 'Average'
+                            }
+                        ]
+                    },
+                    {
+                        'title': '비용 추이',
+                        'type': 'timeseries',
+                        'targets': [
+                            {
+                                'datasource': 'CloudWatch',
+                                'namespace': 'AWS/Billing',
+                                'metricName': 'EstimatedCharges',
+                                'statistic': 'Maximum'
+                            }
+                        ]
+                    }
+                ],
+                'time': {
+                    'from': 'now-24h',
+                    'to': 'now'
+                },
+                'refresh': '30s'
+            }
+        }
+
+        response = requests.post(
+            f'{self.grafana_url}/api/dashboards/db',
+            headers=self.headers,
+            data=json.dumps(dashboard)
+        )
+
+        return response.json()
+</code></pre>
+
+<p><strong>Prometheus 메트릭 수집:</strong></p>
+<pre class="codehilite"><code class="language-yaml"># prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - &quot;rules/*.yml&quot;
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  - job_name: 'redshift-exporter'
+    static_configs:
+      - targets: ['redshift-exporter:9974']
+
+  - job_name: 'application-metrics'
+    ec2_sd_configs:
+      - region: ap-northeast-2
+        port: 8080
+        filters:
+          - name: tag:Monitoring
+            values: ['enabled']
+</code></pre>
+
+<h3>3. 비용 최적화 자동화 시스템</h3>
+<p><strong>AI 기반 비용 예측 및 최적화:</strong></p>
+<pre class="codehilite"><code class="language-python">import boto3
+import pandas as pd
+from datetime import datetime, timedelta
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import StandardScaler
+
+class CostOptimizer:
+    &quot;&quot;&quot;AI 기반 비용 최적화 시스템&quot;&quot;&quot;
+
+    def __init__(self):
+        self.ce_client = boto3.client('ce')
+        self.ec2_client = boto3.client('ec2')
+        self.cloudwatch = boto3.client('cloudwatch')
+
+    def analyze_cost_trends(self, days=90):
+        &quot;&quot;&quot;비용 트렌드 분석 및 예측&quot;&quot;&quot;
+
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=days)
+
+        # Cost Explorer에서 일별 비용 데이터 조회
+        response = self.ce_client.get_cost_and_usage(
+            TimePeriod={
+                'Start': start_date.strftime('%Y-%m-%d'),
+                'End': end_date.strftime('%Y-%m-%d')
+            },
+            Granularity='DAILY',
+            Metrics=['BlendedCost'],
+            GroupBy=[
+                {'Type': 'DIMENSION', 'Key': 'SERVICE'}
+            ]
+        )
+
+        # 데이터 전처리
+        cost_data = []
+        for result in response['ResultsByTime']:
+            date = result['TimePeriod']['Start']
+            for group in result['Groups']:
+                service = group['Keys'][0]
+                cost = float(group['Metrics']['BlendedCost']['Amount'])
+                cost_data.append({
+                    'date': date,
+                    'service': service,
+                    'cost': cost
+                })
+
+        df = pd.DataFrame(cost_data)
+        df['date'] = pd.to_datetime(df['date'])
+
+        return self.predict_future_costs(df)
+
+    def predict_future_costs(self, df, forecast_days=30):
+        &quot;&quot;&quot;머신러닝 기반 비용 예측&quot;&quot;&quot;
+
+        # 피처 엔지니어링
+        df['day_of_week'] = df['date'].dt.dayofweek
+        df['month'] = df['date'].dt.month
+        df['day_of_month'] = df['date'].dt.day
+
+        # 서비스별 예측 모델 생성
+        predictions = {}
+
+        for service in df['service'].unique():
+            service_data = df[df['service'] == service].copy()
+            service_data = service_data.sort_values('date')
+
+            # 특성 준비
+            features = ['day_of_week', 'month', 'day_of_month']
+            X = service_data[features]
+            y = service_data['cost']
+
+            # 모델 훈련
+            scaler = StandardScaler()
+            X_scaled = scaler.fit_transform(X)
+
+            model = RandomForestRegressor(n_estimators=100, random_state=42)
+            model.fit(X_scaled, y)
+
+            # 미래 예측
+            future_dates = pd.date_range(
+                start=df['date'].max() + timedelta(days=1),
+                periods=forecast_days,
+                freq='D'
+            )
+
+            future_features = pd.DataFrame({
+                'day_of_week': future_dates.dayofweek,
+                'month': future_dates.month,
+                'day_of_month': future_dates.day
+            })
+
+            future_X_scaled = scaler.transform(future_features)
+            future_costs = model.predict(future_X_scaled)
+
+            predictions[service] = {
+                'dates': future_dates,
+                'predicted_costs': future_costs,
+                'total_predicted': future_costs.sum()
+            }
+
+        return predictions
+
+    def identify_cost_optimization_opportunities(self):
+        &quot;&quot;&quot;비용 최적화 기회 식별&quot;&quot;&quot;
+
+        recommendations = []
+
+        # 1. 유휴 EC2 인스턴스 탐지
+        idle_instances = self.find_idle_ec2_instances()
+        if idle_instances:
+            recommendations.append({
+                'type': 'idle_ec2',
+                'resources': idle_instances,
+                'potential_savings': self.calculate_ec2_savings(idle_instances),
+                'action': 'terminate_or_resize'
+            })
+
+        # 2. 과도한 EBS 볼륨 탐지
+        oversized_volumes = self.find_oversized_ebs_volumes()
+        if oversized_volumes:
+            recommendations.append({
+                'type': 'oversized_ebs',
+                'resources': oversized_volumes,
+                'potential_savings': self.calculate_ebs_savings(oversized_volumes),
+                'action': 'resize_volumes'
+            })
+
+        # 3. 사용하지 않는 EIP 탐지
+        unused_eips = self.find_unused_elastic_ips()
+        if unused_eips:
+            recommendations.append({
+                'type': 'unused_eip',
+                'resources': unused_eips,
+                'potential_savings': len(unused_eips) * 3.65 * 30,  # $3.65/month per EIP
+                'action': 'release_eips'
+            })
+
+        return recommendations
+
+    def find_idle_ec2_instances(self, threshold_cpu=5.0, days=7):
+        &quot;&quot;&quot;유휴 EC2 인스턴스 탐지&quot;&quot;&quot;
+
+        idle_instances = []
+
+        # 모든 실행 중인 인스턴스 조회
+        response = self.ec2_client.describe_instances(
+            Filters=[{'Name': 'instance-state-name', 'Values': ['running']}]
+        )
+
+        for reservation in response['Reservations']:
+            for instance in reservation['Instances']:
+                instance_id = instance['InstanceId']
+
+                # CPU 사용률 메트릭 조회
+                cpu_metrics = self.cloudwatch.get_metric_statistics(
+                    Namespace='AWS/EC2',
+                    MetricName='CPUUtilization',
+                    Dimensions=[
+                        {'Name': 'InstanceId', 'Value': instance_id}
+                    ],
+                    StartTime=datetime.utcnow() - timedelta(days=days),
+                    EndTime=datetime.utcnow(),
+                    Period=3600,
+                    Statistics=['Average']
+                )
+
+                if cpu_metrics['Datapoints']:
+                    avg_cpu = np.mean([
+                        dp['Average'] for dp in cpu_metrics['Datapoints']
+                    ])
+
+                    if avg_cpu &lt; threshold_cpu:
+                        idle_instances.append({
+                            'instance_id': instance_id,
+                            'instance_type': instance['InstanceType'],
+                            'avg_cpu': avg_cpu,
+                            'launch_time': instance['LaunchTime']
+                        })
+
+        return idle_instances
+
+    def auto_apply_optimizations(self, recommendations, auto_apply=False):
+        &quot;&quot;&quot;비용 최적화 권장사항 자동 적용&quot;&quot;&quot;
+
+        applied_actions = []
+
+        for rec in recommendations:
+            if rec['type'] == 'unused_eip' and auto_apply:
+                # 사용하지 않는 EIP 자동 해제
+                for eip in rec['resources']:
+                    try:
+                        self.ec2_client.release_address(
+                            AllocationId=eip['allocation_id']
+                        )
+                        applied_actions.append({
+                            'action': 'released_eip',
+                            'resource': eip['allocation_id'],
+                            'savings': 3.65 * 30
+                        })
+                    except Exception as e:
+                        print(f&quot;EIP 해제 실패: {e}&quot;)
+
+            elif rec['type'] == 'idle_ec2':
+                # 유휴 인스턴스는 알림만 전송 (수동 확인 필요)
+                self.send_idle_instance_alert(rec['resources'])
+
+        return applied_actions
+
+def lambda_cost_optimizer_handler(event, context):
+    &quot;&quot;&quot;비용 최적화 Lambda 핸들러&quot;&quot;&quot;
+
+    optimizer = CostOptimizer()
+
+    # 비용 트렌드 분석
+    cost_predictions = optimizer.analyze_cost_trends()
+
+    # 최적화 기회 식별
+    recommendations = optimizer.identify_cost_optimization_opportunities()
+
+    # 안전한 최적화 자동 적용
+    applied_actions = optimizer.auto_apply_optimizations(
+        recommendations, auto_apply=True
+    )
+
+    # 결과를 Grafana 대시보드에 전송
+    send_optimization_metrics(cost_predictions, recommendations, applied_actions)
+
+    # Slack 알림 전송
+    send_cost_optimization_report(recommendations, applied_actions)
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps({
+            'predictions': len(cost_predictions),
+            'recommendations': len(recommendations),
+            'applied_actions': len(applied_actions)
+        })
+    }
+</code></pre>
+
+<h3>4. Graviton 인스턴스 성능 테스트</h3>
+<p><strong>Graviton 마이그레이션 자동화:</strong></p>
+<pre class="codehilite"><code class="language-python">class GravitonMigrationTester:
+    &quot;&quot;&quot;Graviton 인스턴스 성능 테스트 및 마이그레이션&quot;&quot;&quot;
+
+    def __init__(self):
+        self.ec2_client = boto3.client('ec2')
+        self.cloudwatch = boto3.client('cloudwatch')
+
+    def create_graviton_test_environment(self, original_instance_id):
+        &quot;&quot;&quot;기존 인스턴스와 동일한 Graviton 테스트 환경 생성&quot;&quot;&quot;
+
+        # 원본 인스턴스 정보 조회
+        response = self.ec2_client.describe_instances(
+            InstanceIds=[original_instance_id]
+        )
+
+        original_instance = response['Reservations'][0]['Instances'][0]
+
+        # Graviton 호환 인스턴스 타입 매핑
+        graviton_mapping = {
+            't3.micro': 't4g.micro',
+            't3.small': 't4g.small',
+            't3.medium': 't4g.medium',
+            'm5.large': 'm6g.large',
+            'm5.xlarge': 'm6g.xlarge',
+            'r5.large': 'r6g.large',
+            'c5.large': 'c6g.large'
+        }
+
+        original_type = original_instance['InstanceType']
+        graviton_type = graviton_mapping.get(original_type)
+
+        if not graviton_type:
+            return None
+
+        # AMI ID 변환 (x86_64 -&gt; arm64)
+        arm64_ami = self.find_arm64_ami(original_instance['ImageId'])
+
+        # Graviton 인스턴스 생성
+        graviton_instance = self.ec2_client.run_instances(
+            ImageId=arm64_ami,
+            MinCount=1,
+            MaxCount=1,
+            InstanceType=graviton_type,
+            SecurityGroupIds=[
+                sg['GroupId'] for sg in original_instance['SecurityGroups']
+            ],
+            SubnetId=original_instance['SubnetId'],
+            UserData=self.generate_performance_test_script(),
+            TagSpecifications=[
+                {
+                    'ResourceType': 'instance',
+                    'Tags': [
+                        {'Key': 'Name', 'Value': f'graviton-test-{original_instance_id}'},
+                        {'Key': 'TestType', 'Value': 'graviton-migration'},
+                        {'Key': 'OriginalInstance', 'Value': original_instance_id}
+                    ]
+                }
+            ]
+        )
+
+        return graviton_instance['Instances'][0]['InstanceId']
+
+    def generate_performance_test_script(self):
+        &quot;&quot;&quot;성능 테스트 스크립트 생성&quot;&quot;&quot;
+
+        script = &quot;&quot;&quot;#!/bin/bash
+# Graviton 성능 테스트 스크립트
+yum update -y
+yum install -y stress-ng htop
+
+# CPU 벤치마크
+echo &quot;CPU 벤치마크 시작...&quot;
+stress-ng --cpu 4 --timeout 300s --metrics-brief
+
+# 메모리 벤치마크  
+echo &quot;메모리 벤치마크 시작...&quot;
+stress-ng --vm 2 --vm-bytes 80% --timeout 300s --metrics-brief
+
+# 네트워크 처리량 테스트
+echo &quot;네트워크 테스트 시작...&quot;
+iperf3 -c iperf.he.net -t 60
+
+# 결과를 CloudWatch 커스텀 메트릭으로 전송
+aws cloudwatch put-metric-data \
+    --namespace &quot;GravitonTest&quot; \
+    --metric-data MetricName=PerformanceScore,Value=100,Unit=Count
+&quot;&quot;&quot;
+
+        return script
+
+    def compare_performance_and_cost(self, original_id, graviton_id, test_duration_hours=24):
+        &quot;&quot;&quot;성능 및 비용 비교 분석&quot;&quot;&quot;
+
+        # 성능 메트릭 수집
+        metrics_to_compare = [
+            'CPUUtilization',
+            'NetworkIn',
+            'NetworkOut',
+            'DiskReadOps',
+            'DiskWriteOps'
+        ]
+
+        comparison_results = {}
+
+        for metric in metrics_to_compare:
+            original_metrics = self.get_instance_metrics(
+                original_id, metric, test_duration_hours
+            )
+            graviton_metrics = self.get_instance_metrics(
+                graviton_id, metric, test_duration_hours
+            )
+
+            comparison_results[metric] = {
+                'original_avg': np.mean(original_metrics),
+                'graviton_avg': np.mean(graviton_metrics),
+                'improvement_pct': (
+                    (np.mean(graviton_metrics) - np.mean(original_metrics)) /
+                    np.mean(original_metrics) * 100
+                )
+            }
+
+        # 비용 비교
+        cost_comparison = self.calculate_cost_comparison(original_id, graviton_id)
+
+        # 권장사항 생성
+        recommendation = self.generate_migration_recommendation(
+            comparison_results, cost_comparison
+        )
+
+        return {
+            'performance_comparison': comparison_results,
+            'cost_comparison': cost_comparison,
+            'recommendation': recommendation
+        }
+</code></pre>
+
+<h3>5. 종합 모니터링 대시보드</h3>
+<p><strong>실시간 인프라 대시보드 구성:</strong></p>
+<pre class="codehilite"><code class="language-python">def create_comprehensive_dashboard():
+    &quot;&quot;&quot;종합 인프라 모니터링 대시보드 생성&quot;&quot;&quot;
+
+    dashboard_config = {
+        'title': '데이터 플랫폼 인프라 종합 모니터링',
+        'panels': [
+            {
+                'title': '인프라 비용 현황',
+                'type': 'stat',
+                'gridPos': {'h': 8, 'w': 12, 'x': 0, 'y': 0},
+                'targets': [
+                    {
+                        'expr': 'aws_billing_estimated_charges',
+                        'legendFormat': '이번 달 예상 비용'
+                    }
+                ]
+            },
+            {
+                'title': 'Redshift 클러스터 상태',
+                'type': 'timeseries',
+                'gridPos': {'h': 8, 'w': 12, 'x': 12, 'y': 0},
+                'targets': [
+                    {
+                        'expr': 'aws_redshift_cpu_utilization',
+                        'legendFormat': 'CPU 사용률'
+                    },
+                    {
+                        'expr': 'aws_redshift_database_connections',
+                        'legendFormat': '활성 연결 수'
+                    }
+                ]
+            },
+            {
+                'title': 'DynamoDB 성능 메트릭',
+                'type': 'timeseries',
+                'gridPos': {'h': 8, 'w': 24, 'x': 0, 'y': 8},
+                'targets': [
+                    {
+                        'expr': 'aws_dynamodb_consumed_read_capacity_units',
+                        'legendFormat': '읽기 용량 소비'
+                    },
+                    {
+                        'expr': 'aws_dynamodb_consumed_write_capacity_units',
+                        'legendFormat': '쓰기 용량 소비'
+                    }
+                ]
+            },
+            {
+                'title': '데이터 파이프라인 상태',
+                'type': 'table',
+                'gridPos': {'h': 10, 'w': 24, 'x': 0, 'y': 16},
+                'targets': [
+                    {
+                        'expr': 'pipeline_status',
+                        'format': 'table'
+                    }
+                ]
+            }
+        ],
+        'time': {'from': 'now-24h', 'to': 'now'},
+        'refresh': '30s'
+    }
+
+    return dashboard_config
+</code></pre>
+
+<h2>성과 및 임팩트</h2>
+<h3>운영 효율성</h3>
+<ul>
+<li><strong>배포 시간</strong>: IaC 도입으로 수동 배포 4시간 → 자동 배포 30분 (87.5% 단축)</li>
+<li><strong>인프라 표준화</strong>: 100% 코드화된 인프라로 일관성 확보</li>
+<li><strong>장애 대응 시간</strong>: 프로액티브 모니터링으로 MTTR 70% 단축</li>
+<li><strong>운영 자동화</strong>: 반복 작업 90% 자동화로 엔지니어 생산성 향상</li>
+</ul>
+<h3>비용 최적화</h3>
+<ul>
+<li><strong>월간 비용 절감</strong>: $3,000+ 지속적 절감 (기존 대비 20% 감소)</li>
+<li><strong>Graviton 효과</strong>: 성능 대비 비용 30% 개선</li>
+<li><strong>리소스 최적화</strong>: 유휴 리소스 자동 탐지 및 정리로 15% 추가 절감</li>
+<li><strong>예측 정확도</strong>: AI 기반 비용 예측으로 예산 편차 5% 이내</li>
+</ul>
+<h3>안정성 및 가시성</h3>
+<ul>
+<li><strong>시스템 가용성</strong>: 99.95% 업타임 달성</li>
+<li><strong>모니터링 커버리지</strong>: 100% 인프라 컴포넌트 모니터링</li>
+<li><strong>알러트 정확도</strong>: 95% 정확한 알러트로 false positive 최소화</li>
+<li><strong>관찰가능성</strong>: 실시간 메트릭, 로그, 트레이스 통합 가시성</li>
+</ul>
+<h2>배운 점과 향후 개선 방향</h2>
+<h3>주요 학습 내용</h3>
+<ol>
+<li><strong>IaC의 전략적 가치</strong></li>
+<li>단순한 자동화를 넘어선 조직 문화 변화의 촉매</li>
+<li>
+<p>인프라의 버전 관리와 재현 가능성의 중요성</p>
+</li>
+<li>
+<p><strong>비용 최적화의 지속성</strong></p>
+</li>
+<li>일회성 최적화보다 지속적 모니터링과 자동화의 필요성</li>
+<li>
+<p>비즈니스 가치와 비용 효율성의 균형</p>
+</li>
+<li>
+<p><strong>관찰가능성의 중요성</strong></p>
+</li>
+<li>메트릭, 로그, 트레이스의 통합적 접근</li>
+<li>문제 발생 전 예측과 예방의 가치</li>
+</ol>
+<h3>향후 개선 계획</h3>
+<h4>단기 개선 사항 (3-6개월)</h4>
+<ul>
+<li><strong>Policy as Code</strong>: OPA(Open Policy Agent)를 통한 보안 정책 자동화</li>
+<li><strong>멀티 클라우드 통합</strong>: GCP 리소스 통합 모니터링 확장</li>
+<li><strong>자동화 고도화</strong>: Ansible 통합으로 설정 관리 자동화</li>
+</ul>
+<h4>중기 개선 사항 (6-12개월)</h4>
+<ul>
+<li><strong>GitOps 완전 구현</strong>: ArgoCD 기반 완전 자동화된 배포 파이프라인</li>
+<li><strong>지능형 알러트</strong>: ML 기반 이상 탐지 및 예측적 알러트</li>
+<li><strong>비용 예측 고도화</strong>: 시계열 분석 기반 정확한 비용 예측</li>
+</ul>
+<h4>장기 비전 (1-2년)</h4>
+<ul>
+<li><strong>완전 자율 운영</strong>: AI 기반 자동 복구 및 최적화 시스템</li>
+<li><strong>클라우드 네이티브 전환</strong>: 서버리스 기반 완전 관리형 인프라</li>
+<li><strong>데이터 드리븐 운영</strong>: 모든 운영 결정의 데이터 기반 자동화</li>
+</ul>
+<h3>기술 스택 진화 방향</h3>
+<ul>
+<li><strong>Kubernetes</strong>: EKS 기반 컨테이너 오케스트레이션 플랫폼</li>
+<li><strong>Service Mesh</strong>: Istio를 통한 마이크로서비스 가시성 및 보안</li>
+<li><strong>FinOps</strong>: 체계적인 클라우드 재무 관리 프로세스 구축</li>
+</ul>
+<p>이 프로젝트를 통해 현대적인 클라우드 인프라 운영의 모범 사례를 구축했으며, 조직의 운영 성숙도를 크게 향상시킬 수 있었습니다. 특히 비용 투명성과 자동화를 통해 지속 가능한 인프라 운영 기반을 마련했습니다.</p>
+                </div>
+            </div>
+
+            <!-- Back to Projects -->
+            <div class="text-center mt-12">
+                <a href="/#projects" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <i class="fas fa-arrow-left mr-3"></i>
+                    프로젝트 목록으로 돌아가기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">&copy; 2024 SeungHo Choi. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+</body>
+</html>

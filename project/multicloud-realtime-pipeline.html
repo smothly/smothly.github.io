@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Cloud Real-time Data Pipeline (AWS ↔ GCP) | SeungHo Choi</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon-256x256.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        /* 마크다운 스타일링 */
+        .prose {
+            max-width: none;
+            color: #374151;
+            line-height: 1.75;
+        }
+        
+        .prose h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 2rem;
+            margin-top: 3rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #3b82f6;
+        }
+        
+        .prose h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            margin-top: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            position: relative;
+        }
+        
+        .prose h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: #3b82f6;
+        }
+        
+        .prose h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .prose h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .prose p {
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+        
+        .prose ul, .prose ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .prose li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            line-height: 1.7;
+        }
+        
+        .prose ul li {
+            position: relative;
+            list-style: none;
+        }
+        
+        .prose ul li::before {
+            content: '•';
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+        
+        .prose ol li {
+            list-style: decimal;
+            color: #4b5563;
+        }
+        
+        .prose strong {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .prose em {
+            font-style: italic;
+            color: #6b7280;
+        }
+        
+        .prose blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        .prose code {
+            background: #f1f5f9;
+            color: #e11d48;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .prose pre {
+            background: #1e293b !important;
+            color: #e2e8f0 !important;
+            padding: 1.5rem !important;
+            border-radius: 0.75rem !important;
+            overflow-x: auto !important;
+            margin: 2rem 0 !important;
+            border: 1px solid #334155 !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .prose pre code {
+            background: transparent !important;
+            color: inherit !important;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: 0.875rem !important;
+        }
+        
+        .prose img {
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .prose table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prose th {
+            background: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .prose td {
+            padding: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #4b5563;
+        }
+        
+        .prose hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            margin: 3rem 0;
+            border-radius: 1px;
+        }
+        
+        /* 특별한 강조 박스 */
+        .prose p:has(strong:first-child) {
+            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="/" class="text-xl font-bold text-gray-800 hover:text-blue-600 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> SeungHo Choi
+                </a>
+                <div class="flex space-x-4">
+                    <!-- GitHub 링크 제거됨 -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <section class="gradient-bg text-white py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Multi-Cloud Real-time Data Pipeline (AWS ↔ GCP)</h1>
+                <p class="text-xl text-white/90 mb-8 leading-relaxed">AWS DMS CDC, Lambda, SQS를 활용하여 RDS Aurora의 데이터를 Google BigQuery로 준실시간 이동하는 멀티클라우드 파이프라인 구축. 일 4,000만 건 데이터 처리로 실시간 분석 및 FDS 지원</p>
+                <div class="flex justify-center items-center space-x-8 text-white/80">
+                    <span class="flex items-center">
+                        <i class="fas fa-calendar mr-2"></i>2022.12 - 2023.03
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Content -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Tech Stack -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg mb-8 border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    <i class="fas fa-tools mr-3 text-blue-600"></i>
+                    기술 스택
+                </h2>
+                <div class="flex flex-wrap gap-3">
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        AWS DMS
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        AWS Lambda
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        SQS
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Google BigQuery
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Python
+                    </span>
+                    
+                    <span class="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-800 rounded-full font-medium border border-blue-200 hover:shadow-md transition-shadow">
+                        Terraform
+                    </span>
+                    
+                </div>
+            </div>
+
+            <!-- Project Details -->
+            <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                <div class="prose prose-lg max-w-none">
+                    <h1>Multi-Cloud Real-time Data Pipeline (AWS ↔ GCP)</h1>
+<h2>프로젝트 개요</h2>
+<p>PnE(Probability and Enhancement) 시스템 도입에 따라 글로벌 카지노 게임 3종의 일배치 시스템을 준실시간 배치로 전환하는 멀티클라우드 데이터 파이프라인을 구축했습니다. AWS DMS CDC, Lambda, SQS를 활용하여 RDS Aurora의 데이터를 Google BigQuery로 준실시간으로 이동시키는 고가용성 파이프라인을 설계 및 구현했습니다.</p>
+<p><strong>핵심 성과:</strong>
+- 일 4,000만 건 데이터의 준실시간 처리 (평균 지연시간 1-2분)
+- 99.9% 데이터 정합성 보장
+- 실시간 FDS(Fraud Detection System) 및 대시보드 지원
+- 6개 DB 클러스터, 70여 개 테이블의 통합 관리</p>
+<h2>프로젝트 목표</h2>
+<h3>비즈니스 요구사항</h3>
+<ol>
+<li><strong>실시간성 확보</strong>: 기존 일배치에서 준실시간 배치로 전환 (1-2분 지연)</li>
+<li><strong>확장성</strong>: 글로벌 카지노 게임 3종, 6개 DB 클러스터 지원</li>
+<li><strong>안정성</strong>: 일 4,000만 건 데이터의 무손실 전송 보장</li>
+<li><strong>운영 효율성</strong>: DW/BI 엔지니어의 독립적인 테이블 관리 가능</li>
+</ol>
+<h3>기술적 목표</h3>
+<ul>
+<li>AWS와 GCP 간 멀티클라우드 아키텍처 구축</li>
+<li>CDC(Change Data Capture) 기반 실시간 데이터 동기화</li>
+<li>장애 복구 및 백필 시스템 구현</li>
+<li>자동화된 스키마 관리 및 테이블 생성</li>
+</ul>
+<h2>기술적 도전과 해결 과정</h2>
+<h3>1. 멀티클라우드 CDC 파이프라인 아키텍처</h3>
+<p><strong>아키텍처 설계:</strong></p>
+<pre class="codehilite"><code>AWS RDS Aurora (MySQL)
+    ↓ (CDC)
+AWS DMS (Database Migration Service)
+    ↓ (Parquet + GZ)
+Amazon S3
+    ↓ (Event Trigger)
+Amazon SQS
+    ↓ (Lambda Trigger)
+AWS Lambda (Python)
+    ↓ (BigQuery API)
+Google BigQuery
+</code></pre>
+
+<p><strong>파이프라인 핵심 구현:</strong></p>
+<pre class="codehilite"><code class="language-python">import json
+import boto3
+import logging
+from google.cloud import bigquery
+from google.cloud.exceptions import Conflict
+import pandas as pd
+from io import BytesIO
+import gzip
+from datetime import datetime
+import os
+
+# 환경 변수 설정
+BIGQUERY_PROJECT = os.environ['BIGQUERY_PROJECT']
+BIGQUERY_DATASET = os.environ['BIGQUERY_DATASET']
+S3_BUCKET = os.environ['S3_BUCKET']
+
+# 클라이언트 초기화
+s3_client = boto3.client('s3')
+bq_client = bigquery.Client(project=BIGQUERY_PROJECT)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+def lambda_handler(event, context):
+    &quot;&quot;&quot;SQS 이벤트 처리 Lambda 핸들러&quot;&quot;&quot;
+
+    try:
+        # SQS 메시지 처리
+        for record in event['Records']:
+            # S3 이벤트 정보 파싱
+            s3_event = json.loads(record['body'])
+            s3_records = s3_event.get('Records', [])
+
+            for s3_record in s3_records:
+                bucket = s3_record['s3']['bucket']['name']
+                key = s3_record['s3']['object']['key']
+
+                # CDC 파일 처리
+                result = process_cdc_file(bucket, key)
+                logger.info(f&quot;처리 완료: {key}, 결과: {result}&quot;)
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps('성공적으로 처리되었습니다')
+        }
+
+    except Exception as e:
+        logger.error(f&quot;처리 중 오류 발생: {str(e)}&quot;)
+        raise e
+
+def process_cdc_file(bucket, key):
+    &quot;&quot;&quot;CDC 파일을 BigQuery로 로드&quot;&quot;&quot;
+
+    try:
+        # 파일명에서 테이블 정보 추출
+        table_info = extract_table_info(key)
+        table_name = table_info['table_name']
+        database_name = table_info['database_name']
+        timestamp = table_info['timestamp']
+
+        # BigQuery Job ID 생성 (중복 방지용)
+        job_id = f&quot;{timestamp}_{database_name}_{table_name}&quot;
+
+        # 중복 Job 체크
+        if check_duplicate_job(job_id):
+            logger.info(f&quot;중복된 Job ID: {job_id}, 건너뜀&quot;)
+            return {&quot;status&quot;: &quot;skipped&quot;, &quot;reason&quot;: &quot;duplicate_job&quot;}
+
+        # S3에서 Parquet 파일 읽기
+        parquet_data = read_parquet_from_s3(bucket, key)
+
+        if parquet_data.empty:
+            logger.info(f&quot;빈 파일: {key}&quot;)
+            return {&quot;status&quot;: &quot;skipped&quot;, &quot;reason&quot;: &quot;empty_file&quot;}
+
+        # BigQuery 테이블 존재 여부 확인 및 생성
+        ensure_bigquery_table(database_name, table_name, parquet_data)
+
+        # BigQuery로 데이터 로드
+        load_result = load_to_bigquery(
+            database_name, table_name, parquet_data, job_id
+        )
+
+        return {
+            &quot;status&quot;: &quot;success&quot;,
+            &quot;table&quot;: f&quot;{database_name}.{table_name}&quot;,
+            &quot;rows&quot;: len(parquet_data),
+            &quot;job_id&quot;: job_id
+        }
+
+    except Exception as e:
+        logger.error(f&quot;파일 처리 실패 {key}: {str(e)}&quot;)
+        raise e
+
+def extract_table_info(s3_key):
+    &quot;&quot;&quot;S3 키에서 테이블 정보 추출&quot;&quot;&quot;
+
+    # 예시: cdc/database1/table1/2023/03/15/20230315143022_table1.parquet.gz
+    path_parts = s3_key.split('/')
+
+    if len(path_parts) &lt; 6:
+        raise ValueError(f&quot;잘못된 S3 키 형식: {s3_key}&quot;)
+
+    database_name = path_parts[1]
+    table_name = path_parts[2]
+    filename = path_parts[-1]
+
+    # 타임스탬프 추출 (yyyymmddhhmmss 형식)
+    timestamp = filename.split('_')[0]
+
+    return {
+        'database_name': database_name,
+        'table_name': table_name,
+        'timestamp': timestamp,
+        'filename': filename
+    }
+
+def check_duplicate_job(job_id):
+    &quot;&quot;&quot;BigQuery Job ID 중복 체크&quot;&quot;&quot;
+
+    try:
+        # 최근 24시간 내 Job 조회
+        query = f&quot;&quot;&quot;
+        SELECT job_id
+        FROM `{BIGQUERY_PROJECT}.region-asia-northeast3.INFORMATION_SCHEMA.JOBS`
+        WHERE job_id = '{job_id}'
+        AND creation_time &gt;= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)
+        LIMIT 1
+        &quot;&quot;&quot;
+
+        results = list(bq_client.query(query))
+        return len(results) &gt; 0
+
+    except Exception as e:
+        logger.warning(f&quot;Job 중복 체크 실패: {str(e)}&quot;)
+        return False
+
+def read_parquet_from_s3(bucket, key):
+    &quot;&quot;&quot;S3에서 압축된 Parquet 파일 읽기&quot;&quot;&quot;
+
+    try:
+        # S3에서 파일 다운로드
+        response = s3_client.get_object(Bucket=bucket, Key=key)
+
+        # GZ 압축 해제
+        if key.endswith('.gz'):
+            compressed_data = response['Body'].read()
+            decompressed_data = gzip.decompress(compressed_data)
+            parquet_buffer = BytesIO(decompressed_data)
+        else:
+            parquet_buffer = BytesIO(response['Body'].read())
+
+        # Parquet 파일을 DataFrame으로 읽기
+        df = pd.read_parquet(parquet_buffer)
+
+        # DMS CDC 메타데이터 처리
+        df = process_cdc_metadata(df)
+
+        return df
+
+    except Exception as e:
+        logger.error(f&quot;S3 파일 읽기 실패 {key}: {str(e)}&quot;)
+        raise e
+
+def process_cdc_metadata(df):
+    &quot;&quot;&quot;DMS CDC 메타데이터 처리&quot;&quot;&quot;
+
+    # CDC 오퍼레이션 컬럼 추가
+    if 'Op' in df.columns:
+        # I: Insert, U: Update, D: Delete
+        df['_cdc_operation'] = df['Op']
+        df['_cdc_timestamp'] = datetime.utcnow()
+        df = df.drop('Op', axis=1)
+
+    # MySQL 특수 타입 처리
+    for column in df.columns:
+        if df[column].dtype == 'object':
+            # BIT 타입 처리
+            if column.endswith('_bit'):
+                df[column] = df[column].astype(str)
+
+    return df
+
+def ensure_bigquery_table(database_name, table_name, sample_data):
+    &quot;&quot;&quot;BigQuery 테이블 존재 여부 확인 및 생성&quot;&quot;&quot;
+
+    dataset_id = f&quot;{database_name}_{BIGQUERY_DATASET}&quot;
+    table_id = f&quot;{BIGQUERY_PROJECT}.{dataset_id}.{table_name}&quot;
+
+    try:
+        # 데이터셋 존재 여부 확인 및 생성
+        try:
+            dataset = bq_client.get_dataset(dataset_id)
+        except:
+            dataset = bigquery.Dataset(f&quot;{BIGQUERY_PROJECT}.{dataset_id}&quot;)
+            dataset.location = &quot;asia-northeast3&quot;
+            dataset = bq_client.create_dataset(dataset)
+            logger.info(f&quot;데이터셋 생성: {dataset_id}&quot;)
+
+        # 테이블 존재 여부 확인
+        try:
+            table = bq_client.get_table(table_id)
+            logger.info(f&quot;기존 테이블 사용: {table_id}&quot;)
+            return table
+        except:
+            # 테이블이 없으면 샘플 데이터로 스키마 자동 생성
+            logger.info(f&quot;새 테이블 생성: {table_id}&quot;)
+            return create_table_with_autodetect(table_id, sample_data)
+
+    except Exception as e:
+        logger.error(f&quot;테이블 확인/생성 실패 {table_id}: {str(e)}&quot;)
+        raise e
+
+def create_table_with_autodetect(table_id, sample_data):
+    &quot;&quot;&quot;샘플 데이터로 BigQuery 테이블 자동 생성&quot;&quot;&quot;
+
+    try:
+        # 임시 파일로 샘플 데이터 업로드하여 스키마 자동 감지
+        job_config = bigquery.LoadJobConfig(
+            autodetect=True,
+            source_format=bigquery.SourceFormat.PARQUET,
+            write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE
+        )
+
+        # 샘플 데이터를 Parquet 형태로 변환
+        parquet_buffer = BytesIO()
+        sample_data.head(1).to_parquet(parquet_buffer, index=False)
+        parquet_buffer.seek(0)
+
+        # 임시 Job으로 테이블 생성
+        job = bq_client.load_table_from_file(
+            parquet_buffer, table_id, job_config=job_config
+        )
+        job.result()  # 완료 대기
+
+        table = bq_client.get_table(table_id)
+        logger.info(f&quot;자동 스키마 감지로 테이블 생성: {table_id}&quot;)
+
+        return table
+
+    except Exception as e:
+        logger.error(f&quot;자동 테이블 생성 실패 {table_id}: {str(e)}&quot;)
+        raise e
+
+def load_to_bigquery(database_name, table_name, df, job_id):
+    &quot;&quot;&quot;DataFrame을 BigQuery로 로드&quot;&quot;&quot;
+
+    dataset_id = f&quot;{database_name}_{BIGQUERY_DATASET}&quot;
+    table_id = f&quot;{BIGQUERY_PROJECT}.{dataset_id}.{table_name}&quot;
+
+    try:
+        job_config = bigquery.LoadJobConfig(
+            source_format=bigquery.SourceFormat.PARQUET,
+            write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+            autodetect=False  # 기존 스키마 사용
+        )
+
+        # DataFrame을 Parquet으로 변환
+        parquet_buffer = BytesIO()
+        df.to_parquet(parquet_buffer, index=False)
+        parquet_buffer.seek(0)
+
+        # BigQuery로 로드
+        job = bq_client.load_table_from_file(
+            parquet_buffer, table_id, 
+            job_config=job_config,
+            job_id=job_id
+        )
+
+        job.result()  # 완료 대기
+
+        logger.info(f&quot;데이터 로드 완료: {table_id}, 행 수: {len(df)}&quot;)
+
+        return {
+            &quot;job_id&quot;: job_id,
+            &quot;rows_loaded&quot;: len(df),
+            &quot;table&quot;: table_id
+        }
+
+    except Conflict as e:
+        if &quot;already exists&quot; in str(e):
+            logger.info(f&quot;중복 Job ID로 인한 건너뜀: {job_id}&quot;)
+            return {&quot;status&quot;: &quot;skipped&quot;, &quot;reason&quot;: &quot;duplicate_job_id&quot;}
+        else:
+            raise e
+    except Exception as e:
+        logger.error(f&quot;BigQuery 로드 실패 {table_id}: {str(e)}&quot;)
+        raise e
+
+# 백필 시스템을 위한 Prefect Flow
+from prefect import flow, task
+from prefect.task_runners import ConcurrentTaskRunner
+from datetime import datetime, timedelta
+
+@task
+def backfill_single_table(database_name, table_name, start_date, end_date):
+    &quot;&quot;&quot;단일 테이블 백필 태스크&quot;&quot;&quot;
+
+    logger.info(f&quot;백필 시작: {database_name}.{table_name} ({start_date} ~ {end_date})&quot;)
+
+    # S3에서 해당 기간의 CDC 파일 목록 조회
+    s3_prefix = f&quot;cdc/{database_name}/{table_name}/&quot;
+
+    current_date = start_date
+    processed_files = 0
+
+    while current_date &lt;= end_date:
+        date_prefix = current_date.strftime(&quot;%Y/%m/%d&quot;)
+        full_prefix = f&quot;{s3_prefix}{date_prefix}/&quot;
+
+        # S3에서 해당 날짜의 파일 목록 조회
+        response = s3_client.list_objects_v2(
+            Bucket=S3_BUCKET,
+            Prefix=full_prefix
+        )
+
+        for obj in response.get('Contents', []):
+            key = obj['Key']
+
+            try:
+                # 파일 처리
+                result = process_cdc_file(S3_BUCKET, key)
+                if result['status'] == 'success':
+                    processed_files += 1
+                    logger.info(f&quot;백필 처리 완료: {key}&quot;)
+            except Exception as e:
+                logger.error(f&quot;백필 처리 실패 {key}: {str(e)}&quot;)
+
+        current_date += timedelta(days=1)
+
+    return {
+        &quot;database&quot;: database_name,
+        &quot;table&quot;: table_name,
+        &quot;processed_files&quot;: processed_files,
+        &quot;period&quot;: f&quot;{start_date} ~ {end_date}&quot;
+    }
+
+@flow(task_runner=ConcurrentTaskRunner())
+def backfill_cdc_data(databases, tables, start_date, end_date):
+    &quot;&quot;&quot;CDC 데이터 백필 Flow&quot;&quot;&quot;
+
+    logger.info(f&quot;전체 백필 시작: {len(databases)} 데이터베이스, {len(tables)} 테이블&quot;)
+
+    # 병렬로 각 테이블 백필 실행
+    futures = []
+    for database in databases:
+        for table in tables:
+            future = backfill_single_table.submit(database, table, start_date, end_date)
+            futures.append(future)
+
+    # 결과 수집
+    results = [future.result() for future in futures]
+
+    total_files = sum(result['processed_files'] for result in results)
+
+    logger.info(f&quot;전체 백필 완료: {total_files}개 파일 처리&quot;)
+
+    return {
+        &quot;total_processed_files&quot;: total_files,
+        &quot;results&quot;: results
+    }
+
+# 모니터링 대시보드용 메트릭 수집
+def publish_metrics(table_name, rows_processed, latency_seconds):
+    &quot;&quot;&quot;CloudWatch 메트릭 발행&quot;&quot;&quot;
+
+    cloudwatch = boto3.client('cloudwatch')
+
+    try:
+        cloudwatch.put_metric_data(
+            Namespace='CDC-Pipeline',
+            MetricData=[
+                {
+                    'MetricName': 'RowsProcessed',
+                    'Value': rows_processed,
+                    'Unit': 'Count',
+                    'Dimensions': [
+                        {'Name': 'TableName', 'Value': table_name}
+                    ]
+                },
+                {
+                    'MetricName': 'ProcessingLatency',
+                    'Value': latency_seconds,
+                    'Unit': 'Seconds',
+                    'Dimensions': [
+                        {'Name': 'TableName', 'Value': table_name}
+                    ]
+                }
+            ]
+        )
+    except Exception as e:
+        logger.error(f&quot;메트릭 발행 실패: {str(e)}&quot;)
+</code></pre>
+
+<h3>2. 데이터 무결성 보장 메커니즘</h3>
+<p><strong>중복 데이터 방지:</strong></p>
+<pre class="codehilite"><code class="language-python">class DuplicationHandler:
+    &quot;&quot;&quot;중복 데이터 처리 핸들러&quot;&quot;&quot;
+
+    def __init__(self, bigquery_client):
+        self.bq_client = bigquery_client
+        self.processed_jobs = set()
+
+    def generate_unique_job_id(self, timestamp, table_name):
+        &quot;&quot;&quot;고유 Job ID 생성&quot;&quot;&quot;
+        return f&quot;{timestamp}_{table_name}_parquet&quot;
+
+    def is_duplicate_job(self, job_id):
+        &quot;&quot;&quot;Job ID 중복 여부 확인&quot;&quot;&quot;
+
+        if job_id in self.processed_jobs:
+            return True
+
+        # BigQuery Jobs 테이블에서 중복 확인
+        query = f&quot;&quot;&quot;
+        SELECT job_id
+        FROM `{BIGQUERY_PROJECT}.region-asia-northeast3.INFORMATION_SCHEMA.JOBS`
+        WHERE job_id = '{job_id}'
+        AND state = 'DONE'
+        AND creation_time &gt;= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 24 HOUR)
+        &quot;&quot;&quot;
+
+        results = list(self.bq_client.query(query))
+
+        if results:
+            self.processed_jobs.add(job_id)
+            return True
+
+        return False
+
+    def mark_job_processed(self, job_id):
+        &quot;&quot;&quot;처리된 Job 표시&quot;&quot;&quot;
+        self.processed_jobs.add(job_id)
+</code></pre>
+
+<p><strong>데이터 검증 시스템:</strong></p>
+<pre class="codehilite"><code class="language-python">class DataValidator:
+    &quot;&quot;&quot;데이터 정합성 검증&quot;&quot;&quot;
+
+    def __init__(self, source_db_config, bigquery_client):
+        self.source_db = pymysql.connect(**source_db_config)
+        self.bq_client = bigquery_client
+
+    def validate_row_count(self, table_name, date_range):
+        &quot;&quot;&quot;행 수 검증&quot;&quot;&quot;
+
+        # 소스 DB 행 수 조회
+        source_query = f&quot;&quot;&quot;
+        SELECT COUNT(*) as source_count
+        FROM {table_name}
+        WHERE DATE(updated_at) BETWEEN '{date_range['start']}' AND '{date_range['end']}'
+        &quot;&quot;&quot;
+
+        with self.source_db.cursor() as cursor:
+            cursor.execute(source_query)
+            source_count = cursor.fetchone()['source_count']
+
+        # BigQuery 행 수 조회
+        bq_query = f&quot;&quot;&quot;
+        SELECT COUNT(*) as bq_count
+        FROM `{BIGQUERY_PROJECT}.{BIGQUERY_DATASET}.{table_name}`
+        WHERE DATE(_cdc_timestamp) BETWEEN '{date_range['start']}' AND '{date_range['end']}'
+        &quot;&quot;&quot;
+
+        bq_result = list(self.bq_client.query(bq_query))
+        bq_count = bq_result[0]['bq_count']
+
+        # 정합성 확인
+        accuracy = (min(source_count, bq_count) / max(source_count, bq_count)) * 100
+
+        return {
+            'table': table_name,
+            'source_count': source_count,
+            'bigquery_count': bq_count,
+            'accuracy_percent': accuracy,
+            'is_valid': accuracy &gt;= 99.9
+        }
+</code></pre>
+
+<h3>3. 자동화된 배포 및 테이블 관리</h3>
+<p><strong>테이블 매핑 관리 시스템:</strong></p>
+<pre class="codehilite"><code class="language-yaml"># table_mappings.yaml
+databases:
+  casino_db1:
+    tables:
+      - name: user_actions
+        schema_override:
+          user_id: INTEGER
+          action_type: STRING
+          timestamp: TIMESTAMP
+      - name: game_sessions
+        auto_schema: true
+      - name: transactions
+        auto_schema: true
+
+  casino_db2:
+    tables:
+      - name: player_stats
+        auto_schema: true
+      - name: game_results
+        schema_override:
+          game_id: STRING
+          result_data: JSON
+
+pipeline_config:
+  batch_size: 1000
+  retry_attempts: 3
+  error_threshold: 0.1
+  notification_channels:
+    - slack_webhook: &quot;https://hooks.slack.com/...&quot;
+    - email: &quot;data-team@company.com&quot;
+</code></pre>
+
+<p><strong>CI/CD 파이프라인 (GitHub Actions):</strong></p>
+<pre class="codehilite"><code class="language-yaml"># .github/workflows/deploy-cdc-pipeline.yml
+name: Deploy CDC Pipeline
+
+on:
+  push:
+    paths:
+      - 'table_mappings.yaml'
+      - 'lambda/**'
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install boto3 google-cloud-bigquery pyyaml
+
+      - name: Validate table mappings
+        run: |
+          python scripts/validate_mappings.py
+
+      - name: Deploy Lambda functions
+        run: |
+          cd lambda
+          zip -r cdc-processor.zip .
+          aws lambda update-function-code \
+            --function-name cdc-processor \
+            --zip-file fileb://cdc-processor.zip
+
+      - name: Update DMS endpoints
+        run: |
+          python scripts/update_dms_config.py
+
+      - name: Run smoke tests
+        run: |
+          python scripts/smoke_test.py
+</code></pre>
+
+<h2>성과 및 임팩트</h2>
+<h3>성능 및 안정성</h3>
+<ul>
+<li><strong>데이터 처리량</strong>: 일 4,000만 건의 안정적인 실시간 처리</li>
+<li><strong>지연시간</strong>: 평균 1-2분의 준실시간 데이터 동기화</li>
+<li><strong>데이터 정합성</strong>: 99.9% 이상의 정확도 보장</li>
+<li><strong>가용성</strong>: 99.5% 이상의 파이프라인 가용성 달성</li>
+</ul>
+<h3>비즈니스 임팩트</h3>
+<ul>
+<li><strong>실시간 대시보드</strong>: 경영진 대시보드의 실시간 데이터 제공</li>
+<li><strong>FDS 고도화</strong>: 실시간 사기 탐지 시스템 구축으로 보안 강화</li>
+<li><strong>운영 효율성</strong>: DW/BI 엔지니어의 독립적인 테이블 관리로 의존성 제거</li>
+<li><strong>비용 절감</strong>: Parquet + GZ 압축으로 스토리지 비용 30% 절감</li>
+</ul>
+<h3>기술적 성과</h3>
+<ul>
+<li><strong>멀티클라우드 아키텍처</strong>: AWS와 GCP 간 안정적인 데이터 파이프라인 구축</li>
+<li><strong>자동화</strong>: 테이블 스키마 자동 추론 및 배포 자동화 시스템 구축</li>
+<li><strong>장애 복구</strong>: SQS 기반 재처리 메커니즘으로 데이터 유실 방지</li>
+<li><strong>모니터링</strong>: 실시간 데이터 현황 모니터링 대시보드 제공</li>
+</ul>
+<h2>배운 점과 향후 개선 방향</h2>
+<h3>주요 학습 내용</h3>
+<ol>
+<li><strong>멀티클라우드 데이터 파이프라인의 복잡성</strong></li>
+<li>클라우드 간 네트워크 지연 및 API 제한 고려사항</li>
+<li>
+<p>각 플랫폼의 특성을 활용한 최적화 방법</p>
+</li>
+<li>
+<p><strong>CDC 시스템의 설계 원칙</strong></p>
+</li>
+<li>At-least-once 보장과 중복 처리의 균형</li>
+<li>
+<p>백프레셔 처리 및 버퍼링 전략의 중요성</p>
+</li>
+<li>
+<p><strong>운영 자동화의 가치</strong></p>
+</li>
+<li>테이블 매핑 자동화로 인한 생산성 향상</li>
+<li>모니터링과 알람의 사전 장애 예방 효과</li>
+</ol>
+<h3>향후 발전 방향</h3>
+<h4>단기 개선 사항 (3-6개월)</h4>
+<ul>
+<li><strong>스키마 진화 대응</strong>: BigQuery Schema Evolution 기능 활용</li>
+<li><strong>성능 최적화</strong>: 배치 크기 동적 조정 및 병렬 처리 확대</li>
+<li><strong>모니터링 고도화</strong>: 데이터 드리프트 감지 및 자동 알림</li>
+</ul>
+<h4>중기 발전 계획 (6-12개월)</h4>
+<ul>
+<li><strong>실시간 스트리밍</strong>: Kafka 기반 완전 실시간 파이프라인 구축</li>
+<li><strong>데이터 레이크하우스</strong>: Delta Lake/Iceberg 도입으로 ACID 보장</li>
+<li><strong>ML 파이프라인 통합</strong>: 실시간 피처 스토어 구축</li>
+</ul>
+<h4>장기 비전 (1-2년)</h4>
+<ul>
+<li><strong>완전 자동화</strong>: Infrastructure as Code와 GitOps 전면 도입</li>
+<li><strong>글로벌 확장</strong>: 다중 리전 지원 및 글로벌 데이터 거버넌스</li>
+<li><strong>AI 기반 운영</strong>: 이상 탐지 및 자동 복구 시스템 구축</li>
+</ul>
+<h3>아쉬웠던 점과 개선 방안</h3>
+<p><strong>기술적 아쉬움:</strong>
+- DMS 설정과 코드 배포의 분리된 관리
+- 완전한 실시간성 미확보 (준실시간 1-2분 지연)</p>
+<p><strong>개선 방안:</strong>
+- Infrastructure as Code로 DMS와 Lambda 통합 관리
+- Apache Kafka 도입으로 완전 실시간 스트리밍 구축
+- 컨테이너 기반 마이크로서비스 아키텍처 전환</p>
+<p>이 프로젝트를 통해 멀티클라우드 환경에서의 대용량 실시간 데이터 파이프라인 구축 경험을 쌓았으며, 특히 AWS와 GCP 간의 안정적인 데이터 동기화 방법론을 확립할 수 있었습니다. 또한 운영 자동화의 중요성과 모니터링 시스템의 가치를 깊이 이해하게 되었습니다.</p>
+                </div>
+            </div>
+
+            <!-- Back to Projects -->
+            <div class="text-center mt-12">
+                <a href="/#projects" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <i class="fas fa-arrow-left mr-3"></i>
+                    프로젝트 목록으로 돌아가기
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">&copy; 2024 SeungHo Choi. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Prism.js for code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+</body>
+</html>
