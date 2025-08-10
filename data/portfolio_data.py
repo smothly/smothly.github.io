@@ -41,30 +41,39 @@ EXPERIENCE_DATA = [
         "period": "2020.07 - Present",
         "description": "실시간(CDC) 데이터 파이프라인 구축 및 데이터 웨어하우스 운영",
         "achievements": [
-            "🏗️ 멀티클라우드 실시간 데이터 파이프라인 구축 (AWS ↔ GCP, 일 4,000만 건 처리)",
-            "🔄 15개 이상 다양한 데이터 소스 통합 및 실시간 ETL 구축",
-            "📊 Redshift 멀티클러스터 아키텍처 설계로 성능 병목 해결",
+            "🔄 15개 이상 다양한 데이터 소스 통합 및 일 10억건+ CDC ETL 구축",
+            "📊 Redshift 멀티클러스터 아키텍처 설계로 성능 병목 해결 및 데이터 매쉬 구조 초석 마련",
+            "🏗️ 멀티클라우드(AWS ↔ GCP)간 일 4000만건+ 실시간 데이터 파이프라인 구축",
             "⚡ 자동화 및 모니터링 시스템으로 운영 리소스 90% 절감",
-            "💰 인프라 비용 최적화로 월 $1,000+ 절감 및 AWS 크레딧 $34K 확보",
-            "🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 70% 감소",
+            "💰 인프라 비용 최적화로 고정비용 20%($3,000+) 절감",
+            "🤖 LLM 기반 Text-to-SQL 시스템으로 데이터 추출 요청 40% 감소",
         ]
     }
 ]
 
 SKILLS_DATA = {
-    "specialties": ["Real-time Data Pipeline", "Multi-cloud Architecture", "Cost Optimization", "Data Governance"],
-    "cloud_platforms": ["AWS (Expert)", "Google Cloud Platform"],
-    "data_engineering": ["Prefect (Expert)", "Apache Kafka", "Trino"],
-    "data warehouse": ["Redshift (Expert)", "BigQuery", "Snowflake"],
-    "databases": ["PostgreSQL", "MySQL (Expert)", "DynamoDB", "ElasticSearch", "Redis"],
-    "programming": ["Python (Expert)", "SQL", "Java"],
-    "infrastructure": ["Terraform (Expert)", "Docker", "ECS", "Grafana"],
-    "ai_ml": ["LangChain", "OpenAI GPT", "MLflow", "Scikit-learn", "TensorFlow"]
+    "specialties": ["Real-time(CDC) Data Pipeline", "Multi-cloud Architecture", "Cost Optimization", "Data Governance"],
+    "cloud_platforms": ["AWS ", "GCP"],
+    "data_engineering": ["Prefect", "Apache Kafka", "Trino"],
+    "data warehouse": ["Redshift", "BigQuery", "Snowflake"],
+    "databases": ["MySQL", "PostgreSQL", "DynamoDB", "ElasticSearch", "Redis"],
+    "programming": ["Python", "SQL", "Java"],
+    "infrastructure": ["Terraform", "Docker", "ECS", "Grafana"],
+    "ai_ml": ["LangChain", "Langfuse", "RedshiftML", "SageMaker", "OpenAI GPT"]
 }
 
 PROJECTS_DATA = [
     {
-        "id": "realtime-multicloud-pipeline",
+        "id": "aws-multi-cluster-architecture",
+        "title": "AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)",
+        "period": "2024.01 - 2024.06",
+        "description": "단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성",
+        "tech_stack": ["Amazon Redshift", "Redshift Serverless", "WLM", "Concurrency Scaling", "Terraform", "CloudWatch"],
+        "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
+        "highlights": ["AWS 크레딧 $34K 확보", "GAMES ON AWS 2024 발표", "성능 병목 해결", "Serverless 아키텍처 도입"]
+    },
+    {
+        "id": "multicloud-realtime-pipeline",
         "title": "Multi-Cloud Real-time Data Pipeline (AWS ↔ GCP)",
         "period": "2022.12 - 2023.03",
         "description": "AWS DMS CDC, Lambda, SQS를 활용하여 RDS Aurora의 데이터를 Google BigQuery로 준실시간 이동하는 멀티클라우드 파이프라인 구축. 일 4,000만 건 데이터 처리로 실시간 분석 및 FDS 지원",
@@ -73,58 +82,58 @@ PROJECTS_DATA = [
         "highlights": ["일 4,000만 건 데이터 처리", "99.9% 데이터 정합성", "평균 지연시간 1-2분", "실시간 FDS 지원"]
     },
     {
-        "id": "redshift-modernization",
-        "title": "Redshift 인프라 현대화 & 멀티클러스터 아키텍처",
-        "period": "2024.01 - 2024.06",
-        "description": "단일 클러스터 DW 환경을 멀티클러스터로 전환하여 성능 병목 해결. AWS와 협업하여 Games on AWS 발표 및 $34K 크레딧 확보. Concurrency Scaling, 암호화, 비용 최적화 적용",
-        "tech_stack": ["Amazon Redshift", "AWS", "Terraform", "Grafana", "CloudWatch"],
-        "image": "/static/images/projects/aws-bigquery-pipeline/table_status.png",
-        "highlights": ["AWS 크레딧 $34K 확보", "Games on AWS 발표", "성능 병목 해결", "무중단 암호화 적용"]
-    },
-    {
-        "id": "llm-text-to-sql",
-        "title": "LLM 기반 Text-to-SQL 시스템 (MayoBot)",
-        "period": "2024.01 - 2024.03",
-        "description": "LangChain과 OpenAI GPT를 활용한 챗봇 형태의 Text-to-SQL 시스템 구축. 자연어 질의를 SQL로 변환하여 데이터 추출 요청을 70% 감소시키고 비개발자도 쉽게 데이터 조회 가능",
-        "tech_stack": ["OpenAI GPT", "LangChain", "Chainlit", "FastAPI", "Langfuse"],
-        "image": "/static/images/projects/aws-bigquery-pipeline/table_status2.png",
-        "highlights": ["데이터 추출 요청 70% 감소", "자연어 → SQL 변환", "대화형 인터페이스", "프롬프트 최적화"]
-    },
-    {
-        "id": "data-lake-trino",
-        "title": "Trino 기반 DataLake 플랫폼 구축",
+        "id": "trino-ecs-platform",
+        "title": "Trino on ECS 기반 DataLake 플랫폼",
         "period": "2023.12 - 2024.01",
-        "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스(S3, BigQuery, Redshift 등)를 통합 쿼리할 수 있는 DataLake 환경 구축. Federated Query와 Iceberg 테이블 포맷 활용",
-        "tech_stack": ["Trino", "AWS ECS", "Apache Iceberg", "S3", "Glue Catalog"],
+        "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Ad-hoc 쿼리 플랫폼 제공",
+        "tech_stack": ["Trino", "AWS ECS", "Apache Iceberg", "S3 Lifecycle", "Glue Catalog", "Terraform"],
         "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
-        "highlights": ["15개 이상 데이터 소스 통합", "Federated Query 지원", "Iceberg 테이블 포맷", "ECS 기반 Auto Scaling"]
+        "highlights": ["ECS 기반 Auto Scaling", "Iceberg 테이블 포맷", "Federated Query 지원", "S3 Lifecycle 적용"]
     },
     {
-        "id": "cost-optimization",
-        "title": "AWS 인프라 비용 최적화 프로젝트",
-        "period": "2021.01 - 2024.06",
-        "description": "S3 Intelligent Tiering, Graviton 인스턴스, Serverless 아키텍처 등을 통한 체계적인 비용 최적화. 월 $1,000+ 절감 달성 및 지속적인 비용 모니터링 체계 구축",
-        "tech_stack": ["AWS Cost Explorer", "S3 Lifecycle", "Graviton", "Lambda", "Grafana"],
+        "id": "streaming-data-collection",
+        "title": "스트리밍 데이터 수집 플랫폼",
+        "period": "2021.06 - 2024.12",
+        "description": "Amazon MSK와 DynamoDB를 활용한 대용량 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 고성능 NoSQL 데이터 저장소 운영",
+        "tech_stack": ["Amazon MSK", "DynamoDB", "Kafka Connect", "AWS Lambda", "Python", "CloudWatch"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status.png",
-        "highlights": ["월 $1,000+ 비용 절감", "S3 Intelligent Tiering", "Graviton 적용", "자동 비용 모니터링"]
+        "highlights": ["실시간 스트림 처리", "MSK 클러스터 운영", "DynamoDB 최적화", "이벤트 기반 아키텍처"]
     },
     {
-        "id": "external-data-integration",
-        "title": "다양한 외부 데이터 소스 통합 플랫폼",
-        "period": "2021.01 - 2024.06",
-        "description": "Google/Apple 마켓, Data.ai, ElasticSearch, DynamoDB, Redis 등 15개 이상의 외부 데이터 소스를 안정적으로 수집하는 통합 플랫폼 구축. API 제한 대응 및 자동 복구 시스템 포함",
-        "tech_stack": ["Python", "AWS Lambda", "Prefect", "API Integration", "Redis", "DynamoDB"],
+        "id": "infrastructure-management-and-monitoring",
+        "title": "인프라 운영 및 모니터링 시스템",
+        "period": "2021.01 - 2024.12",
+        "description": "IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입",
+        "tech_stack": ["Terraform", "Serverless Framework", "Grafana", "CloudWatch", "AWS Cost Explorer", "Graviton"],
         "image": "/static/images/projects/aws-bigquery-pipeline/table_status2.png",
-        "highlights": ["15개 이상 데이터 소스", "API Rate Limiting 대응", "자동 복구 시스템", "실시간 모니터링"]
+        "highlights": ["IaC 기반 인프라 관리", "비용 최적화 대시보드", "Graviton 적용 테스트", "유휴 리소스 자동 관리"]
     },
     {
-        "id": "automation-monitoring",
-        "title": "데이터 파이프라인 자동화 & 모니터링 시스템",
-        "period": "2022.01 - 2024.12",
-        "description": "Grafana, CloudWatch, Prefect를 활용한 종합적인 모니터링 시스템 구축. 자동화를 통해 운영 리소스 90% 절감 및 장애 대응 시간 최소화",
-        "tech_stack": ["Grafana", "CloudWatch", "Prefect", "AWS SNS", "Slack API"],
+        "id": "text-to-sql-system",
+        "title": "LLM 기반 Text-to-SQL 시스템",
+        "period": "2024.01 - 2024.03",
+        "description": "LangChain과 OpenAI GPT를 활용한 자연어 기반 SQL 생성 시스템 구축. 비개발자도 쉽게 데이터 조회가 가능하도록 하여 데이터 추출 요청을 대폭 감소시킨 혁신적인 솔루션",
+        "tech_stack": ["OpenAI GPT", "LangChain", "Chainlit", "FastAPI", "Langfuse", "PostgreSQL"],
+        "image": "/static/images/projects/aws-bigquery-pipeline/table_status.png",
+        "highlights": ["데이터 추출 요청 40% 감소", "자연어 → SQL 변환", "대화형 인터페이스", "프롬프트 엔지니어링"]
+    },
+    {
+        "id": "diverse-data-sources",
+        "title": "다양한 데이터 소스 통합 플랫폼",
+        "period": "2021.01 - 2024.12",
+        "description": "ElasticSearch, Google/Apple 마켓, Prometheus, Redis, SensorTower 등 15개 이상의 다양한 외부 데이터 소스를 안정적으로 수집하고 통합하는 ETL 플랫폼 구축",
+        "tech_stack": ["ElasticSearch", "Redis", "Prometheus", "AWS Lambda", "Prefect", "RDS Snapshot", "API Integration"],
+        "image": "/static/images/projects/aws-bigquery-pipeline/table_status2.png",
+        "highlights": ["15개 이상 데이터 소스", "마켓 데이터 수집", "시계열 데이터 처리", "환율/GeoIP 데이터 통합"]
+    },
+    {
+        "id": "other-projects",
+        "title": "기타 프로젝트",
+        "period": "2020.07 - 2024.12",
+        "description": "Snowflake PoC, MCMS 개발, 공용 라이브러리 개발, AI FBU CR_CHURN 그룹 운영 등 다양한 엔터프라이즈급 프로젝트 수행 및 조직 내 데이터 문화 확산",
+        "tech_stack": ["Snowflake", "Python", "FastAPI", "Docker", "Jenkins", "AI/ML"],
         "image": "/static/images/projects/aws-bigquery-pipeline/architecture.png",
-        "highlights": ["운영 리소스 90% 절감", "실시간 장애 감지", "자동 복구 시스템", "통합 대시보드"]
+        "highlights": ["Snowflake PoC 수행", "MCMS 시스템 개발", "공용 라이브러리 구축", "AI 기반 고객 이탈 분석"]
     }
 ]
 

@@ -6,6 +6,12 @@
     <title>{{ personal_info.name }} | {{ personal_info.title }}</title>
     <meta name="description" content="Data Engineer Portfolio">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon-256x256.png">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -170,8 +176,10 @@
                             <i class="fas fa-cloud mr-3 text-blue-600"></i>Cloud Platforms
                         {% elif category == 'data_engineering' %}
                             <i class="fas fa-database mr-3 text-green-600"></i>Data Engineering
+                        {% elif category == 'data warehouse' %}
+                            <i class="fas fa-warehouse mr-3 text-purple-600"></i>Data Warehouse
                         {% elif category == 'databases' %}
-                            <i class="fas fa-server mr-3 text-purple-600"></i>Databases
+                            <i class="fas fa-server mr-3 text-indigo-600"></i>Databases
                         {% elif category == 'programming' %}
                             <i class="fas fa-code mr-3 text-orange-600"></i>Programming
                         {% elif category == 'infrastructure' %}
@@ -217,7 +225,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2024 {{ personal_info.name }}. All rights reserved.</p>
+            <p>&copy; 2025 {{ personal_info.name }}. All rights reserved.</p>
         </div>
     </footer>
 
