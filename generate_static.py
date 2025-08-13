@@ -274,7 +274,7 @@ def create_simple_index():
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-300">&copy; 2024 SeungHo Choi. All rights reserved.</p>
+            <p class="text-gray-300">&copy; 2025 SeungHo Choi. All rights reserved.</p>
         </div>
     </footer>
 

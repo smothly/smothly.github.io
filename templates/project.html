@@ -170,6 +170,12 @@
             margin: 2rem 0;
             max-width: 100%;
             height: auto;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .prose img:hover {
+            transform: scale(1.02);
         }
         
         .prose table {
@@ -285,13 +291,52 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-300">&copy; 2024 SeungHo Choi. All rights reserved.</p>
+            <p class="text-gray-300">&copy; 2025 SeungHo Choi. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[100] hidden p-4">
+        <img id="lightbox-img" src="" alt="Enlarged image" class="max-w-full max-h-full object-contain rounded-lg">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl font-bold">&times;</button>
+    </div>
 
     <!-- Prism.js for code highlighting -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxClose = document.getElementById('lightbox-close');
+
+            document.querySelectorAll('.prose img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.classList.remove('hidden');
+                    lightboxImg.src = img.src;
+                });
+            });
+
+            const closeLightbox = () => {
+                lightbox.classList.add('hidden');
+                lightboxImg.src = '';
+            };
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            lightboxClose.addEventListener('click', closeLightbox);
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
