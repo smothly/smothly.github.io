@@ -169,7 +169,7 @@
                                 <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)</h3>
                                 <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.06</span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Redshift Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성</p>
                             
                             <!-- 하이라이트 성과 표시 -->
                             
@@ -275,7 +275,7 @@
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-3">
                                 <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">Trino on ECS 기반 DataLake 플랫폼</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2023.12 - 2024.01</span>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2023.08 - 2024.01</span>
                             </div>
                             <p class="text-gray-600 mb-4 line-clamp-3">Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Ad-hoc 쿼리 플랫폼 제공</p>
                             
@@ -285,11 +285,11 @@
                                 <div class="flex flex-wrap gap-2">
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ ECS 기반 쿼리 엔진
+                                        ✨ ECS 기반 Federated Query Engine
                                     </span>
                                     
                                     <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ ECS Auto Scaling
+                                        ✨ Iceberg 테이블 포맷
                                     </span>
                                     
                                 </div>
@@ -322,7 +322,7 @@
                 <a href="/project/streaming-data-collection" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/streaming-data-collection/table_status.png" alt="스트리밍 데이터 수집" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/streaming-data-collection/msk_sample.png" alt="스트리밍 데이터 수집" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
@@ -332,23 +332,9 @@
                                 <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">스트리밍 데이터 수집</h3>
                                 <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2025.01 - 2025.05</span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">Amazon MSK와 DynamoDB에서 생성되는 반정형 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 Schemaless 데이터 처리</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">Amazon MSK와 DynamoDB에서 생성되는 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 반정형 데이터 처리</p>
                             
                             <!-- 하이라이트 성과 표시 -->
-                            
-                            <div class="mb-4">
-                                <div class="flex flex-wrap gap-2">
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ Realtime Stream Processing
-                                    </span>
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ MSK Connect
-                                    </span>
-                                    
-                                </div>
-                            </div>
                             
                             
                             <div class="flex flex-wrap gap-2 mb-4">
@@ -374,10 +360,65 @@
                     </div>
                 </a>
                 
+                <a href="/project/text-to-sql-system" class="block group">
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
+                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                            <img src="/static/images/projects/text-to-sql-system/sample.png" alt="LLM 기반 Text-to-SQL 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center">
+                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">LLM 기반 Text-to-SQL 시스템</h3>
+                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.04</span>
+                            </div>
+                            <p class="text-gray-600 mb-4 line-clamp-3">LangChain과 OpenAI GPT를 활용한 자연어 기반 SQL 생성 시스템 구축. 비개발자도 쉽게 데이터 조회가 가능하도록 하여 데이터 추출 요청을 감소시킨 솔루션</p>
+                            
+                            <!-- 하이라이트 성과 표시 -->
+                            
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ 데이터 추출 요청 30% 감소
+                                    </span>
+                                    
+                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
+                                        ✨ 자연어 → SQL 변환
+                                    </span>
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">OpenAI GPT</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">LangChain</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Chainlit</span>
+                                
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">FastAPI</span>
+                                
+                                
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
+                                
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
                 <a href="/project/infrastructure-management-and-monitoring" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/infrastructure-management-and-monitoring/table_status2.png" alt="인프라 운영 및 모니터링 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/infrastructure-management-and-monitoring/sample.png" alt="인프라 운영 및 모니터링 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
@@ -429,65 +470,10 @@
                     </div>
                 </a>
                 
-                <a href="/project/text-to-sql-system" class="block group">
-                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
-                        <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/text-to-sql-system/text-to-sql2.png" alt="LLM 기반 Text-to-SQL 시스템" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center">
-                                <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">LLM 기반 Text-to-SQL 시스템</h3>
-                                <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2024.01 - 2024.04</span>
-                            </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">LangChain과 OpenAI GPT를 활용한 자연어 기반 SQL 생성 시스템 구축. 비개발자도 쉽게 데이터 조회가 가능하도록 하여 데이터 추출 요청을 감소시킨 솔루션</p>
-                            
-                            <!-- 하이라이트 성과 표시 -->
-                            
-                            <div class="mb-4">
-                                <div class="flex flex-wrap gap-2">
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 데이터 추출 요청 40% 감소
-                                    </span>
-                                    
-                                    <span class="px-3 py-1 bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 text-xs rounded-full font-medium border border-green-200">
-                                        ✨ 자연어 → SQL 변환
-                                    </span>
-                                    
-                                </div>
-                            </div>
-                            
-                            
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">OpenAI GPT</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">LangChain</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">Chainlit</span>
-                                
-                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full group-hover:bg-blue-200 transition-colors">FastAPI</span>
-                                
-                                
-                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">+2</span>
-                                
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
-                                    자세히 보기 <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                
                 <a href="/project/diverse-data-sources" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/diverse-data-sources/table_status2.png" alt="다양한 데이터 소스 통합" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/diverse-data-sources/sample.png" alt="다양한 데이터 소스 통합" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
@@ -542,7 +528,7 @@
                 <a href="/project/other-projects" class="block group">
                     <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl overflow-hidden shadow-lg hover-lift group-hover:shadow-xl transition-all duration-300">
                         <div class="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <img src="/static/images/projects/other-projects/architecture.png" alt="기타 프로젝트" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <img src="/static/images/projects/other-projects/snowflake.png" alt="기타 프로젝트" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <div class="hidden w-full h-full items-center justify-center">
                                 <i class="fas fa-project-diagram text-4xl text-white group-hover:scale-110 transition-transform duration-300"></i>
                             </div>
@@ -552,7 +538,7 @@
                                 <h3 class="text-xl font-bold text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">기타 프로젝트</h3>
                                 <span class="text-sm text-gray-500 whitespace-nowrap ml-2">2020.07 - </span>
                             </div>
-                            <p class="text-gray-600 mb-4 line-clamp-3">Snowflake PoC, 마케팅 비용 관리 사이트 개발, 공용 라이브러리 개발, AI FBU CR_CHURN 그룹 운영 등 다양한 프로젝트 수행 및 조직 내 데이터 문화 확산</p>
+                            <p class="text-gray-600 mb-4 line-clamp-3">Snowflake PoC, 마케팅 비용 관리 사이트 개발, 외부 API 구축, 공용 라이브러리 개발, ML(첫 구매자 예측, 이탈자 예측) 관련 배포 다양한 프로젝트 수행 및 조직 내 데이터 문화 확산</p>
                             
                             <!-- 하이라이트 성과 표시 -->
                             
