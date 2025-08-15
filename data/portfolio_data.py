@@ -67,10 +67,10 @@ PROJECTS_DATA = [
         "id": "aws-multi-cluster-architecture",
         "title": "AWS 멀티 클러스터 아키텍처 도입 (GAMES ON AWS 2024 발표)",
         "period": "2024.01 - 2024.06",
-        "description": "단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성",
+        "description": "단일 Redshift 클러스터의 성능 병목을 해결하기 위한 멀티클러스터 아키텍처 설계 및 구축. Redshift Serverless 및 Concurrency Scaling 도입으로 비용 최적화와 성능 향상을 동시에 달성",
         "tech_stack": ["Amazon Redshift", "Redshift Serverless", "WLM", "Concurrency Scaling"],
         "image": "/static/images/projects/aws-multi-cluster-architecture/multi-example.png",
-        "highlights": ["AWS 크레딧 $34K 확보", "GAMES ON AWS 2024 발표", "성능 병목 해결", "Serverless 아키텍처 도입"]
+        "highlights": ["AWS 크레딧 $34K 확보", "GAMES ON AWS 2024 발표"]
     },
     {
         "id": "multicloud-realtime-pipeline",
@@ -84,29 +84,19 @@ PROJECTS_DATA = [
     {
         "id": "trino-ecs-platform",
         "title": "Trino on ECS 기반 DataLake 플랫폼",
-        "period": "2023.12 - 2024.01",
+        "period": "2023.08 - 2024.01",
         "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Ad-hoc 쿼리 플랫폼 제공",
         "tech_stack": ["Trino", "AWS ECS", "Apache Iceberg", "S3 Lifecycle", "Glue Catalog", "Terraform"],
         "image": "/static/images/projects/trino-ecs-platform/trino.png",
-        "highlights": ["ECS 기반 쿼리 엔진", "ECS Auto Scaling", "Iceberg 테이블 포맷", "Federated Query 지원", "S3 Lifecycle 적용"]
+        "highlights": ["ECS 기반 Federated Query Engine", "Iceberg 테이블 포맷",]
     },
     {
         "id": "streaming-data-collection",
         "title": "스트리밍 데이터 수집",
         "period": "2025.01 - 2025.05",
-        "description": "Amazon MSK와 DynamoDB에서 생성되는 반정형 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 Schemaless 데이터 처리",
+        "description": "Amazon MSK와 DynamoDB에서 생성되는 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 반정형 데이터 처리",
         "tech_stack": ["Amazon MSK", "DynamoDB Streams", "MSK Connect", "AWS Lambda", "Python"],
-        "image": "/static/images/projects/streaming-data-collection/table_status.png",
-        "highlights": ["Realtime Stream Processing", "MSK Connect", "DynamoDB Streams", "Event Driven Architecture"]
-    },
-    {
-        "id": "infrastructure-management-and-monitoring",
-        "title": "인프라 운영 및 모니터링 시스템",
-        "period": "2021.01 - ",
-        "description": "IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입",
-        "tech_stack": ["Terraform", "Serverless Framework", "Grafana", "CloudWatch", "AWS Cost Explorer"],
-        "image": "/static/images/projects/infrastructure-management-and-monitoring/table_status2.png",
-        "highlights": ["IaC 기반 인프라 관리", "비용 최적화 대시보드", "쿼리 알람", "유휴 리소스 자동 관리"]
+        "image": "/static/images/projects/streaming-data-collection/msk_sample.png",
     },
     {
         "id": "text-to-sql-system",
@@ -114,8 +104,17 @@ PROJECTS_DATA = [
         "period": "2024.01 - 2024.04",
         "description": "LangChain과 OpenAI GPT를 활용한 자연어 기반 SQL 생성 시스템 구축. 비개발자도 쉽게 데이터 조회가 가능하도록 하여 데이터 추출 요청을 감소시킨 솔루션",
         "tech_stack": ["OpenAI GPT", "LangChain", "Chainlit", "FastAPI", "Langfuse", "PostgreSQL"],
-        "image": "/static/images/projects/text-to-sql-system/text-to-sql2.png",
-        "highlights": ["데이터 추출 요청 40% 감소", "자연어 → SQL 변환", "대화형 인터페이스", "프롬프트 엔지니어링"]
+        "image": "/static/images/projects/text-to-sql-system/sample.png",
+        "highlights": ["데이터 추출 요청 30% 감소", "자연어 → SQL 변환", "대화형 인터페이스", "프롬프트 엔지니어링"]
+    },
+    {
+        "id": "infrastructure-management-and-monitoring",
+        "title": "인프라 운영 및 모니터링 시스템",
+        "period": "2021.01 - ",
+        "description": "IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입",
+        "tech_stack": ["Terraform", "Serverless Framework", "Grafana", "CloudWatch", "AWS Cost Explorer"],
+        "image": "/static/images/projects/infrastructure-management-and-monitoring/sample.png",
+        "highlights": ["IaC 기반 인프라 관리", "비용 최적화 대시보드", "쿼리 알람", "유휴 리소스 자동 관리"]
     },
     {
         "id": "diverse-data-sources",
@@ -123,16 +122,16 @@ PROJECTS_DATA = [
         "period": "2021.01 - ",
         "description": "ElasticSearch, Google/Apple 마켓, Prometheus, Redis, SensorTower 등 15개 이상의 다양한 외부 데이터 소스를 안정적으로 수집하는 ETL 구축",
         "tech_stack": ["Prefect", "ElasticSearch", "Redis", "Prometheus", "RDS Snapshot", "API Integration"],
-        "image": "/static/images/projects/diverse-data-sources/table_status2.png",
+        "image": "/static/images/projects/diverse-data-sources/sample.png",
         "highlights": ["15개 이상 데이터 소스", "마켓 데이터 수집", "시계열 데이터 처리", "외부 공통 데이터(환율/GeoIP)"]
     },
     {
         "id": "other-projects",
         "title": "기타 프로젝트",
         "period": "2020.07 - ",
-        "description": "Snowflake PoC, 마케팅 비용 관리 사이트 개발, 공용 라이브러리 개발, AI FBU CR_CHURN 그룹 운영 등 다양한 프로젝트 수행 및 조직 내 데이터 문화 확산",
+        "description": "Snowflake PoC, 마케팅 비용 관리 사이트 개발, 외부 API 구축, 공용 라이브러리 개발, ML(첫 구매자 예측, 이탈자 예측) 관련 배포 다양한 프로젝트 수행 및 조직 내 데이터 문화 확산",
         "tech_stack": ["Snowflake", "AI/ML", "Python", "FastAPI", "Docker"],
-        "image": "/static/images/projects/other-projects/architecture.png",
+        "image": "/static/images/projects/other-projects/snowflake.png",
         "highlights": ["Snowflake PoC 수행", "마케팅 비용 관리 사이트 개발", "공용 라이브러리 구축", "AI 기반 고객 이탈 분석"]
     }
 ]
