@@ -313,22 +313,22 @@ AWS DMS CDC, Lambda, SQS를 활용하여 RDS Aurora의 데이터를 Google BigQu
 </li>
 </ul>
 <h2>기술적 도전과 해결 과정</h2>
-<h3>데이터 누락</h3>
+<h3>1. 데이터 누락</h3>
 <ul>
 <li><strong>문제</strong>: 빅쿼리 API 로드 오류 및 휴먼 에러로 인한 데이터 로드 실패</li>
 <li><strong>해결</strong>: S3와 Lambda 사이에 <strong>SQS 큐를 추가하여 실패한 이벤트를 재처리</strong>하도록 구성</li>
 </ul>
-<h3>데이터 중복</h3>
+<h3>2. 데이터 중복</h3>
 <ul>
 <li><strong>문제</strong>: S3의 'at-least-once' 이벤트 보장 정책 및 재처리로 인한 데이터 중복 발생</li>
 <li><strong>해결</strong>: <strong>BigQuery의 Job ID를 고유 ID로 활용</strong>하여 중복된 Job 실행을 방지 (예: <code>yyyymmddhhmmss_{테이블}.parquet</code>)</li>
 </ul>
-<h3>테이블 관리</h3>
+<h3>3. 테이블 관리</h3>
 <ul>
 <li><strong>문제</strong>: 잦은 테이블 변동으로 인한 수동 배포의 비효율성</li>
 <li><strong>해결</strong>: 테이블 매핑 파일(json)을 분리하고, <strong>CD(자동 배포)를 구축하여 매핑 파일 수정 시 자동으로 배포</strong>되도록 개선</li>
 </ul>
-<h3>자동 스키마 추론</h3>
+<h3>4. 자동 스키마 추론</h3>
 <ul>
 <li><strong>문제</strong>: MySQL의 특정 데이터 타입(Bit, Boolean 등) 미지원 및 테이블 추가 시 수동 스키마 정의의 번거로움</li>
 <li><strong>해결</strong>: DMS의 공통 변환 기능과 Parquet 파일 변환 및 BigQuery의 <code>autodetect</code> 스키마 추론 기능을 활용하여 테이블 자동 생성 및 데이터 타입 문제 해결</li>
