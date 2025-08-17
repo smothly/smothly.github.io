@@ -6,6 +6,7 @@
 
 ### 1. Snowflake PoC 지원
 ![snowflake_poc](/static/images/projects/other-projects/snowflake_poc.png)
+
 -   **개요**: 차세대 데이터 웨어하우스 도입을 위해 Redshift와 Snowflake를 비교 검증하는 PoC(Proof of Concept)에 참여했습니다.
 -   **주요 기여 (Data Ingestion)**:
     -   **Snowpipe 기반 실시간 수집 파이프라인 설계**: S3에 데이터가 도착하면 Snowpipe를 통해 거의 실시간으로 Snowflake에 적재되는 자동화 파이프라인을 구축하여 데이터 최신성을 확보했습니다.
@@ -17,6 +18,7 @@
 
 ### 2. MCMS (Marketing Cost Management System) 개발 참여
 ![mcms](/static/images/projects/other-projects/mcms.png)
+
 -   **개요**: 수동으로 입력되어 잦은 오류가 있던 마케팅 비용 데이터 모델링을 개선하기 위해 마케팅 비용을 통합 관리하는 시스템 개발에 참여했습니다.
 -   **주요 기여**:
     -   **데이터 모델링**: 채널, 메시지, 로그 등 시스템의 핵심 데이터를 저장하기 위한 **MySQL 데이터베이스 스키마를 설계**하고, SQLAlchemy 모델을 구현했습니다.
@@ -27,6 +29,7 @@
 
 ### 3. 공용 라이브러리 개발
 ![library](/static/images/projects/other-projects/library.png)
+
 -   **개요**: 사내 여러 프로젝트에서 반복적으로 사용되는 데이터 처리 로직(추출, 정제, 변환, 집계, 저장)을 표준화하고, 재사용성을 높이기 위한 공용 Python 라이브러리를 개발했습니다.
 -   **주요 기여**:
     -   **모듈화 및 표준화**: 데이터 소스(PostgreSQL, Redshift, S3 등) 연결, 데이터 정제, 집계, S3 저장 등 공통 기능을 모듈화하여 누구나 쉽게 가져다 쓸 수 있도록 설계했습니다.
