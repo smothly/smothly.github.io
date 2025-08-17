@@ -85,7 +85,7 @@ PROJECTS_DATA = [
         "id": "trino-ecs-platform",
         "title": "Trino on ECS 기반 DataLake 플랫폼",
         "period": "2023.08 - 2024.01",
-        "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Ad-hoc 쿼리 플랫폼 제공",
+        "description": "Trino를 AWS ECS에 배포하여 다양한 데이터 소스를 통합 쿼리할 수 있는 DataLake 환경 구축. Apache Iceberg 테이블 포맷을 활용한 원본 데이터 확인 및 Federated Query 플랫폼 제공",
         "tech_stack": ["Trino", "AWS ECS", "Apache Iceberg", "S3 Lifecycle", "Glue Catalog", "Terraform"],
         "image": "/static/images/projects/trino-ecs-platform/trino.png",
         "highlights": ["ECS 기반 Federated Query Engine", "Iceberg 테이블 포맷",]

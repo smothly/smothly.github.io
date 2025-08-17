@@ -1,651 +1,166 @@
-# 스트리밍 데이터 수집 플랫폼
-
 ## 프로젝트 개요
 
-게임 서비스의 실시간 이벤트 스트림 처리와 고성능 NoSQL 데이터 저장을 위해 Amazon MSK(Managed Streaming for Apache Kafka)와 DynamoDB를 활용한 대용량 스트리밍 데이터 수집 플랫폼을 구축했습니다. 실시간 사용자 행동 분석과 이벤트 기반 아키텍처를 통한 확장 가능한 데이터 처리 시스템을 개발했습니다.
 
-**핵심 성과:**
-- 실시간 스트림 처리로 지연시간 100ms 이내 달성
-- MSK 클러스터 운영으로 99.9% 가용성 확보
-- DynamoDB 최적화로 읽기/쓰기 성능 10배 향상
-- 이벤트 기반 아키텍처로 시스템 확장성 확보
+기존 RDB 중심의 데이터 수집 방식으로는 **클라이언트 로그와 같이 비정형적이고 실시간성이 강한 데이터를 처리하는 데 한계**가 있었습니다. 또한, DynamoDB와 같은 반정형 데이터베이스의 이벤트 로그를 실시간으로 수집하고 분석하는 데 필요한 인프라가 부족했습니다.
+
+본 프로젝트는 **Amazon MSK를 중앙 데이터 허브로 구축하여 모든 이벤트 로그 데이터의 수집을 표준화**하고, 이를 데이터 웨어하우스(DW) 및 다양한 타겟 시스템에 안정적으로 연동하는 **대용량 스트리밍 데이터 수집 플랫폼을 구축**하는 것을 목표로 했습니다.
+
+### 아키텍처
+
+#### MSK
+![MSK](/static/images/projects/streaming-data-collection/msk.png)
+
+#### DynamoDB Streams
+![DynamoDB Streams](/static/images/projects/streaming-data-collection/dynamodb_streams.png)
+
+---
 
 ## 프로젝트 목표
 
-### 비즈니스 요구사항
-1. **실시간 이벤트 처리**: 게임 내 실시간 사용자 액션 추적 및 분석
-2. **고성능 데이터 저장**: 대용량 게임 데이터의 빠른 읽기/쓰기 지원
-3. **확장 가능한 아키텍처**: 급증하는 트래픽에 대한 자동 확장
-4. **이벤트 기반 시스템**: 마이크로서비스 간 느슨한 결합 구현
+1.  **전사 데이터 허브 구축**: 파편화된 데이터 수집 파이프라인을 MSK 기반으로 통합하여, 클라이언트, 서버 등 모든 소스에서 발생하는 데이터를 한곳으로 모으는 중앙 데이터 허브를 구축합니다.
+2.  **안정적인 DW 연동 파이프라인 구축**: MSK, DynamoDB 데이터를 데이터 분석가들이 활용할 수 있도록 안정적으로 DW(S3, Redshift)에 적재하고 분석이 가능한 형태로 변환합니다.
+3.  **실시간 데이터 처리 기반 마련**: 급증하는 이벤트성 데이터를 지연 없이 처리하고, 이를 실시간 대시보드, 모니터링 등 다양한 서비스에서 활용할 수 있는 기반을 마련합니다.
 
-### 기술적 목표
-- Apache Kafka 기반 실시간 메시지 스트리밍
-- DynamoDB를 활용한 밀리초 단위 응답시간 달성
-- 이벤트 소싱 패턴을 통한 데이터 일관성 보장
-- 자동 스케일링을 통한 비용 최적화
+---
 
 ## 기술적 도전과 해결 과정
 
-### 1. 아키텍처 설계
+### 1. MSK Connect를 활용한 다양한 타겟으로의 Code-less 데이터 파이프라인 구축
 
-**도전 과제:**
-- 대용량 스트리밍 데이터의 실시간 처리
-- 다양한 이벤트 타입의 효율적 관리
-- NoSQL 데이터베이스의 성능 최적화
+-   **문제**: 중앙 허브인 MSK로 수집된 데이터를 Snowflake, S3 없이 분석실로 많은 리소스를 요구하며 확장성이 떨어지는 방식이었습니다.
+-   **해결**: **MSK Connect**를 도입하여 별도의 개발 과정 없이 커넥터 설정만으로 다양한 타겟 시스템에 데이터를 연동했습니다. 이를 통해 파이프라인 구축 시간을 단축하고, 검증된 커넥터를 활용하여 데이터 전송의 안정성을 확보했습니다.
+-   **Redshift 연동 예시 (Materialized View 활용)**: [Redshift Streamin Ingestion](https://docs.aws.amazon.com/redshift/latest/dg/materialized-view-streaming-ingestion.html)을 활용해 MSK 토픽을 직접 조회할 수 있는 외부 스키마와 Materialized View를 생성하여, SQL만으로 실시간 데이터에 접근할 수 있는 환경을 구축했습니다.
 
-**해결 방안:**
+```sql
+-- 외부 스키마 생성 (MSK 브로커 연동)
+CREATE EXTERNAL SCHEMA kafka_schema
+FROM KAFKA
+AUTHENTICATION NONE
+URI 'b-1.msk-prod-cluster.xxxxxx.c4.kafka.ap-northeast-2.amazonaws.com:9094,b-2.msk-prod-cluster.xxxxxx.c4.kafka.ap-northeast-2.amazonaws.com:9094'
+
+-- Materialized View 생성 (특정 토픽 구독)
+CREATE MATERIALIZED VIEW my_schema.my_event_view AUTO REFRESH YES AS
+SELECT *
+FROM kafka_schema."dev.service.myevent";
+
+-- SUPER 타입의 JSON 데이터 파싱 조회
+SELECT
+    parsed_json.app.id::INT AS app_id,
+    parsed_json.app.version AS app_version,
+    parsed_json.device.id AS device_id
+FROM (
+    SELECT json_parse(kafka_value) AS parsed_json
+    FROM my_schema.my_event_view
+);
 ```
-Streaming Data Flow
-├── Game Clients
-│   └── Real-time Events
-├── API Gateway + Lambda
-│   └── Event Validation & Routing
-├── Amazon MSK (Kafka)
-│   ├── game-events Topic
-│   ├── user-activity Topic
-│   └── transaction-events Topic
-├── Kafka Connect
-│   ├── DynamoDB Sink Connector
-│   ├── S3 Sink Connector
-│   └── ElasticSearch Connector
-└── Data Consumers
-    ├── DynamoDB (Hot Data)
-    ├── S3 (Cold Data Archive)
-    └── Real-time Analytics
+-   **Snowflake 연동 예시 (Sink Connector 설정)**: Snowflake Sink Connector의 Properties 파일을 설정하여 MSK의 특정 토픽 데이터를 Snowflake 테이블로 자동 적재하도록 구성했습니다.
+
+```properties
+# Snowflake Sink Connector Properties
+connector.class=com.snowflake.kafka.connector.SnowflakeSinkConnector
+tasks.max=2
+topics=dev.pp.neoevent,dev.ppserver.neoevent
+snowflake.topic2table.map=dev.pp.neoevent:dev_pp_neoevent,dev.ppserver.neoevent:dev_ppserver_neoevent
+
+# Snowflake Connection Info
+snowflake.url.name=xxxxxxxx-xxxxxxxx.snowflakecomputing.com:443
+snowflake.user.name=msk_user
+snowflake.private.key=MIIFNTBf... (Secret)
+snowflake.private.key.passphrase=************
+snowflake.database.name=msk_db
+snowflake.schema.name=msk_schema
+
+# Buffer & Converter Settings
+buffer.count.records=10000
+buffer.flush.time=60
+buffer.size.bytes=5000000
+key.converter=org.apache.kafka.connect.storage.StringConverter
+value.converter=com.snowflake.kafka.connector.records.SnowflakeJsonConverter
 ```
 
-### 2. Amazon MSK 클러스터 구축
+### 2. DynamoDB Streams를 활용한 안정적인 CDC 데이터 처리
 
-**MSK 클러스터 설정:**
-```yaml
-# MSK 클러스터 Terraform 설정
-resource "aws_msk_cluster" "game_events_cluster" {
-  cluster_name           = "game-events-streaming"
-  kafka_version         = "2.8.1"
-  number_of_broker_nodes = 6
+#### 2-1. 대용량 트래픽의 안정적인 처리
+-   **문제**: 이벤트 기간 동안 분당 1,0만 건에 달하는 대규 없이 분석실로 
+-   **해결**: 스트레스 테스트를 통해 시스템의 한계를 파악하고, Lambda의 `batch_size`와 SQS의 `maximum_batching_window_in_seconds`를 최적화하여 대규모 이벤트를 효율적으로 그룹화하고 처리할 수 있도록 구성했습니다. 이를 통해 피크 타임에도 안정적인 데이터 처리를 보장했습니다.
 
-  broker_node_group_info {
-    instance_type   = "kafka.m5.xlarge"
-    ebs_volume_size = 1000
-    client_subnets = var.private_subnet_ids
-    
-    security_groups = [aws_security_group.msk_cluster.id]
-  }
+#### 2-2. CDC 데이터의 멱등성 있는 처리
+-   **문제**: DynamoDB Streams에서 제공되는 `INSERT`, `DIFY`, `REMOVE 없이 분석실로  때 데이터 정합성이 깨질 위험이 있었습니다.
+-   **해결**: 데이터의 최종 상태를 정확하게 반영하기 위해 **멱등성을 보장하는 UPSERT 쿼리**를 설계했습니다. 임시 테이블(Stage)을 활용하여 특정 시간 범위 내의 이벤트 중 가장 최신 이벤트만 선별하고, `updatedAt`과 `sequence_number`를 복합적으로 사용하여 순서가 보장된 데이터 변경을 수행했습니다.
+```sql
+-- DynamoDB Streams CDC 데이터를 Redshift State 테이블에 MERGE하는 쿼리
+BEGIN;
+-- 1단계: 임시 테이블에 최신 이벤트만 선별하여 저장
+CREATE TEMP TABLE stage_events AS
+SELECT pk, sk, event_name, approximate_creation_date_time, sequence_number, new_image
+FROM (
+    SELECT *, ROW_NUMBER() OVER (
+                PARTITION BY pk, sk 
+                ORDER BY 
+                    CASE WHEN event_name = 'REMOVE' THEN 1 ELSE 0 END DESC, 
+                    COALESCE(CAST(new_image.updatedAt.N AS BIGINT), 0) DESC, 
+                    approximate_creation_date_time DESC, 
+                    COALESCE(CAST(sequence_number AS DECIMAL(38,0)), 0) DESC
+            ) AS rn
+    FROM my_schema.my_raw_table
+    WHERE creation_time BETWEEN '2025-08-17 14:40:41.135' AND '2025-08-17 14:44:54.010'
+) t WHERE rn = 1;
 
-  configuration_info {
-    arn      = aws_msk_configuration.game_events_config.arn
-    revision = aws_msk_configuration.game_events_config.latest_revision
-  }
+-- 2단계: 'MODIFY' 이벤트 업데이트
+UPDATE my_schema.my_state_table SET ... FROM stage_events WHERE ...;
 
-  encryption_info {
-    encryption_in_transit {
-      client_broker = "TLS"
-      in_cluster    = true
-    }
-    encryption_at_rest_kms_key_id = aws_kms_key.msk_encryption.arn
-  }
+-- 3단계: 'INSERT' 또는 새로운 'MODIFY' 이벤트 삽입
+INSERT INTO my_schema.my_state_table (...) SELECT ... FROM stage_events WHERE ...;
 
-  logging_info {
-    broker_logs {
-      cloudwatch_logs {
-        enabled   = true
-        log_group = aws_cloudwatch_log_group.msk_logs.name
-      }
-      s3 {
-        enabled = true
-        bucket  = aws_s3_bucket.msk_logs.bucket
-        prefix  = "msk-broker-logs"
-      }
-    }
-  }
+-- 4단계: 'REMOVE' 이벤트 삭제
+DELETE FROM my_schema.my_state_table USING stage_events WHERE ...;
+
+DROP TABLE stage_events;
+END;
+```
+
+#### 2-3. 안전한 데이터 공유를 위한 Cross-Account 접근 제어
+-   **문제**: 타 계정에서 발생한 DynamoDB 데이터를 **직접적인 DB 접근 권한 없이 실시간으로 분석실로 데이터를 옮길 방법**이 필요했습니다.
+-   **해결**: 타 부서가 저희 DynamoDB Streams에 직접 접근할 수 있도록, **Terraform으로 IAM Role과 Policy가 정의된 템플릿을 제작하여 제공**했습니다. 이를 통해 타 부서는 필요한 최소한의 권한만 안전하게 획득하고, 저희는 중앙에서 접근 제어를 유지하며 효율적으로 데이터를 공유할 수 있었습니다.
+
+```terraform
+# IAM 역할 및 정책 생성 (Lambda가 DynamoDB Stream을 읽고 S3에 쓰도록 허용)
+resource "aws_iam_role" "dynamodb_stream_role" { ... }
+resource "aws_iam_policy" "dynamodb_stream_policy" { ... }
+resource "aws_iam_role_policy_attachment" "dynamodb_stream_attachment" { ... }
+
+# Lambda 함수 및 이벤트 소스 매핑
+resource "aws_lambda_function" "dynamodb_stream_consumer" {
+    function_name = "dynamodb-stream-to-s3"
+    role          = aws_iam_role.dynamodb_stream_role.arn
+    ...
 }
-
-resource "aws_msk_configuration" "game_events_config" {
-  kafka_versions = ["2.8.1"]
-  name           = "game-events-config"
-
-  server_properties = <<PROPERTIES
-auto.create.topics.enable=false
-default.replication.factor=3
-min.insync.replicas=2
-num.partitions=12
-log.retention.hours=168
-log.segment.bytes=1073741824
-compression.type=snappy
-PROPERTIES
-}
-```
-
-**토픽 설계 및 파티셔닝 전략:**
-```python
-from kafka.admin import KafkaAdminClient, NewTopic
-import json
-
-def create_kafka_topics():
-    """게임 이벤트용 Kafka 토픽 생성"""
-    
-    admin_client = KafkaAdminClient(
-        bootstrap_servers=['msk-cluster.region.amazonaws.com:9092'],
-        security_protocol='SSL'
-    )
-    
-    topics = [
-        NewTopic(
-            name='game-events',
-            num_partitions=24,  # 높은 처리량을 위한 파티션 수
-            replication_factor=3,
-            topic_configs={
-                'compression.type': 'snappy',
-                'retention.ms': '604800000',  # 7일
-                'segment.ms': '86400000',     # 1일
-                'cleanup.policy': 'delete'
-            }
-        ),
-        NewTopic(
-            name='user-activity',
-            num_partitions=12,
-            replication_factor=3,
-            topic_configs={
-                'compression.type': 'lz4',
-                'retention.ms': '259200000',  # 3일
-                'cleanup.policy': 'compact'
-            }
-        ),
-        NewTopic(
-            name='transaction-events',
-            num_partitions=8,
-            replication_factor=3,
-            topic_configs={
-                'compression.type': 'gzip',
-                'retention.ms': '2592000000',  # 30일
-                'min.insync.replicas': '2'
-            }
-        )
-    ]
-    
-    admin_client.create_topics(topics)
-
-def produce_game_events():
-    """게임 이벤트 프로듀서 구현"""
-    
-    from kafka import KafkaProducer
-    import json
-    import uuid
-    from datetime import datetime
-    
-    producer = KafkaProducer(
-        bootstrap_servers=['msk-cluster.region.amazonaws.com:9092'],
-        security_protocol='SSL',
-        value_serializer=lambda v: json.dumps(v).encode('utf-8'),
-        key_serializer=lambda v: str(v).encode('utf-8'),
-        batch_size=16384,
-        linger_ms=10,
-        compression_type='snappy',
-        retries=3,
-        acks='all'
-    )
-    
-    def send_event(user_id, event_type, event_data):
-        """게임 이벤트 전송"""
-        
-        event = {
-            'event_id': str(uuid.uuid4()),
-            'user_id': user_id,
-            'event_type': event_type,
-            'event_data': event_data,
-            'timestamp': datetime.utcnow().isoformat(),
-            'game_version': '1.2.3',
-            'platform': 'mobile'
-        }
-        
-        # 사용자 ID로 파티셔닝하여 순서 보장
-        partition_key = str(user_id)
-        
-        future = producer.send(
-            topic='game-events',
-            key=partition_key,
-            value=event
-        )
-        
-        return future
-    
-    return send_event
-```
-
-### 3. DynamoDB 최적화 설계
-
-**테이블 설계 및 인덱스 최적화:**
-```python
-import boto3
-from boto3.dynamodb.conditions import Key, Attr
-
-def create_optimized_dynamodb_tables():
-    """게임 데이터용 최적화된 DynamoDB 테이블 생성"""
-    
-    dynamodb = boto3.resource('dynamodb', region_name='ap-northeast-2')
-    
-    # 사용자 세션 테이블
-    user_sessions_table = dynamodb.create_table(
-        TableName='GameUserSessions',
-        KeySchema=[
-            {'AttributeName': 'user_id', 'KeyType': 'HASH'},
-            {'AttributeName': 'session_start_time', 'KeyType': 'RANGE'}
-        ],
-        AttributeDefinitions=[
-            {'AttributeName': 'user_id', 'AttributeType': 'S'},
-            {'AttributeName': 'session_start_time', 'AttributeType': 'S'},
-            {'AttributeName': 'game_id', 'AttributeType': 'S'},
-            {'AttributeName': 'session_end_time', 'AttributeType': 'S'}
-        ],
-        GlobalSecondaryIndexes=[
-            {
-                'IndexName': 'GameSessionsIndex',
-                'KeySchema': [
-                    {'AttributeName': 'game_id', 'KeyType': 'HASH'},
-                    {'AttributeName': 'session_start_time', 'KeyType': 'RANGE'}
-                ],
-                'Projection': {'ProjectionType': 'ALL'},
-                'BillingMode': 'PAY_PER_REQUEST'
-            }
-        ],
-        BillingMode='PAY_PER_REQUEST',
-        StreamSpecification={
-            'StreamEnabled': True,
-            'StreamViewType': 'NEW_AND_OLD_IMAGES'
-        },
-        Tags=[
-            {'Key': 'Environment', 'Value': 'production'},
-            {'Key': 'Application', 'Value': 'game-analytics'}
-        ]
-    )
-    
-    # 실시간 리더보드 테이블
-    leaderboard_table = dynamodb.create_table(
-        TableName='GameLeaderboard',
-        KeySchema=[
-            {'AttributeName': 'game_id', 'KeyType': 'HASH'},
-            {'AttributeName': 'score_timestamp', 'KeyType': 'RANGE'}
-        ],
-        AttributeDefinitions=[
-            {'AttributeName': 'game_id', 'AttributeType': 'S'},
-            {'AttributeName': 'score_timestamp', 'AttributeType': 'S'},
-            {'AttributeName': 'user_id', 'AttributeType': 'S'},
-            {'AttributeName': 'score', 'AttributeType': 'N'}
-        ],
-        GlobalSecondaryIndexes=[
-            {
-                'IndexName': 'UserScoresIndex',
-                'KeySchema': [
-                    {'AttributeName': 'user_id', 'KeyType': 'HASH'},
-                    {'AttributeName': 'score', 'KeyType': 'RANGE'}
-                ],
-                'Projection': {'ProjectionType': 'ALL'},
-                'BillingMode': 'PAY_PER_REQUEST'
-            }
-        ],
-        BillingMode='PAY_PER_REQUEST'
-    )
-    
-    return user_sessions_table, leaderboard_table
-
-class DynamoDBOptimizedAccess:
-    """DynamoDB 최적화된 접근 클래스"""
-    
-    def __init__(self):
-        self.dynamodb = boto3.resource('dynamodb')
-        self.user_sessions = self.dynamodb.Table('GameUserSessions')
-        self.leaderboard = self.dynamodb.Table('GameLeaderboard')
-    
-    def batch_write_user_events(self, events):
-        """배치 쓰기를 통한 성능 최적화"""
-        
-        with self.user_sessions.batch_writer() as batch:
-            for event in events:
-                batch.put_item(Item={
-                    'user_id': event['user_id'],
-                    'session_start_time': event['timestamp'],
-                    'game_id': event['game_id'],
-                    'event_type': event['event_type'],
-                    'event_data': event['event_data'],
-                    'ttl': int(time.time()) + (30 * 24 * 60 * 60)  # 30일 TTL
-                })
-    
-    def query_user_recent_activity(self, user_id, hours=24):
-        """사용자 최근 활동 조회 (파티션 키 최적화)"""
-        
-        from datetime import datetime, timedelta
-        
-        start_time = (datetime.utcnow() - timedelta(hours=hours)).isoformat()
-        
-        response = self.user_sessions.query(
-            KeyConditionExpression=Key('user_id').eq(user_id) & 
-                                 Key('session_start_time').gte(start_time),
-            ScanIndexForward=False,  # 최신 순 정렬
-            Limit=100
-        )
-        
-        return response['Items']
-    
-    def update_leaderboard_score(self, game_id, user_id, score):
-        """리더보드 점수 업데이트 (조건부 쓰기)"""
-        
-        from datetime import datetime
-        
-        try:
-            response = self.leaderboard.update_item(
-                Key={
-                    'game_id': game_id,
-                    'score_timestamp': datetime.utcnow().isoformat()
-                },
-                UpdateExpression='SET user_id = :uid, score = :score, updated_at = :timestamp',
-                ConditionExpression='attribute_not_exists(score) OR score < :score',
-                ExpressionAttributeValues={
-                    ':uid': user_id,
-                    ':score': score,
-                    ':timestamp': datetime.utcnow().isoformat()
-                },
-                ReturnValues='ALL_NEW'
-            )
-            return response['Attributes']
-            
-        except ClientError as e:
-            if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
-                # 점수가 더 낮은 경우 업데이트하지 않음
-                return None
-            raise e
-```
-
-### 4. Kafka Connect 통합
-
-**DynamoDB Sink Connector 구성:**
-```json
-{
-  "name": "dynamodb-sink-connector",
-  "config": {
-    "connector.class": "io.confluent.connect.aws.dynamodb.DynamoDbSinkConnector",
-    "topics": "game-events,user-activity",
-    "aws.dynamodb.region": "ap-northeast-2",
-    "aws.dynamodb.endpoint": "https://dynamodb.ap-northeast-2.amazonaws.com",
-    "auto.create": "true",
-    "auto.evolve": "true",
-    "pk.mode": "record_value",
-    "pk.fields": "user_id,timestamp",
-    "table.name.format": "GameEvents_${topic}",
-    "write.method": "upsert",
-    "batch.size": 25,
-    "max.retries": 10,
-    "retry.backoff.ms": 3000,
-    "transforms": "addTimestamp,flattenStruct",
-    "transforms.addTimestamp.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
-    "transforms.addTimestamp.field": "timestamp",
-    "transforms.addTimestamp.format": "yyyy-MM-dd HH:mm:ss",
-    "transforms.flattenStruct.type": "org.apache.kafka.connect.transforms.Flatten$Value"
-  }
+resource "aws_lambda_event_source_mapping" "dynamodb_stream_mapping" {
+    event_source_arn  = "arn:aws:dynamodb:ap-northeast-2:123456789012:table/MyTable/stream/..."
+    function_name     = aws_lambda_function.dynamodb_stream_consumer.arn
+    starting_position = "TRIM_HORIZON"
+    batch_size        = 100000
+    maximum_batching_window_in_seconds = 5
 }
 ```
 
-**S3 Sink Connector 구성 (아카이브용):**
-```json
-{
-  "name": "s3-archive-connector",
-  "config": {
-    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
-    "topics": "game-events,user-activity,transaction-events",
-    "s3.region": "ap-northeast-2",
-    "s3.bucket.name": "game-events-archive",
-    "s3.part.size": "67108864",
-    "flush.size": "10000",
-    "rotate.interval.ms": "300000",
-    "format.class": "io.confluent.connect.s3.format.parquet.ParquetFormat",
-    "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
-    "partition.duration.ms": "3600000",
-    "path.format": "year=YYYY/month=MM/day=dd/hour=HH",
-    "timestamp.extractor": "Record",
-    "timestamp.field": "timestamp",
-    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
-    "schema.compatibility": "BACKWARD"
-  }
-}
-```
-
-### 5. 실시간 스트림 프로세싱
-
-**Lambda 기반 실시간 이벤트 처리:**
-```python
-import json
-import boto3
-from datetime import datetime, timedelta
-import base64
-
-def lambda_handler(event, context):
-    """MSK 이벤트 실시간 처리"""
-    
-    dynamodb = boto3.resource('dynamodb')
-    cloudwatch = boto3.client('cloudwatch')
-    
-    # 실시간 메트릭 수집
-    total_events = 0
-    error_count = 0
-    
-    for record in event['records']:
-        for kafka_record in record['value']:
-            try:
-                # Kafka 메시지 디코딩
-                message = json.loads(
-                    base64.b64decode(kafka_record['value']).decode('utf-8')
-                )
-                
-                # 이벤트 타입별 처리
-                event_type = message.get('event_type')
-                
-                if event_type == 'user_login':
-                    process_user_login(message, dynamodb)
-                elif event_type == 'game_start':
-                    process_game_start(message, dynamodb)
-                elif event_type == 'purchase':
-                    process_purchase_event(message, dynamodb)
-                elif event_type == 'achievement':
-                    process_achievement(message, dynamodb)
-                
-                total_events += 1
-                
-            except Exception as e:
-                print(f"이벤트 처리 오류: {str(e)}")
-                error_count += 1
-    
-    # CloudWatch 메트릭 전송
-    send_processing_metrics(cloudwatch, total_events, error_count)
-    
-    return {'statusCode': 200, 'body': f'Processed {total_events} events'}
-
-def process_user_login(message, dynamodb):
-    """사용자 로그인 이벤트 처리"""
-    
-    table = dynamodb.Table('GameUserSessions')
-    
-    # 세션 시작 기록
-    table.put_item(
-        Item={
-            'user_id': message['user_id'],
-            'session_start_time': message['timestamp'],
-            'game_id': message['event_data']['game_id'],
-            'platform': message['event_data']['platform'],
-            'session_status': 'active',
-            'ttl': int(time.time()) + (30 * 24 * 60 * 60)
-        }
-    )
-    
-    # 동시 접속자 수 업데이트
-    update_concurrent_users(message['event_data']['game_id'], 1)
-
-def process_purchase_event(message, dynamodb):
-    """구매 이벤트 처리"""
-    
-    table = dynamodb.Table('GameTransactions')
-    
-    # 트랜잭션 기록
-    table.put_item(
-        Item={
-            'transaction_id': message['event_data']['transaction_id'],
-            'user_id': message['user_id'],
-            'timestamp': message['timestamp'],
-            'amount': message['event_data']['amount'],
-            'currency': message['event_data']['currency'],
-            'item_id': message['event_data']['item_id'],
-            'payment_method': message['event_data']['payment_method']
-        }
-    )
-    
-    # 실시간 매출 집계 업데이트
-    update_revenue_metrics(
-        message['event_data']['game_id'],
-        message['event_data']['amount']
-    )
-
-def update_concurrent_users(game_id, increment):
-    """동시 접속자 수 실시간 업데이트"""
-    
-    import redis
-    
-    redis_client = redis.Redis(
-        host='elasticache-cluster.region.amazonaws.com',
-        port=6379,
-        decode_responses=True
-    )
-    
-    # Redis에서 동시 접속자 수 업데이트
-    current_count = redis_client.incr(f"concurrent_users:{game_id}", increment)
-    
-    # 5분간의 TTL 설정
-    redis_client.expire(f"concurrent_users:{game_id}", 300)
-    
-    return current_count
-```
-
-### 6. 모니터링 및 알러트 시스템
-
-**종합 모니터링 대시보드:**
-```python
-def setup_streaming_monitoring():
-    """스트리밍 데이터 플랫폼 모니터링 설정"""
-    
-    cloudwatch = boto3.client('cloudwatch')
-    
-    # MSK 클러스터 메트릭
-    msk_alarms = [
-        {
-            'AlarmName': 'MSK-HighCPUUtilization',
-            'MetricName': 'CpuUser',
-            'Namespace': 'AWS/Kafka',
-            'Statistic': 'Average',
-            'Threshold': 80.0,
-            'ComparisonOperator': 'GreaterThanThreshold'
-        },
-        {
-            'AlarmName': 'MSK-HighMemoryUtilization',
-            'MetricName': 'MemoryUsed',
-            'Namespace': 'AWS/Kafka',
-            'Statistic': 'Average',
-            'Threshold': 85.0,
-            'ComparisonOperator': 'GreaterThanThreshold'
-        }
-    ]
-    
-    # DynamoDB 메트릭
-    dynamodb_alarms = [
-        {
-            'AlarmName': 'DynamoDB-HighThrottling',
-            'MetricName': 'ThrottledRequests',
-            'Namespace': 'AWS/DynamoDB',
-            'Statistic': 'Sum',
-            'Threshold': 10.0,
-            'ComparisonOperator': 'GreaterThanThreshold'
-        },
-        {
-            'AlarmName': 'DynamoDB-HighLatency',
-            'MetricName': 'SuccessfulRequestLatency',
-            'Namespace': 'AWS/DynamoDB',
-            'Statistic': 'Average',
-            'Threshold': 100.0,
-            'ComparisonOperator': 'GreaterThanThreshold'
-        }
-    ]
-    
-    # 알람 생성
-    for alarm_config in msk_alarms + dynamodb_alarms:
-        cloudwatch.put_metric_alarm(
-            AlarmName=alarm_config['AlarmName'],
-            ComparisonOperator=alarm_config['ComparisonOperator'],
-            EvaluationPeriods=3,
-            MetricName=alarm_config['MetricName'],
-            Namespace=alarm_config['Namespace'],
-            Period=300,
-            Statistic=alarm_config['Statistic'],
-            Threshold=alarm_config['Threshold'],
-            ActionsEnabled=True,
-            AlarmActions=[
-                'arn:aws:sns:region:account:streaming-alerts'
-            ],
-            AlarmDescription=f'Alarm for {alarm_config["AlarmName"]}'
-        )
-```
+---
 
 ## 성과 및 임팩트
 
-### 성능 지표
-- **스트림 처리 지연**: 평균 100ms 이내 이벤트 처리
-- **DynamoDB 응답시간**: 읽기 평균 2ms, 쓰기 평균 5ms
-- **MSK 처리량**: 초당 100만 메시지 처리 가능
-- **시스템 가용성**: 99.9% 업타임 달성
+-   **분석 영역의 확장**: 기존 RDB 데이터만으로는 불가능했던 **클라이언트단 사용자의 상세 행동 패턴, UI 인터랙션 등 이벤트 기반의 심층 분석이 가능**해졌습니다.
+-   **전사 데이터 통합 및 협업 기반 마련**: MSK를 중앙 허브로 구축하여 **데이터 사일로(Silo)를 해소**하고, 다른 부서가 필요한 데이터를 손쉽게 구독하여 새로운 비즈니스 가치를 창출할 수 있는 협업의 기틀을 마련했습니다.
+-   **데이터 수집의 표준화 및 안정성 증대**: 데이터 로깅 포맷을 표준화하고 파이프라인을 일원화하여 **데이터의 품질과 신뢰도를 높였으며**, 대규모 트래픽에도 안정적인 데이터 수집을 보장하게 되었습니다.
 
-### 확장성 및 비용
-- **자동 스케일링**: 트래픽 증가 시 자동 확장 (최대 10배)
-- **비용 최적화**: DynamoDB On-Demand로 30% 비용 절감
-- **스토리지 효율성**: Kafka 압축으로 70% 스토리지 절약
-- **운영 효율성**: 관리형 서비스로 운영 오버헤드 90% 감소
-
-### 비즈니스 가치
-- **실시간 게임 분석**: 사용자 행동 즉시 파악으로 게임 밸런싱 최적화
-- **개인화 서비스**: 실시간 사용자 데이터로 맞춤형 콘텐츠 제공
-- **사기 탐지**: 실시간 이상 패턴 감지로 부정행위 즉시 차단
-- **운영 인사이트**: 실시간 KPI 모니터링으로 빠른 의사결정 지원
+---
 
 ## 배운 점과 향후 개선 방향
 
-### 주요 학습 내용
+### 배운 점
+-   **전사적 큐의 전략적 가치**: 중앙 집중식 메시지 큐(MSK)가 단순히 데이터를 전달하는 기술적 요소를 넘어, **전사의 데이터 흐름을 하나로 묶고 부서 간 협업을 촉진하는 핵심적인 전략 자산**임을 깨달았습니다.
+-   **데이터 정합성을 위한 멱등성 설계의 중요성**: CDC(Change Data Capture) 데이터를 처리할 때, `INSERT`, `UPDATE`, `DELETE` 이벤트의 순서가 보장되지 않거나 중복 발생 가능성이 항상 존재함을 인지했습니다. `UPSERT` 쿼리 설계 시 단순히 최신 데이터만 반영하는 것을 넘어, `sequence_number`와 같은 보조 정렬 키를 활용하여 데이터의 최종 상태를 보장하는 **견고한 멱등성 로직을 구현하는 것이 얼마나 중요한지** 깊이 깨달았습니다.
+-   **대용량 스트리밍 데이터 처리의 핵심, 배치 최적화**: 이론으로만 알던 대용량 데이터 처리를 실제로 경험하며, Lambda의 `batch_size`나 SQS의 `maximum_batching_window_in_seconds` 같은 **파라미터 하나가 전체 파이프라인의 안정성에 얼마나 큰 영향을 미치는지** 체감했습니다. 스트레스 테스트를 통해 병목 지점을 파악하고, 시스템의 특성에 맞게 배치를 최적화하는 과정이 안정적인 스트리밍 플랫폼 구축의 핵심임을 배웠습니다.
 
-1. **스트리밍 아키텍처 설계 원칙**
-   - 파티셔닝 전략이 성능에 미치는 결정적 영향
-   - 백프레셀(Backpressure) 처리의 중요성
-
-2. **NoSQL 데이터베이스 최적화**
-   - 액세스 패턴 기반 테이블 설계의 중요성
-   - Hot Partition 문제와 해결 방안
-
-3. **이벤트 기반 아키텍처의 장단점**
-   - 느슨한 결합의 장점과 디버깅의 복잡성
-   - 이벤트 순서 보장과 멱등성의 필요성
-
-### 향후 개선 계획
-
-#### 단기 개선 사항 (3-6개월)
-- **스트림 분석**: Kinesis Analytics를 활용한 실시간 윈도우 집계
-- **캐싱 강화**: ElastiCache를 통한 Hot Data 캐싱으로 응답시간 단축
-- **데이터 품질**: Schema Registry 도입으로 데이터 스키마 관리
-
-#### 중기 개선 사항 (6-12개월)
-- **ML 파이프라인**: 실시간 스트림 기반 머신러닝 모델 서빙
-- **글로벌 확장**: 다중 리전 복제를 통한 글로벌 서비스 지원
-- **CQRS 패턴**: Command와 Query 분리를 통한 성능 최적화
-
-#### 장기 비전 (1-2년)
-- **서버리스 진화**: Lambda + Kinesis 기반 완전 서버리스 아키텍처
-- **AI 기반 최적화**: 자동 파티션 조정 및 성능 튜닝
-- **실시간 데이터 메시**: 도메인별 이벤트 스트림 관리
-
-### 기술 스택 진화 방향
-- **Apache Pulsar**: Kafka 대안으로 멀티 테넌트 지원 검토
-- **ClickHouse**: 실시간 분석 워크로드를 위한 OLAP 데이터베이스 도입
-- **Apache Beam**: 스트림/배치 통합 처리 파이프라인 구축
-
-이 프로젝트를 통해 대용량 실시간 데이터 처리의 전문성을 확보했으며, 이벤트 기반 아키텍처를 통한 확장 가능한 시스템 설계 능력을 크게 향상시킬 수 있었습니다.
+### 향후 개선 방향
+-   **실시간 분석 피드백 루프 구축**: 현재의 데이터 수집 단계를 넘어, **Apache Flink와 같은 스트림 처리 엔진을 도입**하여 실시간으로 데이터를 분석하고, 그 결과를 게임 밸런싱이나 개인화 추천 등 실제 서비스에 다시 반영하는 **진정한 의미의 실시간 분석 서비스를 구현**하고 싶습니다.
+-   **MSK Connect 모니터링 강화**: MSK Connect의 운영 안정성을 더욱 높이기 위해 커넥터의 상태, 처리량, 지연 시간 등에 대한 **세분화된 모니터링 및 알림 체계를 구축**하여 장애 발생 시 더욱 신속하게 대응할 계획입니다.
