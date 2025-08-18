@@ -313,7 +313,7 @@
 </ul>
 <h3>3. 180TB 클러스터 암호화 전환의 어려움</h3>
 <ul>
-<li><strong>문제</strong>: Data Sharing 및 Zero-ETL을 적용하기 위해 필수적인 암호화 과정에서 <strong>최대 170TB에 달하는 대규모 데이터</strong>로 인해 장시간의 다운타임과 CPU 점유율 100%로 인한 서비스 장애가 우려되었습니다.</li>
+<li><strong>문제</strong>: Data Sharing 및 Zero-ETL을 적용하기 위해 필수적인 암호화 과정에서 <strong>최대 180TB에 달하는 대규모 데이터</strong>로 인해 장시간의 다운타임과 CPU 점유율 100%로 인한 서비스 장애가 우려되었습니다.</li>
 <li><strong>해결</strong>:<ul>
 <li><strong>1단계 (사전 최적화)</strong>: Distkey 재설정, 수동 Vacuum, 데이터 라이프사이클 관리를 통해 <strong>40TB 이상의 불필요한 데이터를 정리</strong>하여 암호화 대상을 최소화했습니다.</li>
 <li><strong>2단계 (암호화 전략)</strong>: Snapshot 기반으로 암호화된 클러스터를 생성하고, 이를 Serverless 클러스터로 복구한 뒤, <strong>엔드포인트 스위칭 방식</strong>으로 서비스를 전환하여 <strong>다운타임을 30분 이내로 최소화</strong>했습니다.</li>

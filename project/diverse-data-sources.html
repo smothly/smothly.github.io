@@ -312,14 +312,14 @@
 <h3>2. Google Play &amp; Apple App Store</h3>
 <ul>
 <li><strong>목적</strong>: 앱 리뷰, 평점, 다운로드 수 등 경쟁 분석 및 사용자 피드백 파악에 필수적인 마켓 데이터 수집.</li>
-<li><strong>도전 과제</strong>: 각 스토어는 API 호출 수에 엄격한 제한(Rate Limit)을 두고 있으며, 제공하는 데이터의 구조가 서로 달라 표준화가 필요했습니다.</li>
+<li><strong>도전 과제</strong>: 각 마켓 콘솔에서 제공하는 <strong>보고서 내용을 다운받아서 DW에 활용 가능한 형태로 변환</strong>해야 했습니다. 또한 <strong>여러 계정에서 데이터를 수집해야 하므로 계정 연동에 어려움</strong>이 있었습니다.</li>
 <li><strong>해결 방안</strong>:<ul>
-<li><strong>Rate Limiter 구현</strong>: API 호출 전에 자체 구현한 Rate Limiter를 통해 호출 수를 제어하고, 제한에 도달했을 경우 Exponential Backoff 전략으로 재시도하여 안정성을 확보했습니다.</li>
-<li><strong>데이터 모델 표준화</strong>: Google과 Apple에서 수집된 데이터를 <code>앱이름</code>, <code>평점</code>, <code>리뷰수</code> 등 공통된 필드를 가진 표준 스키마로 정규화하여 저장함으로써, 플랫폼에 구애받지 않는 통합 분석을 가능하게 했습니다.</li>
+<li><strong>데이터 수집 자동화</strong>: google play 같은 경우는 여러 계정에서 <a href="https://cloud.google.com/bigquery/docs/play-transfer?hl=ko">bigquery transfer</a>를 활용하여 적재하고, apple app store는 <a href="https://developer.apple.com/documentation/appstoreconnectapi">app store connect api</a> 통해 데이터를 수집했습니다.</li>
+<li><strong>데이터 모델 표준화</strong>: 각 계정을 공통계정으로 연동하는 가이드를 마련하여 5개가 넘는 계정에서의 보고서 데이터를 수집하였으며, Google과 Apple에서 수집된 데이터를 <code>앱이름</code>, <code>평점</code>, <code>리뷰수</code> 등 공통된 필드를 가진 표준 스키마로 정규화하여 저장함으로써, 플랫폼에 구애받지 않는 통합 분석을 가능하게 했습니다.</li>
 </ul>
 </li>
 </ul>
-<h3>3. Prometheus</h3>
+<h3>3. Influx/Prometheus</h3>
 <ul>
 <li><strong>목적</strong>: 서버, 데이터베이스 등 핵심 인프라의 CPU, 메모리, 네트워크 등 시계열(Time-series) 메트릭을 수집하여 시스템 상태 모니터링 및 이상 탐지에 활용.</li>
 <li><strong>도전 과제</strong>: 초 단위로 발생하는 방대한 양의 메트릭 데이터를 효율적으로 저장하고, 분석에 의미 있는 정보로 가공해야 했습니다.</li>
@@ -356,7 +356,7 @@
 <ul>
 <li><strong>목적</strong>: 프로덕션 데이터베이스의 부하 없이 대규모 데이터를 데이터 웨어하우스로 이전.</li>
 <li><strong>도전 과제</strong>: 운영 중인 DB에 직접 대량의 SELECT 쿼리를 실행하는 것은 서비스 장애를 유발할 수 있습니다.</li>
-<li><strong>해결 방안</strong>: 매일 새벽에 생성되는 <strong>RDS 스냅샷을 임시 DB 인스턴스로 복원</strong>한 뒤, 이 임시 인스턴스에서 안전하게 데이터를 추출(ETL)했습니다. 데이터 추출이 완료되면 임시 인스턴스는 자동으로 삭제하여 비용 낭비를 막았습니다.</li>
+<li><strong>해결 방안</strong>: 매일 새벽에 생성되는 <strong>RDS 스냅샷을 S3로 Export</strong>한 뒤, S3에서 안전하게 데이터를 추출(ETL)했습니다. 스냅샷은 보관기간을 두어 데이터 저장 비용의 낭비도 막았습니다.</li>
 </ul>
 <h3>9. Google Play Voided Purchases API</h3>
 <ul>

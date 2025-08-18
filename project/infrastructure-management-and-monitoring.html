@@ -295,7 +295,7 @@
 <hr />
 <h2>주요 활동 및 시스템</h2>
 <h3>1. IaC(Infrastructure as Code) 기반 인프라 관리</h3>
-<p><strong>도입 사유</strong>: 수동으로 인프라를 관리할 때 발생하는 휴먼 에러를 방지하고, 여러 환경(dev, stage, prod)에 걸쳐 일관성 있는 인프라를 신속하게 배포하기 위해 IaC를 도입했습니다. 모든 인프라 변경 사항을 코드로 관리하여 버전 관리, 동료 검토(Peer Review), 변경 이력 추적을 가능하게 했습니다.</p>
+<p><strong>도입 사유</strong>: 수동으로 인프라를 관리할 때 발생하는 휴먼 에러를 방지하고, 여러 환경에 걸쳐 일관성 있는 인프라를 배포하기 위해 IaC를 도입했습니다. 모든 인프라 변경 사항을 코드로 관리하여 버전 관리, 변경 이력 추적을 가능하게 했습니다.</p>
 <ul>
 <li><strong>Terraform</strong><ul>
 <li><strong>역할</strong>: 정적이고 핵심적인 인프라 리소스(VPC, Subnet, EC2, RDS, Redshift, ECS, IAM 등)를 관리합니다.</li>
@@ -304,7 +304,7 @@
 </li>
 <li><strong>Serverless Framework</strong><ul>
 <li><strong>역할</strong>: Lambda, SQS, API Gateway 등 이벤트 기반의 동적인 리소스를 애플리케이션 또는 파이프라인 단위로 묶어 관리합니다.</li>
-<li><strong>특징</strong>: 특히 이벤트 기반의 데이터 파이프라인을 배포하고 관리하는 데 용이하며, 각 함수에 필요한 IAM 권한만 최소한으로 부여하여 보안을 강화했습니다.</li>
+<li><strong>특징</strong>: 특히 이벤트 기반의 데이터 파이프라인을 배포하고 관리하는 데 용이하며 서비스 단위로 빠르게 요구사항을 반영할 수 있었습니다. 각 함수에 필요한 IAM 권한만 최소한으로 부여하여 보안을 강화했습니다.</li>
 </ul>
 </li>
 <li><strong>Pulumi (PoC 진행중)</strong><ul>
@@ -317,7 +317,10 @@
 <p><strong>도입 사유</strong>: 데이터 웨어하우스는 데이터 분석의 핵심입니다. 성능 저하, 비용 급증, 데이터 정합성 문제를 사전에 방지하고 신속하게 대응하기 위해 다각적인 모니터링 시스템을 구축했습니다.</p>
 <ul>
 <li><strong>통합 쿼리 대시보드 (Grafana)</strong><ul>
-<li><strong>Redshift 클러스터 관점</strong>: CPU/Memory 사용률, 디스크 공간, 활성 연결 수, WLM 큐 대기열 등 클러스터의 전반적인 상태를 시각화하여 병목 지점을 신속하게 파악합니다.</li>
+<li><strong>Redshift 클러스터 관점</strong>: CPU/Memory 사용률, 디스크 공간, 활성 연결 수, WLM 큐 대기열 등 클러스터의 전반적인 상태를 시각화하여 병목 지점을 신속하게 파악합니다.<ul>
+<li><img alt="redshift_dashboard" src="/static/images/projects/infrastructure-management-and-monitoring/redshift_dashboard.png" /></li>
+</ul>
+</li>
 <li><strong>BigQuery 비용 대시보드</strong>: 프로젝트별, 사용자별, 일자별 쿼리 비용을 추적하고, 예상치 못한 비용 급증을 조기에 발견할 수 있도록 구성했습니다.<ul>
 <li><img alt="bigquery_dashboard" src="/static/images/projects/infrastructure-management-and-monitoring/bigquery_dashboard.png" /></li>
 </ul>
@@ -342,6 +345,7 @@
 <li><strong>데이터 정합성 대시보드 (Grafana)</strong><ul>
 <li><strong>목적</strong>: 데이터 파이프라인의 신뢰성을 보장하기 위해 구축했습니다.</li>
 <li><strong>구현</strong>: 주요 파이프라인의 Source와 Target 데이터의 Row Count, 최신 업데이트 시간 등을 주기적으로 비교하여 불일치 발생 시 즉시 파악할 수 있도록 시각화했습니다.</li>
+<li><img alt="data_monitoring" src="/static/images/projects/infrastructure-management-and-monitoring/data_monitoring.png" /></li>
 </ul>
 </li>
 </ul>
@@ -372,6 +376,11 @@
 <li><strong>주기적인 유휴 리소스 자동 탐지 및 제거</strong><ul>
 <li><strong>내용</strong>: 정기적으로 실행되는 스크립트를 통해 <strong>연결되지 않은 EIP, Unattached EBS 볼륨, 오래된 S3 객체</strong> 등 불필요한 리소스를 자동으로 탐지하고 리포트합니다.</li>
 <li><strong>심화 활동</strong>: 사용량이 적은 EBS 볼륨의 경우, 스냅샷 생성 후 더 작은 볼륨으로 재생성하여 마운트하는 방식으로 <strong>EBS 볼륨 사이즈를 동적으로 최적화</strong>하여 비용을 절감했습니다. 또한, 개발 환경의 EC2/RDS는 <strong>업무 시간 외에는 자동으로 중지(Parking)되도록</strong> 설정하여 비용 낭비를 최소화했습니다.</li>
+</ul>
+</li>
+<li><strong>S3 Intelligent-Tiering 적용</strong><ul>
+<li><strong>내용</strong>: S3 객체의 접근 패턴을 분석하여 자주 사용되지 않는 객체를 자동으로 저비용 스토리지 클래스로 이동시킵니다. 이를 통해 스토리지 비용을 최적화하고, 데이터 접근 속도는 유지합니다. 하지만, Lifecycle 정책을 세우는 것은 어렵고 데이터의 비정기적인 접근이 필요한 점을 고려하여, <strong>Intelligent-Tiering을 적용</strong>했습니다.</li>
+<li><strong>성과</strong>: 별도의 데이터 변환 없이 스토리지 비용이 <strong>40% 절감</strong>되었으며, 데이터 접근 속도는 <strong>유지</strong>되었습니다.</li>
 </ul>
 </li>
 </ul>
