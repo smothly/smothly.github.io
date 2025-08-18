@@ -20,15 +20,15 @@
 1.  **전사 데이터 허브 구축**: 파편화된 데이터 수집 파이프라인을 MSK 기반으로 통합하여, 클라이언트, 서버 등 모든 소스에서 발생하는 데이터를 한곳으로 모으는 중앙 데이터 허브를 구축합니다.
 2.  **안정적인 DW 연동 파이프라인 구축**: MSK, DynamoDB 데이터를 데이터 분석가들이 활용할 수 있도록 안정적으로 DW(S3, Redshift)에 적재하고 분석이 가능한 형태로 변환합니다.
 3.  **실시간 데이터 처리 기반 마련**: 급증하는 이벤트성 데이터를 지연 없이 처리하고, 이를 실시간 대시보드, 모니터링 등 다양한 서비스에서 활용할 수 있는 기반을 마련합니다.
-
+t
 ---
 
 ## 기술적 도전과 해결 과정
 
 ### 1. MSK Connect를 활용한 다양한 타겟으로의 Code-less 데이터 파이프라인 구축
 
--   **문제**: 중앙 허브인 MSK로 수집된 데이터를 Snowflake, S3 없이 분석실로 많은 리소스를 요구하며 확장성이 떨어지는 방식이었습니다.
--   **해결**: **MSK Connect**를 도입하여 별도의 개발 과정 없이 커넥터 설정만으로 다양한 타겟 시스템에 데이터를 연동했습니다. 이를 통해 파이프라인 구축 시간을 단축하고, 검증된 커넥터를 활용하여 데이터 전송의 안정성을 확보했습니다.
+-   **문제**: 중앙 허브인 MSK로 수집된 데이터를 분석으로 활용하기 위해 다양한 타겟으로의 적재를 희망하였고, 이를 위한 별도의 개발 리소스도 부족하였고 경험도 전무하였습니다.
+-   **해결**: s3, redshift, bigquery, snowflake 로의 **모든 타겟으로의 테스트 및 연동**을 마쳤고, **MSK Connect**를 도입하여 별도의 개발 과정 없이 커넥터 설정만으로 다양한 타겟 시스템에 데이터를 연동했습니다. 이를 통해 파이프라인 구축 시간을 단축하고, 검증된 커넥터를 활용하여 데이터 전송의 안정성을 확보했습니다.
 -   **Redshift 연동 예시 (Materialized View 활용)**: [Redshift Streamin Ingestion](https://docs.aws.amazon.com/redshift/latest/dg/materialized-view-streaming-ingestion.html)을 활용해 MSK 토픽을 직접 조회할 수 있는 외부 스키마와 Materialized View를 생성하여, SQL만으로 실시간 데이터에 접근할 수 있는 환경을 구축했습니다.
 
 ```sql
@@ -81,12 +81,106 @@ value.converter=com.snowflake.kafka.connector.records.SnowflakeJsonConverter
 ### 2. DynamoDB Streams를 활용한 안정적인 CDC 데이터 처리
 
 #### 2-1. 대용량 트래픽의 안정적인 처리
--   **문제**: 이벤트 기간 동안 분당 1,0만 건에 달하는 대규 없이 분석실로 
--   **해결**: 스트레스 테스트를 통해 시스템의 한계를 파악하고, Lambda의 `batch_size`와 SQS의 `maximum_batching_window_in_seconds`를 최적화하여 대규모 이벤트를 효율적으로 그룹화하고 처리할 수 있도록 구성했습니다. 이를 통해 피크 타임에도 안정적인 데이터 처리를 보장했습니다.
+-   **문제**: 이벤트 기간 동안 예측 불가능한 트래픽이 예상되어 스트림 처리의 안정성이 우려되었습니다.
+-   **해결**: **분당 1000만건의 스트레스 테스트**를 통해 시스템의 한계를 파악하고, Lambda의 `batch_size`와 SQS의 `maximum_batching_window_in_seconds`를 최적화하여 대규모 이벤트를 효율적으로 그룹화하고 처리할 수 있도록 구성했습니다. 이를 통해 피크 타임에도 안정적인 데이터 처리를 보장했습니다.
 
 #### 2-2. CDC 데이터의 멱등성 있는 처리
--   **문제**: DynamoDB Streams에서 제공되는 `INSERT`, `DIFY`, `REMOVE 없이 분석실로  때 데이터 정합성이 깨질 위험이 있었습니다.
--   **해결**: 데이터의 최종 상태를 정확하게 반영하기 위해 **멱등성을 보장하는 UPSERT 쿼리**를 설계했습니다. 임시 테이블(Stage)을 활용하여 특정 시간 범위 내의 이벤트 중 가장 최신 이벤트만 선별하고, `updatedAt`과 `sequence_number`를 복합적으로 사용하여 순서가 보장된 데이터 변경을 수행했습니다.
+-   **문제**: DynamoDB Streams에서 제공되는 `INSERT`, `MODIFY`, `REMOVE` 이벤트 형식으로 발생하는 JSON 데이터를 분석가가 활용할 수 있도록 가공하고 안정적인 테이블 구조를 가질 필요가 있었습니다.
+
+```json
+-- 예시 records
+{
+   "Records":[
+      {
+         "eventID":"1",
+         "eventName":"INSERT",
+         "eventVersion":"1.0",
+         "eventSource":"aws:dynamodb",
+         "awsRegion":"us-east-1",
+         "dynamodb":{
+            "Keys":{
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "NewImage":{
+               "Message":{
+                  "S":"New item!"
+               },
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "SequenceNumber":"111",
+            "SizeBytes":26,
+            "StreamViewType":"NEW_AND_OLD_IMAGES"
+         },
+         "eventSourceARN":"stream-ARN"
+      },
+      {
+         "eventID":"2",
+         "eventName":"MODIFY",
+         "eventVersion":"1.0",
+         "eventSource":"aws:dynamodb",
+         "awsRegion":"us-east-1",
+         "dynamodb":{
+            "Keys":{
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "NewImage":{
+               "Message":{
+                  "S":"This item has changed"
+               },
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "OldImage":{
+               "Message":{
+                  "S":"New item!"
+               },
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "SequenceNumber":"222",
+            "SizeBytes":59,
+            "StreamViewType":"NEW_AND_OLD_IMAGES"
+         },
+         "eventSourceARN":"stream-ARN"
+      },
+      {
+         "eventID":"3",
+         "eventName":"REMOVE",
+         "eventVersion":"1.0",
+         "eventSource":"aws:dynamodb",
+         "awsRegion":"us-east-1",
+         "dynamodb":{
+            "Keys":{
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "OldImage":{
+               "Message":{
+                  "S":"This item has changed"
+               },
+               "Id":{
+                  "N":"101"
+               }
+            },
+            "SequenceNumber":"333",
+            "SizeBytes":38,
+            "StreamViewType":"NEW_AND_OLD_IMAGES"
+         },
+         "eventSourceARN":"stream-ARN"
+      }
+   ]
+}
+```
+-   **해결**: `raw 테이블`과 `state 테이블`로 나누어 테이블을 설계하고 데이터의 최종 상태를 정확하게 반영하기 위해 **멱등성을 보장하는 UPSERT 쿼리**를 설계했습니다. 임시 테이블(Stage)을 활용하여 특정 시간 범위 내의 이벤트 중 가장 최신 이벤트만 선별하고, `updatedAt`과 `sequence_number`를 복합적으로 사용하여 순서가 보장된 데이터 변경을 수행했습니다.
 ```sql
 -- DynamoDB Streams CDC 데이터를 Redshift State 테이블에 MERGE하는 쿼리
 BEGIN;
@@ -121,7 +215,7 @@ END;
 
 #### 2-3. 안전한 데이터 공유를 위한 Cross-Account 접근 제어
 -   **문제**: 타 계정에서 발생한 DynamoDB 데이터를 **직접적인 DB 접근 권한 없이 실시간으로 분석실로 데이터를 옮길 방법**이 필요했습니다.
--   **해결**: 타 부서가 저희 DynamoDB Streams에 직접 접근할 수 있도록, **Terraform으로 IAM Role과 Policy가 정의된 템플릿을 제작하여 제공**했습니다. 이를 통해 타 부서는 필요한 최소한의 권한만 안전하게 획득하고, 저희는 중앙에서 접근 제어를 유지하며 효율적으로 데이터를 공유할 수 있었습니다.
+-   **해결**: 타 부서가 저희 DynamoDB Streams에 직접 접근할 수 있도록, **Terraform으로 IAM Role과 Policy가 정의된 템플릿을 제작하여 제공**했습니다. 이를 통해 타 부서는 필요한 최소한의 권한만 안전하게 획득하고, 저희는 `S3 Bucket Policy`를 통해 접근 제어를 유지하며 효율적으로 데이터를 공유할 수 있었습니다.
 
 ```terraform
 # IAM 역할 및 정책 생성 (Lambda가 DynamoDB Stream을 읽고 S3에 쓰도록 허용)

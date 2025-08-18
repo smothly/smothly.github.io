@@ -53,7 +53,7 @@ EXPERIENCE_DATA = [
 ]
 
 SKILLS_DATA = {
-    "specialties": ["Real-time(CDC) Data Pipeline", "Multi-cloud Architecture", "Cost Optimization", "Data Governance"],
+    "specialties": ["Real-time(CDC) Data Pipeline", "Multi-cloud Architecture", "Cost Optimization"],
     "cloud_platforms": ["AWS ", "GCP"],
     "data_engineering": ["Prefect", "Apache Kafka", "Trino"],
     "data warehouse": ["Redshift", "BigQuery", "Snowflake"],
@@ -97,6 +97,7 @@ PROJECTS_DATA = [
         "period": "2025.01 - 2025.05",
         "description": "Amazon MSK와 DynamoDB에서 생성되는 스트리밍 데이터 수집 및 처리 플랫폼 구축. 실시간 이벤트 스트림 처리와 반정형 데이터 처리",
         "tech_stack": ["Amazon MSK", "DynamoDB Streams", "MSK Connect", "AWS Lambda", "Python"],
+        "highlights": ["실시간 이벤트 스트림 처리", "반정형 데이터 처리"],
         "image": "/static/images/projects/streaming-data-collection/msk_sample.png",
     },
     {
@@ -115,7 +116,7 @@ PROJECTS_DATA = [
         "description": "IaC 기반 인프라 관리와 종합적인 모니터링 시스템 구축. Terraform과 Serverless Framework를 통한 인프라 코드화 및 비용 최적화 자동화 시스템 도입",
         "tech_stack": ["Terraform", "Serverless Framework", "Grafana", "CloudWatch", "AWS Cost Explorer"],
         "image": "/static/images/projects/infrastructure-management-and-monitoring/sample.png",
-        "highlights": ["IaC 기반 인프라 관리", "비용 최적화 대시보드", "쿼리 알람", "유휴 리소스 자동 관리"]
+        "highlights": ["IaC 기반 인프라 관리", "DW 운영 대시보드", "쿼리 알람", "유휴 리소스 자동 관리"]
     },
     {
         "id": "diverse-data-sources",

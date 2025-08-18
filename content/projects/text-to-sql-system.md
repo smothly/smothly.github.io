@@ -2,7 +2,7 @@
 
 반복적인 Ad-hoc 데이터 추출 요청으로 인해 데이터 팀의 리소스가 분산되는 문제를 해결하기 위해, **LLM(Large Language Model)을 활용한 Text-to-SQL 시스템을 구축**했습니다. 이 시스템은 비개발자가 자연어 질문을 통해 직접 데이터를 조회할 수 있는 환경을 제공하여, **데이터 접근성을 획기적으로 개선하고 분석 요청을 40% 감소**시키는 성과를 달성했습니다.
 
-![](/static/images/projects/text-to-sql-system/sample.png)
+![예시](/static/images/projects/text-to-sql-system/sample.png)
 
 ---
 
@@ -22,7 +22,7 @@
     -   **하이브리드 검색(Hybrid Search) 도입**: 단순히 벡터 유사도(pgvecto) 검색으로는 세부적인 필터를 걸 수 없어 record마다 메타데이터를 두어 메타데이터 검색을 같이 진행하여 검색 정확도를 높였습니다.
     -   **상세 정보 임베딩**: 테이블, 컬럼명뿐만 아니라 **컬럼에 대한 설명, 데이터 타입, 샘플 값까지 임베딩**하여 LLM이 컨텍스트를 더 풍부하게 이해하도록 했습니다.
     -   **Re-ranker 적용**: 1차적으로 검색된 테이블들을 **Re-ranker로 재정렬**하여, 질문과 가장 관련성이 높은 정보를 프롬프트에 우선적으로 포함시켜 SQL 생성의 정확도를 극대화했습니다.
-    - ![example](/static/images/projects/text-to-sql-system/text_to_sql.png)
+    - ![flow](/static/images/projects/text-to-sql-system/flow.png)
 
 ### 2. 프롬프트 엔지니어링 및 추적 시스템 구축
 -   **과제**: LLM의 응답은 프롬프트에 따라 크게 달라지기 때문에, 일관성 있고 안정적인 성능을 보장하기 위한 체계적인 프롬프트 관리 및 디버깅 시스템이 필요했습니다.
