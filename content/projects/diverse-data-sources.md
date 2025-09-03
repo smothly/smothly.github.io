@@ -42,8 +42,8 @@
 ![sensortower_api](/static/images/projects/diverse-data-sources/sensortower_api.png)
 
 -   **목적**: 경쟁사 앱의 다운로드, 매출 추정치 등 외부 시장 정보를 수집하여 경쟁 전략 수립에 활용.
--   **도전 과제**: 호출 당 비용이 발생하는 유료 API이므로, 불필요한 호출을 최소화하고 비용을 최적화해야 했습니다.
--   **해결 방안**: API 호출 결과를 **S3에 캐싱(Caching)**하여 동일한 조건의 요청은 실제 API를 호출하지 않고 캐시된 데이터를 사용하도록 설계했습니다. 또한, 데이터의 중요도에 따라 수집 주기를 차등(예: 핵심 경쟁사는 매일, 기타는 주간) 적용하여 비용 효율을 높였습니다.
+-   **도전 과제**: 다양한 요구사항에 맞춰 API 데이터를 제공하고, API수집 특성상 오류가 잦아 Backfill이 용이한 구조가 필요했습니다.
+-   **해결 방안**: 사진과 같이 API 호출 범위를 리스트로 관리하고, 오류 발생 시 자동으로 재시도하는 로직을 구현했습니다.
 
 ### 7. 환율 데이터
 ![exchange_rate](/static/images/projects/diverse-data-sources/exchange_rate.png)
